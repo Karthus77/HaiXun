@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -36,10 +37,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM_NO = 4;
     private ViewPagerAdapter viewPagerAdapter;
     private HeaderAdapter headerAdapter;
+    private RecyclerView recyclerView;
 
-    public NewsAdapter(Context context, List<News> list) {
+    public NewsAdapter(Context context, List<News> list, RecyclerView recyclerView) {
         this.context = context;
         this.list = list;
+        this.recyclerView=recyclerView;
     }
 
 
@@ -54,6 +57,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void visibility( Boolean isVisibility) {
 
+//        recyclerView.scrollToPosition(9);
          list.get(0).setVisibility(isVisibility);
         notifyItemChanged(0);
     }
@@ -159,7 +163,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((PagerHolder) holder).viewPager2.setPageTransformer(compositePageTransformer);
             View recyclerView = ((PagerHolder) holder).viewPager2.getChildAt(0);
             if (recyclerView != null && recyclerView instanceof RecyclerView) {
-                recyclerView.setPadding(100, 0, 100, 0);
+                recyclerView.setPadding(80, 0, 80, 0);
                 ((RecyclerView) recyclerView).setClipToPadding(false);
             }
 
@@ -261,8 +265,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public HeaderHolder(@NonNull View itemView) {
             super(itemView);
             recyclerView=itemView.findViewById(R.id.news_header_recycler);
-
-
         }
             public void setVisibility(boolean isVisible){
                 RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)itemView.getLayoutParams();
@@ -320,20 +322,21 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public void transformPage(@NonNull View page, float position) {
 
-            if (position >= -1.0f && position <= 0.0f) {
-                //控制左侧滑入或者滑出的缩放比例
-                page.setScaleX(1 + position * 0.1f);
-                page.setScaleY(1 + position * 0.2f);
-            } else if (position > 0.0f && position < 1.0f) {
-                //控制右侧滑入或者滑出的缩放比例
-                page.setScaleX(1 - position * 0.1f);
-                page.setScaleY(1 - position * 0.2f);
-            } else {
-                //控制其他View缩放比例
-                page.setScaleX(0.9f);
-                page.setScaleY(0.8f);
-            }
+//            if (position >= -1.0f && position <= 0.0f) {
+//                //控制左侧滑入或者滑出的缩放比例
+//                page.setScaleX(1 + position * 0.1f);
+//                page.setScaleY(1 + position * 0.2f);
+//            } else if (position > 0.0f && position < 1.0f) {
+//                //控制右侧滑入或者滑出的缩放比例
+//                page.setScaleX(1 - position * 0.1f);
+//                page.setScaleY(1 - position * 0.2f);
+//            } else {
+//                //控制其他View缩放比例
+                page.setScaleX(0.96f);
+ //               page.setScaleY(0.9f);
+//            }
         }
     }
+
 
 }

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.ouchaixun"
@@ -42,7 +42,11 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
 //Glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    implementation ('com.github.bumptech.glide:glide:4.12.0') {
+        exclude group: "com.android.support"
+    }
+
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }

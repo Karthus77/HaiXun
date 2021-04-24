@@ -56,18 +56,18 @@ public class NewsFragment extends Fragment {
 
         //header
         news0.setType(3);
-        news0.setVisibility(header);
+        news0.setVisibility(true);
         list.add(news0);
 
         //轮播图
         final News news=new News();
         List<String> img= new ArrayList<>();
-        img.add("https://pic1.zhimg.com/v2-bd20f21fe8614aa4a5a4f964316a5ae6.jpg?source=8673f162");
-        img.add("https://pic1.zhimg.com/v2-bd20f21fe8614aa4a5a4f964316a5ae6.jpg?source=8673f162");
-        img.add("https://pic1.zhimg.com/v2-bd20f21fe8614aa4a5a4f964316a5ae6.jpg?source=8673f162");
-        img.add("https://pic1.zhimg.com/v2-bd20f21fe8614aa4a5a4f964316a5ae6.jpg?source=8673f162");
-        img.add("https://pic4.zhimg.com/v2-91db039ccf28ecbb786db0adcb5332b7.jpg?source=8673f162");
-        img.add("https://pic4.zhimg.com/v2-91db039ccf28ecbb786db0adcb5332b7.jpg?source=8673f162");
+        img.add("http://47.102.215.61:8888/media/avatar/20210421/2021-04-21_203327.178812.jpeg");
+        img.add("http://47.102.215.61:8888/media/avatar/20210421/2021-04-21_203327.178812.jpeg");
+        img.add("http://47.102.215.61:8888/media/avatar/20210421/2021-04-21_203327.178812.jpeg");
+        img.add("http://47.102.215.61:8888/media/avatar/20210421/2021-04-21_203327.178812.jpeg");
+        img.add("http://47.102.215.61:8888/media/avatar/20210421/2021-04-21_203327.178812.jpeg");
+        img.add("http://47.102.215.61:8888/media/avatar/20210421/2021-04-21_203327.178812.jpeg");
         news.setPics(img);
         Log.i("asddd",img.toString());
         news.setType(2);
@@ -83,7 +83,7 @@ public class NewsFragment extends Fragment {
         }
 
 
-        adapter=new NewsAdapter(getContext(),list);
+        adapter=new NewsAdapter(getContext(),list,recyclerView);
         recyclerView.setAdapter(adapter);
 
 button.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,6 @@ button.setOnClickListener(new View.OnClickListener() {
 
         if (header){
             header=false;
-
             adapter.visibility(false);
         }else {
             header=true;
@@ -118,4 +117,6 @@ button_write.setOnClickListener(new View.OnClickListener() {
 
 
     }
+
+
 }
