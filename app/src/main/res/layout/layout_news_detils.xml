@@ -9,7 +9,7 @@
 
    <RelativeLayout
        android:layout_width="match_parent"
-       android:layout_height="match_parent">
+       android:layout_height="wrap_content">
 
 
        <ImageView
@@ -48,6 +48,49 @@
            android:layout_marginTop="210dp"
            android:background="@drawable/top_bar2"
            android:orientation="vertical">
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="15dp">
+
+               <TextView
+                   android:id="@+id/view"
+                   android:layout_width="4dp"
+                   android:layout_height="match_parent"
+
+                   android:layout_marginLeft="10dp"
+
+                   android:layout_alignBottom="@id/news_detils_time"
+                   android:layout_alignTop="@id/news_detils_title"
+                   android:background="#69C0FF" />
+
+               <TextView
+                   android:id="@+id/news_detils_title"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_toRightOf="@id/view"
+                   android:text="bcdhbhdbdchdbhbsh"
+                   android:textSize="15sp"
+                   android:layout_alignParentTop="true"
+                   android:layout_marginTop="15dp"
+                   android:layout_marginLeft="6dp"
+                   android:maxLines="2"
+                   android:ellipsize="end"/>
+
+               <TextView
+                   android:id="@+id/news_detils_time"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="2021_04_25"
+                   android:layout_alignParentBottom="true"
+                   android:layout_below="@id/news_detils_title"
+                   android:layout_alignParentRight="true"
+
+              />
+
+
+           </RelativeLayout>
 
            <TextView
                android:layout_width="wrap_content"
