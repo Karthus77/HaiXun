@@ -18,12 +18,6 @@
            android:layout_marginTop="48dp"
            android:background="@color/blue"/>
 
-
-
-
-
-
-
        <RelativeLayout
            android:id="@+id/datils_TopBar"
            android:layout_width="match_parent"
@@ -129,6 +123,7 @@
            </RelativeLayout>
 
            <TextView
+               android:id="@+id/news_detils_textview"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:layout_weight="1"
@@ -144,8 +139,6 @@
        </LinearLayout>
 
    </RelativeLayout>
-
-
 
 
     </ScrollView>
