@@ -18,7 +18,8 @@
         android:background="@drawable/official_background"
         android:gravity="center"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="21dp"/>
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp" />
 
     <TextView
         android:id="@+id/news_official"
@@ -34,7 +35,9 @@
         android:layout_toEndOf="@id/news_intop"
         android:layout_alignWithParentIfMissing="true"
         android:layout_marginStart="10dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:layout_toRightOf="@id/news_intop"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/news_title"
@@ -51,7 +54,9 @@
         android:layout_marginEnd="32dp"
         android:layout_marginStart="20dp"
         android:layout_toStartOf="@+id/news_img"
-        />
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/news_img" />
 
 
     <TextView
@@ -69,7 +74,10 @@
         android:layout_marginBottom="10dp"
         android:text="由于原因，部分教室不再开放预约通道，先......"
         android:textSize="10sp"
-        tools:ignore="SmallSp" />
+        tools:ignore="SmallSp"
+        android:layout_marginRight="32dp"
+        android:layout_toLeftOf="@id/news_img"
+        android:layout_marginLeft="20dp" />
 
     <ImageView
         android:id="@+id/news_img"
@@ -78,7 +86,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:layout_centerVertical="true"
-        android:background="#ECECEC"/>
+        android:background="#ECECEC"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true" />
 
     <View
         android:layout_width="match_parent"

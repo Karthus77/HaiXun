@@ -5,11 +5,35 @@ import java.util.List;
 public class News {
 
     private int type;
-//    private String error;
-//    private String no;
-    private List<String> pics;
-    private String title;
+    private int news_id;
+    private List<ViewPagerData> pager;
+    private String title,nickName;
     private Boolean visibility;
+
+
+    public void setPager(List<ViewPagerData> pager) {
+        this.pager = pager;
+    }
+
+    public List<ViewPagerData> getPager() {
+        return pager;
+    }
+
+    public void setNews_id(int news_id) {
+        this.news_id = news_id;
+    }
+
+    public int getNews_id() {
+        return news_id;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public void setType(int type) {
         this.type = type;
@@ -20,13 +44,6 @@ public class News {
     }
 
 
-    public void setPics(List<String> pics) {
-        this.pics = pics;
-    }
-
-    public List<String> getPics() {
-        return pics;
-    }
 
     public void setTitle(String title) {
         this.title = title;

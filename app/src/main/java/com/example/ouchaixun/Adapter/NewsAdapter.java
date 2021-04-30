@@ -12,14 +12,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.ouchaixun.Activity.NewsDetilsActivity;
 import com.example.ouchaixun.Data.News;
+import com.example.ouchaixun.Data.ViewPagerData;
+import com.example.ouchaixun.Fragment.UserCenterFragment;
 import com.example.ouchaixun.R;
 
 
@@ -36,10 +41,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM_NO = 4;
     private ViewPagerAdapter viewPagerAdapter;
     private HeaderAdapter headerAdapter;
+    private RecyclerView recyclerView;
 
-    public NewsAdapter(Context context, List<News> list) {
+    public NewsAdapter(Context context, List<News> list, RecyclerView recyclerView) {
         this.context = context;
         this.list = list;
+        this.recyclerView=recyclerView;
     }
 
 
@@ -54,6 +61,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void visibility( Boolean isVisibility) {
 
+//        recyclerView.scrollToPosition(9);
          list.get(0).setVisibility(isVisibility);
         notifyItemChanged(0);
     }
@@ -100,24 +108,32 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         //新闻
         if (holder instanceof NewsHolder) {
-           ((NewsHolder) holder).intop.setText("置顶");
-            ((NewsHolder) holder).intop.setTextColor(context.getResources().getColor(R.color.orange));
-            ((NewsHolder) holder).intop.setBackgroundResource(R.drawable.intop);
-            ((NewsHolder) holder).official.setVisibility(View.VISIBLE);
 
-//            ((NewsHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent=new Intent(context, NewsDatilsActivity.class);
-//                    intent.putExtra("id",1);
-//                    context.startActivity(intent);
-//                }
-//            });
-//
+            ((NewsHolder) holder).title.setText(list.get(i).getTitle());
+            ((NewsHolder) holder).nickname.setText(list.get(i).getNickName());
+
+            if (i==2){
+                ((NewsHolder) holder).intop.setText("置顶");
+                ((NewsHolder) holder).intop.setTextColor(context.getResources().getColor(R.color.orange));
+                ((NewsHolder) holder).intop.setBackgroundResource(R.drawable.intop);
+                ((NewsHolder) holder).official.setVisibility(View.VISIBLE);
+            }
+
+
+
+            ((NewsHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, NewsDetilsActivity.class);
+                    intent.putExtra("id",list.get(i).getNews_id());
+                    context.startActivity(intent);
+                }
+            });
+
 
 
         }
-        //顶部收藏
+//////////////////////////////////////////顶部收藏
         if (holder instanceof HeaderHolder) {
 
 
@@ -143,9 +159,9 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
 
-        //轮播图
+        //  轮播图
         if (holder instanceof PagerHolder) {
-            List<String>  img = list.get(i).getPics();
+            List<ViewPagerData>  img = list.get(i).getPager();
             Log.i("asddd",img.toString());
             viewPagerAdapter = new ViewPagerAdapter(context, img);
 
@@ -159,7 +175,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((PagerHolder) holder).viewPager2.setPageTransformer(compositePageTransformer);
             View recyclerView = ((PagerHolder) holder).viewPager2.getChildAt(0);
             if (recyclerView != null && recyclerView instanceof RecyclerView) {
-                recyclerView.setPadding(100, 0, 100, 0);
+                recyclerView.setPadding(80, 0, 80, 0);
                 ((RecyclerView) recyclerView).setClipToPadding(false);
             }
 
@@ -167,7 +183,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((PagerHolder) holder).viewPager2.setAdapter(viewPagerAdapter);
             ((PagerHolder) holder).viewPager2.setCurrentItem(1);
             // 循环滑动
-            final List<String> finalImg = img;
+            final List<ViewPagerData> finalImg = img;
             ((PagerHolder) holder).viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
                 int currentPosition;
 
@@ -244,16 +260,16 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static class NewsHolder extends RecyclerView.ViewHolder {
 
 
-        TextView intop,official;
+        TextView intop,official,title,nickname;
         public NewsHolder(@NonNull View itemView) {
             super(itemView);
             intop=itemView.findViewById(R.id.news_intop);
             official=itemView.findViewById(R.id.news_official);
+            title=itemView.findViewById(R.id.news_title);
+            nickname=itemView.findViewById(R.id.news_hint);
 
         }
     }
-
-
 
     public static class HeaderHolder extends RecyclerView.ViewHolder {
         public RecyclerView recyclerView;
@@ -261,8 +277,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public HeaderHolder(@NonNull View itemView) {
             super(itemView);
             recyclerView=itemView.findViewById(R.id.news_header_recycler);
-
-
         }
             public void setVisibility(boolean isVisible){
                 RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)itemView.getLayoutParams();
@@ -284,15 +298,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
     public static class ErrorHolder extends RecyclerView.ViewHolder {
-
-
         public ErrorHolder(@NonNull View itemView) {
             super(itemView);
-
-
         }
     }
-
     public static class NoHolder extends RecyclerView.ViewHolder {
 
 
@@ -320,20 +329,21 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public void transformPage(@NonNull View page, float position) {
 
-            if (position >= -1.0f && position <= 0.0f) {
-                //控制左侧滑入或者滑出的缩放比例
-                page.setScaleX(1 + position * 0.1f);
-                page.setScaleY(1 + position * 0.2f);
-            } else if (position > 0.0f && position < 1.0f) {
-                //控制右侧滑入或者滑出的缩放比例
-                page.setScaleX(1 - position * 0.1f);
-                page.setScaleY(1 - position * 0.2f);
-            } else {
-                //控制其他View缩放比例
-                page.setScaleX(0.9f);
-                page.setScaleY(0.8f);
-            }
+//            if (position >= -1.0f && position <= 0.0f) {
+//                //控制左侧滑入或者滑出的缩放比例
+//                page.setScaleX(1 + position * 0.1f);
+//                page.setScaleY(1 + position * 0.2f);
+//            } else if (position > 0.0f && position < 1.0f) {
+//                //控制右侧滑入或者滑出的缩放比例
+//                page.setScaleX(1 - position * 0.1f);
+//                page.setScaleY(1 - position * 0.2f);
+//            } else {
+//                //控制其他View缩放比例
+                page.setScaleX(0.96f);
+ //               page.setScaleY(0.9f);
+//            }
         }
     }
+
 
 }
