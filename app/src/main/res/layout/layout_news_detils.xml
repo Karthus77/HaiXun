@@ -16,14 +16,14 @@
            android:layout_width="match_parent"
            android:layout_height="170dp"
            android:layout_marginTop="48dp"
-           android:background="@color/blue"/>
+           android:background="#ffffff"/>
 
        <RelativeLayout
            android:id="@+id/datils_TopBar"
            android:layout_width="match_parent"
            android:layout_height="53dp"
-           android:orientation="horizontal"
-           android:background="@drawable/top_bar">
+
+           android:background="@drawable/topbar">
 
 
            <Button
@@ -43,7 +43,7 @@
                android:gravity="center"
                android:text="新闻详情"
                android:textColor="@color/title"
-               android:textSize="16sp"/>
+               android:textSize="17sp"/>
 
 
            <Button

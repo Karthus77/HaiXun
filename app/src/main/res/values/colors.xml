@@ -9,4 +9,5 @@
     <color name="orange">#FF8B4B</color>
     <color name="blue">#69C0FF</color>
     <color name="write">#fffefe</color>
+    <color name="write_topbar">#FAFAFA</color>
 </resources>

@@ -32,7 +32,7 @@
         android:id="@+id/news_topBar"
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        android:background="@drawable/top_bar">
+        android:background="@drawable/topbar">
 
 
         <View
