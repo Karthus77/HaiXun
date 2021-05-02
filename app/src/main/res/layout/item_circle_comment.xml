@@ -12,7 +12,7 @@
             android:layout_height="33.33dp"
             android:layout_marginLeft="9.33dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/circle_userDefault">
+            android:src="@drawable/circle_userdefault">
         </ImageView>
         <TextView
             android:layout_width="wrap_content"

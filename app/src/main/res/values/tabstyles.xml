@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MyTablayoutstyle" parent="Base.Widget.Design.TabLayout">
-        <item name="tabBackground">#FAFAFA</item>
+
+    <style name="MyTablayoutstyle"  parent="Base.Widget.Design.TabLayout">
+<!--        <item name="tabBackground">#FAFAFA</item>-->
         <item name="tabIndicatorColor">#6633cc</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabSelectedTextColor">#6633cc</item>

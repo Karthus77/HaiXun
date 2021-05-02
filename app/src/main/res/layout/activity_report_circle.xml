@@ -38,7 +38,7 @@
             android:id="@+id/report_default"
             android:layout_width="33.33dp"
             android:layout_height="33.33dp"
-            android:src="@drawable/circle_userDefault"
+            android:src="@drawable/circle_userdefault"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"></ImageView>
         <EditText

@@ -44,7 +44,7 @@
                 android:id="@+id/details_userHead"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/circle_userDefault"
+                android:src="@drawable/circle_userdefault"
                 android:layout_marginTop="8.67dp"
                 android:layout_marginLeft="10dp">
 
@@ -72,7 +72,7 @@
                 android:layout_marginTop="0.67dp"
                 android:text="2021-4-13 12:10"
                 android:textSize="6.67sp"
-                android:textColor="#666666"></TextView>
+                android:textColor="#666666"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,12 +114,12 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/details_NinePictures"
                 android:layout_marginTop="18.33dp"
-                android:layout_marginRight="33.33dp"></ImageView>
+                android:layout_marginRight="33.33dp"/>
             <TextView
                 android:id="@+id/kkk"
                 android:layout_below="@id/circleItem_like"
                 android:layout_width="match_parent"
-                android:layout_height="9.33dp"></TextView>
+                android:layout_height="9.33dp"/>
 
 
         </RelativeLayout>

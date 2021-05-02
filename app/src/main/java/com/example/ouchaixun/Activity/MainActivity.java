@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         initFragment();
     }
 
@@ -39,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private void initFragment()
     {
         //绑定空间
-        fragments = new Fragment[]{newsFragment,alumnusFragment,squareFragment,userCenterFragment};
+        fragments = new Fragment[]{squareFragment,newsFragment,alumnusFragment,userCenterFragment};
 
         //改变顺序1.改下一行数字/对应上一行顺序2.
-        lastfragment=2;
+        lastfragment=1;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment,squareFragment).show(squareFragment).commit();
         navigationView.setOnNavigationItemSelectedListener(changeFragment);
     }
