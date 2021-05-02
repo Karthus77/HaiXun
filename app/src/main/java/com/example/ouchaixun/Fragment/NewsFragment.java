@@ -22,6 +22,7 @@ import com.example.ouchaixun.Data.News;
 import com.example.ouchaixun.Data.ViewPagerData;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.OKhttpUtils;
+import com.example.ouchaixun.richtext.publishActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -102,7 +103,7 @@ button_write.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Log.i("asd","hhhhhhhhhhh");
-        startActivity(new Intent(getActivity(), PublishActivity.class));
+        startActivity(new Intent(getActivity(), publishActivity.class));
     }
 });
 

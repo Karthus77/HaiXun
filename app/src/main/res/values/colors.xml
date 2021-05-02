@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#69C0FF</color>
     <color name="colorAccent">#03DAC5</color>
 
-
+    <color name="button_enabled">#333333</color>
     <color name="title">#555555</color>
     <color name="orange">#FF8B4B</color>
     <color name="blue">#69C0FF</color>
