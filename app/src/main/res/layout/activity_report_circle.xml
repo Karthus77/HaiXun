@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_box"
+    tools:context=".Activity.ReportCircleActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="53.33dp"
+        android:background="@drawable/background_box22"
+        android:id="@+id/report_topBar">
+        <ImageView
+            android:id="@+id/report_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp">
+
+        </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="发布"
+            android:textSize="16sp"
+            android:textColor="#555555">
+        </TextView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:background="@drawable/background_box22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/report_topBar">
+        <ImageView
+            android:id="@+id/report_default"
+            android:layout_width="33.33dp"
+            android:layout_height="33.33dp"
+            android:src="@drawable/circle_userDefault"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"></ImageView>
+        <EditText
+            android:background="@null"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:hint="输入内容......"
+            android:gravity="left"
+            android:paddingStart="5dp"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:id="@+id/report_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="53.33dp"
+            android:layout_height="wrap_content"
+            android:minLines="5"
+            android:maxLines="15"
+            android:paddingLeft="5dp">
+
+        </EditText>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/edit_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/report_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <Button
+            android:id="@+id/report"
+            android:layout_width="match_parent"
+            android:layout_height="46.67dp"
+            android:layout_below="@id/edit_image"
+            android:background="@drawable/background_box11"
+            android:layout_marginLeft="10.33dp"
+            android:layout_marginRight="10.33dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="发  布"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"></Button>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

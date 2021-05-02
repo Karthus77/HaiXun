@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_box"
+    tools:context=".Activity.CircleDetilsActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="53.33dp"
+        android:background="@drawable/background_box22"
+        android:id="@+id/circle_details_topBar">
+        <ImageView
+            android:id="@+id/details_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp">
+
+        </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="详情 "
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:textColor="#555555">
+
+        </TextView>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@id/circle_details_topBar"
+        android:id="@+id/details_item"
+        android:layout_width="match_parent"
+        android:background="@drawable/background_box22"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/details_userHead"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/circle_userDefault"
+                android:layout_marginTop="8.67dp"
+                android:layout_marginLeft="10dp">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/details_userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22.67dp"
+                android:layout_toRightOf="@id/details_userHead"
+                android:layout_marginLeft="6.67dp"
+                android:text="用户名"
+                android:textSize="12sp"
+                android:textColor="#444444"
+                android:textStyle="bold">
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/details_postTime"
+                android:layout_below="@id/details_userName"
+                android:layout_marginLeft="57.33dp"
+                android:layout_marginTop="0.67dp"
+                android:text="2021-4-13 12:10"
+                android:textSize="6.67sp"
+                android:textColor="#666666"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/circleItem_content"
+                android:layout_below="@id/details_postTime"
+                android:layout_marginTop="3.67dp"
+                android:layout_marginLeft="56.67dp"
+                android:layout_marginRight="25.67dp"
+                android:textColor="#444444"
+                android:textSize="10.67sp"
+                android:text="帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子内容帖子的内">
+
+            </TextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/details_NinePictures"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="131dp"
+                android:layout_marginLeft="57dp"
+                android:layout_marginRight="43dp">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/circleItem_comment"
+                android:layout_width="22.67dp"
+                android:layout_height="21.33dp"
+                android:src="@drawable/circle_comment"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="73.33dp"
+                android:layout_below="@id/details_NinePictures"
+                android:layout_marginTop="19.97dp">
+
+            </ImageView>
+            <ImageView
+                android:id="@+id/circleItem_like"
+                android:layout_width="19.33dp"
+                android:layout_height="21dp"
+                android:src="@drawable/circle_like"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/details_NinePictures"
+                android:layout_marginTop="18.33dp"
+                android:layout_marginRight="33.33dp"></ImageView>
+            <TextView
+                android:id="@+id/kkk"
+                android:layout_below="@id/circleItem_like"
+                android:layout_width="match_parent"
+                android:layout_height="9.33dp"></TextView>
+
+
+        </RelativeLayout>
+
+
+
+
+
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_item"
+        android:id="@+id/details_commentItems">
+    </androidx.recyclerview.widget.RecyclerView>
+
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:background="@drawable/background_box22"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/comment_userHead"
+            android:layout_width="33.33dp"
+            android:layout_height="33.33dp"
+            android:layout_marginLeft="9.33dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/circle_userDefault">
+        </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12.33dp"
+            android:layout_marginLeft="57.33dp"
+            android:text="用户名"
+            android:id="@+id/comment_name"
+            android:textSize="9.33sp"
+            android:textColor="#666666">
+
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment_time"
+            android:layout_marginLeft="57.33dp"
+            android:layout_below="@id/comment_name"
+            android:layout_marginTop="4.76dp"
+            android:text="2021-4-12 12:20"
+            android:textSize="6.67sp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="57.33dp"
+            android:layout_below="@id/comment_time"
+            android:layout_marginTop="6.33dp"
+            android:text="评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容"
+            android:layout_marginRight="57.33dp"
+            android:textColor="#444444"
+            android:textSize="10.67sp">
+
+        </TextView>
+        <ImageView
+            android:layout_width="14.67dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="40dp"
+            android:src="@drawable/circle_like"
+            android:layout_marginTop="42dp"
+            android:layout_alignParentRight="true">
+
+        </ImageView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
