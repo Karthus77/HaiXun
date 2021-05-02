@@ -19,6 +19,7 @@ import com.example.ouchaixun.Activity.NewsDetilsActivity;
 import com.example.ouchaixun.Data.ViewPagerData;
 import com.example.ouchaixun.R;
 
+
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
@@ -43,8 +44,8 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
 
         Glide.with(context)
                 .load(img.get(i).getImg())
-                .error(R.drawable.ic_home_black_24dp)
-                .apply(bitmapTransform(new RoundedCornersTransformation(15, 0, RoundedCornersTransformation.CornerType.ALL)))
+                .error(R.drawable.img_error)
+               .apply(bitmapTransform(new RoundedCornersTransformation(15, 0, RoundedCornersTransformation.CornerType.ALL)))
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

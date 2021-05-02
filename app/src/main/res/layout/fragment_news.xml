@@ -32,14 +32,26 @@
         android:id="@+id/news_topBar"
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        android:background="@drawable/top_bar">
+        android:background="@drawable/topbar">
+
+
+        <View
+            android:id="@+id/news_btn0"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/haixun"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginLeft="22dp" />
 
         <Button
             android:id="@+id/news_btn"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/official_background"
+            android:background="@drawable/collect"
             android:layout_marginRight="14dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
@@ -48,17 +60,17 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/official_background"
-            android:layout_marginRight="14dp"
+            android:background="@drawable/messege"
+            android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/news_btn"  />
     </RelativeLayout>
 
 
     <Button
         android:id="@+id/news_btn_write"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:background="#69C0FF"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/publish_news"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="18dp"

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.ouchaixun.Activity.PublishActivity;
 import com.example.ouchaixun.Adapter.NewsAdapter;
 import com.example.ouchaixun.Data.News;
 import com.example.ouchaixun.Data.ViewPagerData;
@@ -29,7 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.internal.Utils;
+
 import okhttp3.Response;
 
 
@@ -101,7 +102,7 @@ button_write.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         Log.i("asd","hhhhhhhhhhh");
-       // startActivity(new Intent(getActivity(), PublishActivity.class));
+        startActivity(new Intent(getActivity(), PublishActivity.class));
     }
 });
 
