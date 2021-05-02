@@ -29,6 +29,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
+        <activity android:name=".Activity.CircleDetilsActivity"></activity>
+        <activity android:name=".Activity.ReportCircleActivity" />
         <activity android:name=".Activity.PublishActivity" />
         <activity android:name=".Activity.NewsDetilsActivity" />
         <activity android:name=".Activity.MainActivity">

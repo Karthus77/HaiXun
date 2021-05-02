@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         //改变顺序1.改下一行数字/对应上一行顺序2.
         lastfragment=2;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment,squareFragment).show(squareFragment).commit();
-        navigationView=(BottomNavigationView)findViewById(R.id.nav_view);
         navigationView.setOnNavigationItemSelectedListener(changeFragment);
     }
 

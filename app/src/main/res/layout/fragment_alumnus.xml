@@ -1,21 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.AlumnusFragment">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/circle_topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="校友圈"
-        android:textSize="44sp"/>
+        android:layout_height="53dp"
+        android:background="@drawable/topbar">
 
+
+        <View
+            android:id="@+id/news_btn0"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/haixun"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginLeft="22dp" />
+
+        <Button
+            android:id="@+id/news_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/collect"
+            android:layout_marginRight="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <Button
+            android:id="@+id/news_btn2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/messege"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/news_btn"  />
+    </RelativeLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab1"
+        android:layout_below="@id/circle_topBar"
+        style="@style/MyTablayoutstyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_fragment"
+        android:layout_width="match_parent"
+        android:layout_below="@id/tab1"
+        android:layout_height="wrap_content">
+    </androidx.viewpager.widget.ViewPager>
     <ImageView
-        android:id="@+id/asd"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="66sp"/>
+        android:id="@+id/publish_circle"
+        android:layout_width="53.37dp"
+        android:layout_height="53.37dp"
+        android:src="@drawable/publish_news"
+        android:layout_marginBottom="18.67dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="23.33dp">
 
+    </ImageView>
 
-</FrameLayout>
+</RelativeLayout>
