@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.ouchaixun.Activity.PublishActivity;
 import com.example.ouchaixun.Adapter.NewsAdapter;
 import com.example.ouchaixun.Data.News;
 import com.example.ouchaixun.Data.ViewPagerData;
