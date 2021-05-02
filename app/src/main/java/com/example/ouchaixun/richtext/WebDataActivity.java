@@ -58,7 +58,7 @@ public class WebDataActivity extends AppCompatActivity {
 
 
 /******  22222222  ***********************************************************************/
-        data = "</Div><head><style>img{ width:100% !important;}</style></head>" + data;//给图片设置一个样式，宽满屏
+        data = "</Div ><head><style>img{ width:100%   !important;}</style></head>" + data;//给图片设置一个样式，宽满屏
 /******  2222222222  ***********************************************************************/
 
         mWebView.loadDataWithBaseURL(null, data, "text/html", "utf-8", null);
@@ -82,8 +82,8 @@ public class WebDataActivity extends AppCompatActivity {
                 return;
             }
             Toast.makeText(getApplication(), name, Toast.LENGTH_SHORT).show();
-            //这里写你的操作///////////////////////
-            //MainActivity就是一个空页面，不影响
+            //这里写你的操作//////////////////////不影响/
+            //MainActivity就是一个空页面，
             Intent intent = new Intent(WebDataActivity.this, publishActivity.class);
             intent.putExtra("name", name);
             startActivity(intent);

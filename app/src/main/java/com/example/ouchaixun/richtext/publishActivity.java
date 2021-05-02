@@ -100,6 +100,14 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
 
         initView();
         initClickListener();
+
+        findViewById(R.id.publish_news).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("asd","</Div ><head><style>img{ width:100%   !important;}</style></head>"+mEditor.getHtml());
+
+            }
+        });
     }
 
     /**
@@ -181,12 +189,12 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         mAlignLeft = findViewById(R.id.button_align_left);
         mAlignRight = findViewById(R.id.button_align_right);
         mAlignCenter = findViewById(R.id.button_align_center);
-        mIndent = findViewById(R.id.button_indent);
-        mOutdent = findViewById(R.id.button_outdent);
-        mBlockquote = findViewById(R.id.action_blockquote);
+       // mIndent = findViewById(R.id.button_indent);
+      //  mOutdent = findViewById(R.id.button_outdent);
+        //mBlockquote = findViewById(R.id.action_blockquote);
         mStrikethrough = findViewById(R.id.action_strikethrough);
-        mSuperscript = findViewById(R.id.action_superscript);
-        mSubscript = findViewById(R.id.action_subscript);
+       // mSuperscript = findViewById(R.id.action_superscript);
+       // mSubscript = findViewById(R.id.action_subscript);
         getViewMeasureHeight();
     }
 
@@ -209,7 +217,7 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
     private void initClickListener() {
         mBold.setOnClickListener(this);
         mTextColor.setOnClickListener(this);
-        mPreView.setOnClickListener(this);
+
         mImage.setOnClickListener(this);
         mListOL.setOnClickListener(this);
         mListUL.setOnClickListener(this);
@@ -218,12 +226,13 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         mAlignLeft.setOnClickListener(this);
         mAlignRight.setOnClickListener(this);
         mAlignCenter.setOnClickListener(this);
-        mIndent.setOnClickListener(this);
-        mOutdent.setOnClickListener(this);
-        mBlockquote.setOnClickListener(this);
+       // mIndent.setOnClickListener(this);
+        //mOutdent.setOnClickListener(this);
+        // mBlockquote.setOnClickListener(this);
         mStrikethrough.setOnClickListener(this);
-        mSuperscript.setOnClickListener(this);
-        mSubscript.setOnClickListener(this);
+//        mSuperscript.setOnClickListener(this);
+//        mSubscript.setOnClickListener(this);
+        mPreView.setOnClickListener(this);
     }
 
     @Override
@@ -254,9 +263,8 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             }
         } else if (id == R.id.button_image) {//插入图片
             //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相
-            //或者拍照获取图片，传图本地图片路径，也可以将本地图片路径上传到服务器（自己的服务器或者免费的七牛服务器），
+            //或者拍照获取图片，传图本地图片路径，也可以将本地图片路径上传到服务器
             //返回在服务端的URL地址，将地址传如即可（我这里传了一张写死的图片URL，如果你插入的图片不现实，请检查你是否添加
-            // 网络请求权限<uses-permission android:name="android.permission.INTERNET" />）
             mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
                     "dachshund");
         } else if (id == R.id.button_list_ol) {
@@ -315,31 +323,25 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             }
             isAlignCenter = !isAlignCenter;
             mEditor.setAlignCenter();
-        } else if (id == R.id.button_indent) {
-            if (isIndent) {
-                mIndent.setImageResource(R.mipmap.indent);
-            } else {
-                mIndent.setImageResource(R.mipmap.indent_);
-            }
-            isIndent = !isIndent;
-            mEditor.setIndent();
-        } else if (id == R.id.button_outdent) {
-            if (isOutdent) {
-                mOutdent.setImageResource(R.mipmap.outdent);
-            } else {
-                mOutdent.setImageResource(R.mipmap.outdent_);
-            }
-            isOutdent = !isOutdent;
-            mEditor.setOutdent();
-        } else if (id == R.id.action_blockquote) {
-            if (isBlockquote) {
-                mBlockquote.setImageResource(R.mipmap.blockquote);
-            } else {
-                mBlockquote.setImageResource(R.mipmap.blockquote_);
-            }
-            isBlockquote = !isBlockquote;
-            mEditor.setBlockquote();
-        } else if (id == R.id.action_strikethrough) {
+        }
+//        else if (id == R.id.button_indent) {
+//            if (isIndent) {
+//                mIndent.setImageResource(R.mipmap.indent);
+//            } else {
+//                mIndent.setImageResource(R.mipmap.indent_);
+//            }
+//            isIndent = !isIndent;
+//            mEditor.setIndent();
+//        } else if (id == R.id.button_outdent) {
+//            if (isOutdent) {
+//                mOutdent.setImageResource(R.mipmap.outdent);
+//            } else {
+//                mOutdent.setImageResource(R.mipmap.outdent_);
+//            }
+//            isOutdent = !isOutdent;
+//            mEditor.setOutdent();
+//        }
+        else if (id == R.id.action_strikethrough) {
             if (isStrikethrough) {
                 mStrikethrough.setImageResource(R.mipmap.strikethrough);
             } else {
@@ -347,23 +349,33 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             }
             isStrikethrough = !isStrikethrough;
             mEditor.setStrikeThrough();
-        } else if (id == R.id.action_superscript) {
-            if (isSuperscript) {
-                mSuperscript.setImageResource(R.mipmap.superscript);
-            } else {
-                mSuperscript.setImageResource(R.mipmap.superscript_);
-            }
-            isSuperscript = !isSuperscript;
-            mEditor.setSuperscript();
-        } else if (id == R.id.action_subscript) {
-            if (isSubscript) {
-                mSubscript.setImageResource(R.mipmap.subscript);
-            } else {
-                mSubscript.setImageResource(R.mipmap.subscript_);
-            }
-            isSubscript = !isSubscript;
-            mEditor.setSubscript();
         }
+//        else if (id == R.id.action_blockquote) {
+//            if (isBlockquote) {
+//                mBlockquote.setImageResource(R.mipmap.blockquote);
+//            } else {
+//                mBlockquote.setImageResource(R.mipmap.blockquote_);
+//            }
+//            isBlockquote = !isBlockquote;
+//            mEditor.setBlockquote();
+//        }
+//         else if (id == R.id.action_superscript) {
+//            if (isSuperscript) {
+//                mSuperscript.setImageResource(R.mipmap.superscript);
+//            } else {
+//                mSuperscript.setImageResource(R.mipmap.superscript_);
+//            }
+//            isSuperscript = !isSuperscript;
+//            mEditor.setSuperscript();
+//        } else if (id == R.id.action_subscript) {
+//            if (isSubscript) {
+//                mSubscript.setImageResource(R.mipmap.subscript);
+//            } else {
+//                mSubscript.setImageResource(R.mipmap.subscript_);
+//            }
+//            isSubscript = !isSubscript;
+//            mEditor.setSubscript();
+//        }
 
         //H1--H6省略，需要的自己添加
 

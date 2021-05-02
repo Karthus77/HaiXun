@@ -53,7 +53,7 @@
 
 
             <Button
-                android:id="@+id/news_detils_collect"
+                android:id="@+id/publish_news"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -91,31 +91,14 @@
                 android:padding="3dp"
                 android:background="@drawable/richtextview"
                 android:layout_marginBottom="10dp"
-                android:minHeight="400dp">
+                android:minHeight="300dp">
                 <com.example.ouchaixun.richtext.RichEditor
                     android:id="@+id/re_main_editor"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <LinearLayout
-                    android:id="@+id/ll_main_color"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="#f2f1f6"
-                    android:visibility="gone">
 
-                    <com.example.ouchaixun.richtext.ColorPickerView
-                        android:id="@+id/cpv_main_color"
-                        android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:layout_gravity="center"
-                        android:background="#f2f1f6"
-                        app:indicatorColor="#fff"
-                        app:indicatorEnable="true"
-                        app:orientation="horizontal" />
-
-            </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
@@ -125,7 +108,24 @@
 
 </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/ll_main_color"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#f2f1f6"
+        android:visibility="gone">
 
+        <com.example.ouchaixun.richtext.ColorPickerView
+            android:id="@+id/cpv_main_color"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_gravity="center"
+            android:background="#f2f1f6"
+            app:indicatorColor="#fff"
+            app:indicatorEnable="true"
+            app:orientation="horizontal" />
+
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -164,7 +164,15 @@
                     android:layout_height="20dp"
                     android:background="@color/colorPrimary" />
 
+                <ImageView
+                    android:id="@+id/button_underline"
+                    style="@style/EditorIcon"
+                    android:src="@mipmap/underline" />
 
+                <ImageView
+                    android:id="@+id/button_italic"
+                    style="@style/EditorIcon"
+                    android:src="@mipmap/lean" />
                 <ImageView
                     android:id="@+id/button_list_ol"
                     style="@style/EditorIcon"
@@ -175,15 +183,7 @@
                     style="@style/EditorIcon"
                     android:src="@mipmap/list_ul" />
 
-                <ImageView
-                    android:id="@+id/button_underline"
-                    style="@style/EditorIcon"
-                    android:src="@mipmap/underline" />
 
-                <ImageView
-                    android:id="@+id/button_italic"
-                    style="@style/EditorIcon"
-                    android:src="@mipmap/lean" />
 
                 <ImageView
                     android:id="@+id/button_align_left"
@@ -200,35 +200,35 @@
                     style="@style/EditorIcon"
                     android:src="@mipmap/align_right" />
 
-                <ImageView
-                    android:id="@+id/button_indent"
-                    style="@style/EditorIcon"
-                    android:src="@mipmap/indent" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/button_indent"-->
+<!--                    style="@style/EditorIcon"-->
+<!--                    android:src="@mipmap/indent" />-->
 
-                <ImageView
-                    android:id="@+id/button_outdent"
-                    style="@style/EditorIcon"
-                    android:src="@mipmap/outdent" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/button_outdent"-->
+<!--                    style="@style/EditorIcon"-->
+<!--                    android:src="@mipmap/outdent" />-->
 
-                <ImageView
-                    android:id="@+id/action_blockquote"
-                    style="@style/EditorIcon"
-                    android:src="@mipmap/blockquote" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/action_blockquote"-->
+<!--                    style="@style/EditorIcon"-->
+<!--                    android:src="@mipmap/blockquote" />-->
 
                 <ImageView
                     android:id="@+id/action_strikethrough"
                     style="@style/EditorIcon"
                     android:src="@mipmap/strikethrough" />
 
-                <ImageView
-                    android:id="@+id/action_superscript"
-                    style="@style/EditorIcon"
-                    android:src="@mipmap/superscript" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/action_superscript"-->
+<!--                    style="@style/EditorIcon"-->
+<!--                    android:src="@mipmap/superscript" />-->
 
-                <ImageView
-                    android:id="@+id/action_subscript"
-                    style="@style/EditorIcon"
-                    android:src="@mipmap/subscript" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/action_subscript"-->
+<!--                    style="@style/EditorIcon"-->
+<!--                    android:src="@mipmap/subscript" />-->
             </LinearLayout>
         </HorizontalScrollView>
 

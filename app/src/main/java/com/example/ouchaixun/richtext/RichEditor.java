@@ -23,7 +23,6 @@ import java.util.Locale;
 
 /**
  * 富文本编辑实现类
- * Created by ZQiong on 2018/3/22.
  */
 
 public class RichEditor extends WebView {
