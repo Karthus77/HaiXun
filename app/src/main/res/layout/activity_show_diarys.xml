@@ -1,12 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+ <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/showdiarys"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/show_diarys_img"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_marginTop="48dp"
+                android:background="#ffffff"/>
+
+
+            <RelativeLayout
+                android:id="@+id/show_diarys_TopBar"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:background="@drawable/topbar">
+
+
+                <Button
+                    android:id="@+id/show_diarys_back"
+                    android:layout_width="20dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_baseline_arrow_back_ios_24"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginLeft="22dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="预览新闻"
+                    android:textColor="@color/title"
+                    android:textSize="17sp"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/show_diarys_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="210dp"
+                android:background="@drawable/top_bar2"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp">
+
+                    <TextView
+                        android:id="@+id/show_diarys_view"
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginLeft="10dp"
+
+                        android:layout_alignBottom="@id/show_diarys_time"
+                        android:layout_alignTop="@id/show_diarys_title"
+                        android:background="#69C0FF" />
+
+                    <TextView
+                        android:id="@+id/show_diarys_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/show_diarys_view"
+                        android:text="垃圾分类从我做起，和谐海大因你而美丽！——中国海洋大学校园生活垃圾分类行动倡议书"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:padding="2dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="16dp"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
+
+                    <TextView
+                        android:id="@+id/show_diarys_type"
+                        android:layout_width="27dp"
+                        android:layout_height="14sp"
+                        android:text="官方"
+                        android:textSize="10sp"
+                        android:textColor="@color/write"
+                        android:background="@drawable/official_background"
+                        android:gravity="center"
+                        android:layout_alignParentBottom="true"
+                        android:layout_below="@id/show_diarys_title"
+                        android:layout_marginLeft="7dp"
+                        android:layout_toRightOf="@id/show_diarys_view" />
+                    <TextView
+                        android:id="@+id/show_diarys_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2021_04_25"
+                        android:layout_alignParentBottom="true"
+                        android:layout_below="@id/show_diarys_title"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp" />
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="10dp"
+                    android:padding="3dp"
+                    android:background="@drawable/richtextview"
+                    android:layout_marginBottom="10dp"
+                    android:minHeight="300dp">
+
+                    <WebView
+                        android:id="@+id/showdiarys"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+

@@ -261,26 +261,20 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                 //关闭动画
                 animateClose(llColorView);
             }
-        } else if (id == R.id.button_image) {//插入图片
-            //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相
-            //或者拍照获取图片，传图本地图片路径，也可以将本地图片路径上传到服务器
-            //返回在服务端的URL地址，将地址传如即可（我这里传了一张写死的图片URL，如果你插入的图片不现实，请检查你是否添加
-            mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
-                    "dachshund");
-        } else if (id == R.id.button_list_ol) {
-            if (isListOl) {
-                mListOL.setImageResource(R.mipmap.list_ol);
-            } else {
-                mListOL.setImageResource(R.mipmap.list_ol_);
-            }
+        }  else if (id == R.id.button_list_ol) {
+//            if (isListOl) {
+//                mListOL.setImageResource(R.mipmap.list_ol);
+//            } else {
+//                mListOL.setImageResource(R.mipmap.list_ol_);
+//            }
             isListOl = !isListOl;
             mEditor.setNumbers();
         } else if (id == R.id.button_list_ul) {
-            if (isListUL) {
-                mListUL.setImageResource(R.mipmap.list_ul);
-            } else {
-                mListUL.setImageResource(R.mipmap.list_ul_);
-            }
+//            if (isListUL) {
+//                mListUL.setImageResource(R.mipmap.list_ul);
+//            } else {
+//                mListUL.setImageResource(R.mipmap.list_ul_);
+//            }
             isListUL = !isListUL;
             mEditor.setBullets();
         } else if (id == R.id.button_underline) {
@@ -300,27 +294,27 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             isItalic = !isItalic;
             mEditor.setItalic();
         } else if (id == R.id.button_align_left) {
-            if (isAlignLeft) {
-                mAlignLeft.setImageResource(R.mipmap.align_left);
-            } else {
-                mAlignLeft.setImageResource(R.mipmap.align_left_);
-            }
+//            if (isAlignLeft) {
+//                mAlignLeft.setImageResource(R.mipmap.align_left);
+//            } else {
+//                mAlignLeft.setImageResource(R.mipmap.align_left_);
+//            }
             isAlignLeft = !isAlignLeft;
             mEditor.setAlignLeft();
         } else if (id == R.id.button_align_right) {
-            if (isAlignRight) {
-                mAlignRight.setImageResource(R.mipmap.align_right);
-            } else {
-                mAlignRight.setImageResource(R.mipmap.align_right_);
-            }
+//            if (isAlignRight) {
+//                mAlignRight.setImageResource(R.mipmap.align_right);
+//            } else {
+//                mAlignRight.setImageResource(R.mipmap.align_right_);
+//            }
             isAlignRight = !isAlignRight;
             mEditor.setAlignRight();
         } else if (id == R.id.button_align_center) {
-            if (isAlignCenter) {
-                mAlignCenter.setImageResource(R.mipmap.align_center);
-            } else {
-                mAlignCenter.setImageResource(R.mipmap.align_center_);
-            }
+//            if (isAlignCenter) {
+//                mAlignCenter.setImageResource(R.mipmap.align_center);
+//            } else {
+//                mAlignCenter.setImageResource(R.mipmap.align_center_);
+//            }
             isAlignCenter = !isAlignCenter;
             mEditor.setAlignCenter();
         }
@@ -342,11 +336,11 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
 //            mEditor.setOutdent();
 //        }
         else if (id == R.id.action_strikethrough) {
-            if (isStrikethrough) {
-                mStrikethrough.setImageResource(R.mipmap.strikethrough);
-            } else {
-                mStrikethrough.setImageResource(R.mipmap.strikethrough_);
-            }
+//            if (isStrikethrough) {
+//                mStrikethrough.setImageResource(R.mipmap.strikethrough);
+//            } else {
+//                mStrikethrough.setImageResource(R.mipmap.strikethrough_);
+//            }
             isStrikethrough = !isStrikethrough;
             mEditor.setStrikeThrough();
         }
@@ -383,6 +377,12 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             Intent intent = new Intent(publishActivity.this, WebDataActivity.class);
             intent.putExtra("diarys", mEditor.getHtml());
             startActivity(intent);
+        }else if (id == R.id.button_image) {//插入图片
+            //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相
+            //或者拍照获取图片，传图本地图片路径，也可以将本地图片路径上传到服务器
+            //返回在服务端的URL地址，将地址传如即可（我这里传了一张写死的图片URL，如果你插入的图片不现实，请检查你是否添加
+            mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
+                    "dachshund");
         }
     }
 

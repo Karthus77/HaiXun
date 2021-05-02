@@ -176,29 +176,29 @@
                 <ImageView
                     android:id="@+id/button_list_ol"
                     style="@style/EditorIcon"
-                    android:src="@mipmap/list_ol" />
+                    android:src="@drawable/button_list_ol" />
 
                 <ImageView
                     android:id="@+id/button_list_ul"
                     style="@style/EditorIcon"
-                    android:src="@mipmap/list_ul" />
+                    android:src="@drawable/button_list_ul" />
 
 
 
                 <ImageView
                     android:id="@+id/button_align_left"
                     style="@style/EditorIcon"
-                    android:src="@mipmap/align_left" />
+                    android:src="@drawable/button_align_left" />
 
                 <ImageView
                     android:id="@+id/button_align_center"
                     style="@style/EditorIcon"
-                    android:src="@mipmap/align_center" />
+                    android:src="@drawable/button_align_center" />
 
                 <ImageView
                     android:id="@+id/button_align_right"
                     style="@style/EditorIcon"
-                    android:src="@mipmap/align_right" />
+                    android:src="@drawable/button_align_right" />
 
 <!--                <ImageView-->
 <!--                    android:id="@+id/button_indent"-->
@@ -218,7 +218,7 @@
                 <ImageView
                     android:id="@+id/action_strikethrough"
                     style="@style/EditorIcon"
-                    android:src="@mipmap/strikethrough" />
+                    android:src="@drawable/button_strikethrough" />
 
 <!--                <ImageView-->
 <!--                    android:id="@+id/action_superscript"-->
