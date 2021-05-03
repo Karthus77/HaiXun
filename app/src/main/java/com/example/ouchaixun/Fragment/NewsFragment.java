@@ -22,6 +22,9 @@ import com.example.ouchaixun.Data.ViewPagerData;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.example.ouchaixun.richtext.publishActivity;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -61,19 +64,28 @@ public class NewsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Button button=getActivity().findViewById(R.id.news_btn);
         Button button_write=getActivity().findViewById(R.id.news_btn_write);
+        SmartRefreshLayout smartRefreshLayout=getActivity().findViewById(R.id.new_smartRefreshLayout);
+
+        smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                List<News> list=new ArrayList<>();
+                GetNews(list);
+            }
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                List<News> list=new ArrayList<>();
+            }
+        });
 
         List<News> list=new ArrayList<>();
         News news0=new News();
 
         //header//轮播图
-      GetHeader(list);
-
-
-
-
+        GetHeader(list);
 
         //新闻
-        GetNews(list);
+
 
 
 
@@ -140,6 +152,8 @@ button_write.setOnClickListener(new View.OnClickListener() {
         news.setPager(pager);
         news.setType(2);
         list.add(news);
+
+        GetNews(list);
     }
 
 
@@ -179,24 +193,21 @@ button_write.setOnClickListener(new View.OnClickListener() {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
-
                 @Override
                 public void onFail(String error) {
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+
+                            adapter=new NewsAdapter(getContext(),list,recyclerView);
+                            recyclerView.setAdapter(adapter);
                             Toast.makeText(getContext(),"网络连接失败，请检查网络连接",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             });
-
-
-
     }
-
-
 }

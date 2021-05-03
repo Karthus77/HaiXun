@@ -71,10 +71,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view_news = null;
         RecyclerView.ViewHolder holder = null;
 
-//        if (i == ITEM_NO) {
-//            view_news = LayoutInflater.from(context).inflate(R.layout.item_nofocused, viewGroup, false);
-//            holder = new NoHolder(view_news);
-//        }
+        if (i == ITEM_NO) {
+            view_news = LayoutInflater.from(context).inflate(R.layout.item_nodata, viewGroup, false);
+            holder = new NoHolder(view_news);
+        }
 
 
         if (i == ITEM_HEADER) {
@@ -89,10 +89,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             view_news = LayoutInflater.from(context).inflate(R.layout.item_viewpager2, viewGroup, false);
             holder = new PagerHolder(view_news);
         }
-//        if (i == ITEM_ERROR) {
-//            view_news = LayoutInflater.from(context).inflate(R.layout.item_papernonet, viewGroup, false);
-//            holder = new ErrorHolder(view_news);
-//        }
+        if (i == ITEM_ERROR) {
+            view_news = LayoutInflater.from(context).inflate(R.layout.item_nointernet, viewGroup, false);
+            holder = new ErrorHolder(view_news);
+        }
         assert holder != null;
         return holder;
     }
@@ -303,15 +303,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
     public static class NoHolder extends RecyclerView.ViewHolder {
-
-
-        TextView textView;
-        //SquareLayout squareLayout;
-
         public NoHolder(@NonNull View itemView) {
             super(itemView);
-
-
 
         }
     }
