@@ -10,4 +10,6 @@
     <color name="blue">#69C0FF</color>
     <color name="write">#fffefe</color>
     <color name="write_topbar">#FAFAFA</color>
+
+    <color name="black_text">#333333</color> <!-- 字体 -->
 </resources>
