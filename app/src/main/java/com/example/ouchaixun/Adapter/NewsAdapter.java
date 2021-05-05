@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.example.ouchaixun.Activity.NewsDetilsActivity;
 import com.example.ouchaixun.Data.News;
 import com.example.ouchaixun.Data.ViewPagerData;
@@ -111,6 +113,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             ((NewsHolder) holder).title.setText(list.get(i).getTitle());
             ((NewsHolder) holder).nickname.setText(list.get(i).getNickName());
+            Glide.with(context)
+                    .load("http://47.102.215.61:8888/"+list.get(i).getImg())
+                    .error(R.drawable.img_error)
+                    .into(((NewsHolder) holder).imageView);
+
+
 
             if (i==2){
                 ((NewsHolder) holder).intop.setText("置顶");
@@ -118,7 +126,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((NewsHolder) holder).intop.setBackgroundResource(R.drawable.intop);
                 ((NewsHolder) holder).official.setVisibility(View.VISIBLE);
             }
-
 
 
             ((NewsHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -261,12 +268,14 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         TextView intop,official,title,nickname;
+        ImageView imageView;
         public NewsHolder(@NonNull View itemView) {
             super(itemView);
             intop=itemView.findViewById(R.id.news_intop);
             official=itemView.findViewById(R.id.news_official);
             title=itemView.findViewById(R.id.news_title);
             nickname=itemView.findViewById(R.id.news_hint);
+            imageView=itemView.findViewById(R.id.news_img);
 
         }
     }

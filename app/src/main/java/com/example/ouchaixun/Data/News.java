@@ -7,9 +7,17 @@ public class News {
     private int type;
     private int news_id;
     private List<ViewPagerData> pager;
-    private String title,nickName;
+    private String title,nickName,img;
     private Boolean visibility;
 
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getImg() {
+        return img;
+    }
 
     public void setPager(List<ViewPagerData> pager) {
         this.pager = pager;
