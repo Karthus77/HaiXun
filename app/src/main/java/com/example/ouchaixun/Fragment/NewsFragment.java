@@ -168,7 +168,7 @@ button_write.setOnClickListener(new View.OnClickListener() {
                     try {
                         JSONObject jsonObject0=new JSONObject(response.body().string());
                         Log.i("asd",jsonObject0.getString("msg"));
-                        JSONArray jsonArray=jsonObject0.getJSONArray("data");
+                        JSONArray jsonArray=jsonObject0.getJSONArray("banner_list");
 
                         for (int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject1=jsonArray.getJSONObject(i);
