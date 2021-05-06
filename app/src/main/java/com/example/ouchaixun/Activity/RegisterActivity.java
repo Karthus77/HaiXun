@@ -1,0 +1,167 @@
+
+package com.example.ouchaixun.Activity;
+
+        import androidx.appcompat.app.AppCompatActivity;
+
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.CheckBox;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import android.widget.Toast;
+
+        import com.example.ouchaixun.R;
+        import com.example.ouchaixun.Utils.CountDownTimerUtils;
+        import com.google.gson.Gson;
+
+        import org.json.JSONException;
+        import org.json.JSONObject;
+
+        import java.io.IOException;
+        import java.util.regex.Matcher;
+        import java.util.regex.Pattern;
+
+        import okhttp3.Call;
+        import okhttp3.Callback;
+        import okhttp3.Headers;
+        import okhttp3.MediaType;
+        import okhttp3.OkHttpClient;
+        import okhttp3.Request;
+        import okhttp3.RequestBody;
+        import okhttp3.Response;
+
+public class RegisterActivity extends AppCompatActivity {
+
+    private EditText get_username;
+    private EditText get_password_one;
+    private EditText get_password_two;
+    private EditText get_email;
+    private EditText get_verify;
+    private Button get_get_verify;
+    private Button gogo;
+    private ImageView iv_back;
+    private int tp;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_register);
+        get_username = findViewById(R.id.editTextNumber);
+        get_email = findViewById(R.id.editTextTextPassword);
+        get_verify = findViewById(R.id.editTextNumberSigned);
+        get_password_one = findViewById(R.id.editTextTextPassword2);
+        get_password_two = findViewById(R.id.editTextTextPassword3);
+        gogo = findViewById(R.id.button);
+        get_get_verify = findViewById(R.id.button2);
+        iv_back = findViewById(R.id.imageView);
+        final CheckBox checkBox = findViewById(R.id.checkbox);//复选框
+
+        get_get_verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String email;
+                email = get_email.getText().toString();
+                if (!checkEmail(email)) {
+                    Toast.makeText(RegisterActivity.this, "邮箱格式不正确", Toast.LENGTH_SHORT).show();
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Gson gson = new Gson();
+                            Myemail myemail = new Myemail();
+                            myemail.email = email;
+                            myemail.type = 1;
+
+                            MediaType mediaType = MediaType.parse("text/x-markdown; charset=utf-8");
+                            String requestBody = gson.toJson(myemail);
+                            Request request = new Request.Builder()
+                                    .url("http://47.102.215.61:8888/reglog/send_email")
+                                    .post(RequestBody.create(mediaType, requestBody))
+                                    .build();
+
+                            OkHttpClient okHttpClient = new OkHttpClient();
+                            okHttpClient.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    Log.d("1233", "onFailure: " + e.getMessage());
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    Log.d("1233", response.protocol() + " " + response.code() + " " + response.message());
+                                    Headers headers = response.headers();
+                                    String responseData = response.body().string();
+                                    try {
+                                        JSONObject jsonObject1 = new JSONObject(responseData);
+                                        int code = jsonObject1.getInt("code");
+                                        if (code != 200) {
+                                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(RegisterActivity.this, "出错啦，请重试", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        } else {
+                                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(get_get_verify, 60000, 1000);
+                                                    mCountDownTimerUtils.start();
+                                                    Toast.makeText(RegisterActivity.this, "获取成功", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    for (int i = 0; i < headers.size(); i++) {
+                                        Log.d("1233", headers.name(i) + ":" + headers.value(i));
+                                    }
+                                }
+                            });
+                        }
+                    }).start();
+                }
+            }
+        });
+
+    }
+
+    public boolean checkUsername(String str) {
+        String regexp = "^[0-9a-zA-Z]{6,12}$";
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
+    }
+
+    public boolean checkPassword(String str) {
+        String regexp = "^[0-9a-zA-Z]{6,12}$";
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
+    }
+
+    public boolean checkVerify(String str) {
+        String regexp = "^[0-9]{4}$";
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
+    }
+
+    public boolean checkEmail(String str) {
+        String regexp = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
+    }
+
+    public class Myemail {
+        public String email;
+        int type;
+    }
+
+    public class Myname {
+        public String name;
+    }
+}
