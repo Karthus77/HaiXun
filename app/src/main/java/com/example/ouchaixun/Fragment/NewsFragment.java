@@ -113,7 +113,7 @@ button.setOnClickListener(new View.OnClickListener() {
 button_write.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Log.i("asd","hhhhhhhhhhh");
+
         startActivity(new Intent(getActivity(), publishActivity.class));
     }
 });
@@ -176,6 +176,8 @@ button_write.setOnClickListener(new View.OnClickListener() {
                             news.setNews_id(jsonObject1.getInt("id"));
                             news.setTitle(jsonObject1.getString("title"));
                             news.setNickName(jsonObject1.getString("writer_nickname"));
+                            news.setImg(jsonObject1.getString("banner"));
+
                             news.setType(9);
                             list.add(news);
                         }
