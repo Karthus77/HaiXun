@@ -3,6 +3,7 @@ package com.example.ouchaixun.Activity;
 
         import androidx.appcompat.app.AppCompatActivity;
 
+        import android.content.Intent;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.View;
@@ -55,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         gogo = findViewById(R.id.button);
         get_get_verify = findViewById(R.id.button2);
         iv_back = findViewById(R.id.imageView);
-        final CheckBox checkBox = findViewById(R.id.checkbox);//复选框
+        final CheckBox checkBox = findViewById(R.id.checkBox);//复选框
 
         get_get_verify.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,10 +127,102 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        gogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String username;
+                final String password;
+                final String password2;
+                final String email;
+                final String string_verify;
+                username = get_username.getText().toString();
+                password = get_password_one.getText().toString();
+                password2 = get_password_two.getText().toString();
+                email = get_email.getText().toString();
+                string_verify = get_verify.getText().toString();
+                if (!checkUsername(username)) {
+                    Toast.makeText(RegisterActivity.this, "学号不正确！", Toast.LENGTH_SHORT).show();
+                } else if (!password.equals(password2)) {
+                    Log.d("passw", password);
+                    Log.d("passw2", password2);
+                    Toast.makeText(RegisterActivity.this, "两次密码输入不一致", Toast.LENGTH_SHORT).show();
+                } else if (!checkPassword(password)) {
+                    Toast.makeText(RegisterActivity.this, "密码应为6~12位字母或数字！", Toast.LENGTH_SHORT).show();
+                } else if (!checkEmail(email)) {
+                    Toast.makeText(RegisterActivity.this, "邮箱格式有误！", Toast.LENGTH_SHORT).show();
+                } else if (!checkVerify(string_verify)) {
+                    Toast.makeText(RegisterActivity.this, "验证码有误！", Toast.LENGTH_SHORT).show();
+                } else if (!checkBox.isChecked()) {
+                    Toast.makeText(RegisterActivity.this, "请同意用户服务协议！", Toast.LENGTH_SHORT).show();
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Gson gson = new Gson();
+                            int intverify;
+                            intverify = Integer.parseInt(string_verify);
+                            MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+                            String requestBody = "\r\n{\r\n    \"account\": \"" + username + "\",\r\n    \"password\": \"" + password + "\",\r\n    \"email\": \"" + email + "\",\r\n    \"email_code\": \"" + intverify + "\"\r\n}";
+
+                            Request request = new Request.Builder()
+                                    .url("http://47.102.215.61:8888/reglog/register")
+                                    .post(RequestBody.create(mediaType, requestBody))
+                                    .build();
+                            OkHttpClient okHttpClient = new OkHttpClient();
+                            Log.d("1233d", request.toString() + "   " + requestBody.toString());
+                            okHttpClient.newCall(request).enqueue(new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    Log.d("1233", "onFailure: " + e.getMessage());
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    Log.d("1233", response.protocol() + " " + response.code() + " " + response.message());
+                                    Headers headers = response.headers();
+                                    String responseData = response.body().string();
+                                    try {
+                                        JSONObject jsonObject1 = new JSONObject(responseData);
+                                        int code = jsonObject1.getInt("code");
+                                        final String msg = jsonObject1.getString("msg");
+                                        if (code != 200) {
+                                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                                    Log.d("1233", "onResponse: " + msg);
+                                                }
+                                            });
+                                        } else {
+                                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(RegisterActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                            finish();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    for (int i = 0; i < headers.size(); i++) {
+                                        Log.d("1233", headers.name(i) + ":" + headers.value(i));
+                                    }
+                                    Log.d("1233", "onResponse: " + response.body());
+                                }
+                            });
+                        }
+                    }).start();
+                }
+            }
+        });
+
     }
 
+
     public boolean checkUsername(String str) {
-        String regexp = "^[0-9a-zA-Z]{6,12}$";
+        String regexp = "^[0-9]{11}$";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
@@ -143,7 +236,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public boolean checkVerify(String str) {
-        String regexp = "^[0-9]{4}$";
+        String regexp = "^[0-9]{6}$";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
