@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         get_username = findViewById(R.id.editTextNumber);
         back = findViewById(R.id.imageView);
 
-        findViewById(R.id.signin_change_password).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.textView10).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tp=1;
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 //注册按钮
-        findViewById(R.id.login_register).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.signin_change_password).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tp=1;
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-                            String requestBody = "\r\n{\r\n    \"username\": \"" + username + "\",\r\n    \"password\": \"" + password + "\"\r\n}";
+                            String requestBody = "\r\n{\r\n    \"account\": \"" + username + "\",\r\n    \"password\": \"" + password + "\"\r\n}";
                             Request request = new Request.Builder()
                                     .url("http://47.102.215.61:8888/reglog/login")
                                     .post(RequestBody.create(mediaType, requestBody))
