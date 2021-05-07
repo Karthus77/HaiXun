@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.ouchaixun.Activity.LoginActivity;
 import com.example.ouchaixun.Activity.RegisterActivity;
 import  com.example.ouchaixun.R;
 
@@ -75,7 +76,7 @@ public class UserCenterFragment extends Fragment {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), RegisterActivity.class));
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
     }

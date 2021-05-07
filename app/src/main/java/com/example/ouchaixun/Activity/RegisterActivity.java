@@ -217,7 +217,21 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
+        findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tp = getIntent().getIntExtra("type", 1);
+                if (tp == 1) {
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    RegisterActivity.this.startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    RegisterActivity.this.startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
 
