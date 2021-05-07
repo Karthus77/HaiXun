@@ -31,6 +31,11 @@
         </TextView>
 
     </RelativeLayout>
+
+
+
+
+
     <RelativeLayout
         android:layout_below="@id/circle_details_topBar"
         android:id="@+id/details_item"
