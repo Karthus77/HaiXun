@@ -1,6 +1,7 @@
 package com.example.ouchaixun.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 
+import com.example.ouchaixun.Activity.ReportCircleActivity;
 import com.example.ouchaixun.Adapter.CircleFragmentAdapter;
 import com.example.ouchaixun.R;
 import com.google.android.material.tabs.TabLayout;
@@ -26,6 +28,7 @@ import java.util.Objects;
 
 
 public class AlumnusFragment extends Fragment {
+    private ImageView edit;
     private CircleFragmentAdapter fragmentAdapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -63,11 +66,19 @@ public class AlumnusFragment extends Fragment {
         fragments.add(new TimeAreaFragment());
         titleList.add("热帖区");
         titleList.add("实时区");
+        edit=getActivity().findViewById(R.id.publish_circle);
         viewPager= Objects.requireNonNull(getActivity()).findViewById(R.id.vp_fragment);
         tabLayout=getActivity().findViewById(R.id.tab1);
         fragmentAdapter =new CircleFragmentAdapter(getChildFragmentManager(),fragments,titleList);
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ReportCircleActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 

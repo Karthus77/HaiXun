@@ -3,9 +3,9 @@
 
     <style name="MyTablayoutstyle"  parent="Base.Widget.Design.TabLayout">
 <!--        <item name="tabBackground">#FAFAFA</item>-->
-        <item name="tabIndicatorColor">#6633cc</item>
+        <item name="tabIndicatorColor">#69C0FF</item>
         <item name="tabIndicatorHeight">2dp</item>
-        <item name="tabSelectedTextColor">#6633cc</item>
+        <item name="tabSelectedTextColor">#69C0FF</item>
         <item name="android:textSize">15sp</item>
     </style>
 </resources>

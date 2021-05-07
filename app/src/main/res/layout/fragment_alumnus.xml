@@ -49,6 +49,7 @@
         android:layout_below="@id/circle_topBar"
         style="@style/MyTablayoutstyle"
         android:layout_width="match_parent"
+        android:layout_marginRight="240dp"
         android:layout_height="50dp"/>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_fragment"
