@@ -183,14 +183,14 @@ public class RegisterActivity extends AppCompatActivity {
                                     String responseData = response.body().string();
                                     try {
                                         JSONObject jsonObject1 = new JSONObject(responseData);
-                                        int code = jsonObject1.getInt("code");
+                                        final int code = jsonObject1.getInt("code");
                                         final String msg = jsonObject1.getString("msg");
-                                        if (code != 200) {
+                                        if (code != 1000) {
                                             RegisterActivity.this.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                                    Log.d("1233", "onResponse: " + msg);
+                                                    Log.d("1233", "onResponse: " + msg+code);
                                                 }
                                             });
                                         } else {
