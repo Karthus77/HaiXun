@@ -120,7 +120,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 
-            if (i==2){
+            if (list.get(i).getIntop()){
                 ((NewsHolder) holder).intop.setText("置顶");
                 ((NewsHolder) holder).intop.setTextColor(context.getResources().getColor(R.color.orange));
                 ((NewsHolder) holder).intop.setBackgroundResource(R.drawable.intop);
@@ -169,7 +169,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //  轮播图
         if (holder instanceof PagerHolder) {
             List<ViewPagerData>  img = list.get(i).getPager();
-            Log.i("asddd",img.toString());
+            Log.i("asd",img.toString());
             viewPagerAdapter = new ViewPagerAdapter(context, img);
 
 

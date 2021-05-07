@@ -50,4 +50,5 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
 
     implementation 'com.zzhoujay.richtext:richtext:3.0.7'
+
 }
