@@ -53,15 +53,18 @@
             android:id="@+id/report_content"
             android:layout_width="match_parent"
             android:layout_marginTop="53.33dp"
-            android:layout_height="wrap_content"
-            android:minLines="5"
+            android:layout_height="150dp"
+            android:minLines="8"
             android:maxLines="15"
             android:paddingLeft="5dp">
 
         </EditText>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/edit_image"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/report_content">
 
