@@ -47,7 +47,7 @@
             android:layout_marginLeft="22dp" />
 
         <Button
-            android:id="@+id/news_btn"
+            android:id="@+id/news_btn_header"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
@@ -62,7 +62,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/messege"
             android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@id/news_btn"  />
+            android:layout_toLeftOf="@id/news_btn_header"  />
     </RelativeLayout>
 
 

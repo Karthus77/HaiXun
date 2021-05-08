@@ -8,8 +8,16 @@ public class News {
     private int news_id;
     private List<ViewPagerData> pager;
     private String title,nickName,img;
-    private Boolean visibility;
+    private Boolean visibility,intop;
 
+
+    public void setIntop(Boolean intop) {
+        this.intop = intop;
+    }
+
+    public Boolean getIntop() {
+        return intop;
+    }
 
     public void setImg(String img) {
         this.img = img;

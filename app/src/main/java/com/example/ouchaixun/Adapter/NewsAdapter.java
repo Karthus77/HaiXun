@@ -63,7 +63,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void visibility( Boolean isVisibility) {
 
-//        recyclerView.scrollToPosition(9);
+//        recyclerView.getScroll
          list.get(0).setVisibility(isVisibility);
         notifyItemChanged(0);
     }
@@ -120,7 +120,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 
-            if (i==2){
+            if (list.get(i).getIntop()){
                 ((NewsHolder) holder).intop.setText("置顶");
                 ((NewsHolder) holder).intop.setTextColor(context.getResources().getColor(R.color.orange));
                 ((NewsHolder) holder).intop.setBackgroundResource(R.drawable.intop);
@@ -146,20 +146,23 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             ((HeaderHolder)holder).setVisibility(list.get(i).getVisibility());
 
-            List<News> listqq=new ArrayList<>();
+            List<News> listheader=new ArrayList<>();
+
+
+
 
             for (int j=0;j<10;j++){
                 News news1=new News();
                 news1.setTitle("skjjdsj");
                 Log.i("asd","asdasd");
-                listqq.add(news1);
+                listheader.add(news1);
             }
 
             LinearLayoutManager layoutManager=new LinearLayoutManager(context);
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             ((HeaderHolder)holder).recyclerView.setLayoutManager(layoutManager);
 
-            headerAdapter=new HeaderAdapter(context,listqq);
+            headerAdapter=new HeaderAdapter(context,listheader);
             ((HeaderHolder)holder).recyclerView.setAdapter(headerAdapter);
 
 
@@ -169,7 +172,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //  轮播图
         if (holder instanceof PagerHolder) {
             List<ViewPagerData>  img = list.get(i).getPager();
-            Log.i("asddd",img.toString());
+            Log.i("asd",img.toString());
             viewPagerAdapter = new ViewPagerAdapter(context, img);
 
 

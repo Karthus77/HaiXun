@@ -2,6 +2,7 @@ package com.example.ouchaixun.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +42,9 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int i) {
-
+        Log.i("asd",img.get(i).getNews_id()+""+i);
         Glide.with(context)
-                .load(img.get(i).getImg())
+                .load("http://47.102.215.61:8888/"+img.get(i).getImg())
                 .error(R.drawable.img_error)
                .apply(bitmapTransform(new RoundedCornersTransformation(15, 0, RoundedCornersTransformation.CornerType.ALL)))
                 .into(holder.imageView);

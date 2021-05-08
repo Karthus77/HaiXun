@@ -32,7 +32,6 @@
         tools:targetApi="n">
         <activity android:name=".Activity.SquareDetailsActivity">
 
-
         </activity>
         <activity android:name=".Activity.CircleDetilsActivity" />
         <activity android:name=".Activity.ReportCircleActivity" />
@@ -41,6 +40,7 @@
         <activity android:name=".Activity.NewsDetilsActivity" />
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.ChangePasswordActivity" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
