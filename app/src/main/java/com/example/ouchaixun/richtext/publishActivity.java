@@ -16,9 +16,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.OKhttpUtils;
 
 public class publishActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private String token;
+    private String title,banner;
     /********************View**********************/
+    private TextView tv_title;
+    private ImageView imageView;
+
     //文本编辑器
     private RichEditor mEditor;
     //加粗按钮
@@ -106,6 +113,16 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 Log.i("asd","</Div ><head><style>img{ width:100%   !important;}</style></head>"+mEditor.getHtml());
 
+              //  OKhttpUtils.post_form(token,);
+
+
+            }
+        });
+
+        findViewById(R.id.news_publish_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -177,6 +194,8 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
      * 初始化菜单按钮
      */
     private void initMenu() {
+        tv_title=findViewById(R.id.publish_title);
+        imageView=findViewById(R.id.publish_img);
         mBold = findViewById(R.id.button_bold);
         mTextColor = findViewById(R.id.button_text_color);
         llColorView = findViewById(R.id.ll_main_color);
@@ -376,6 +395,8 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         else if (id == R.id.tv_main_preview) {//预览
             Intent intent = new Intent(publishActivity.this, WebDataActivity.class);
             intent.putExtra("diarys", mEditor.getHtml());
+            intent.putExtra("title", tv_title.getText());
+            intent.putExtra("banner", banner);
             startActivity(intent);
         }else if (id == R.id.button_image) {//插入图片
             //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相

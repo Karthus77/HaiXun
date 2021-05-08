@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -109,6 +110,7 @@ public class OKhttpUtils {
             Log.i("asd","OKHTTPUtils连接失败");
         }
     }
+
     // post json数据  token数据
     public static void post_json(final String token,final String url, final String json,  final OkhttpCallBack okhttpCallBack) throws JSONException {
 
@@ -157,6 +159,56 @@ public class OKhttpUtils {
         }
     }
 
+
+    // post form数据  token数据
+    public static void post_form(final String token, final String title, final String content,final String banner, final OkhttpCallBack okhttpCallBack) throws JSONException {
+
+        try {
+            Thread thread=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    getInstance();
+                    try {
+
+                        MediaType mediaType = MediaType.parse("text/plain");
+                        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                .addFormDataPart("title", title)
+                                .addFormDataPart("content", content)
+                                .addFormDataPart("banner", banner)
+                                .build();
+                        Log.i("asd", body.toString());
+                        Request request = new Request.Builder()
+                                .url("http://47.102.215.61:8888/news/release_news")
+                                .post(body)
+                                .addHeader("Accept", "application/json")
+                                .addHeader("Authorization", token)
+                                .addHeader("User-Agent", "apifox/1.0.26 (https://www.apifox.cn)")
+                                .addHeader("Content-Type", "application/json")
+                                .build();
+                        okHttpClient.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                okhttpCallBack.onFail(e.getMessage() + "失败的OKHTTP返回数据");
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                okhttpCallBack.onSuccess(response);
+                                Log.i("asd","OKHTTPUtils连接成功");
+                            }
+
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();  } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("asd","OKHTTPUtils连接失败");
+        }
+    }
     //数据返回
     public interface OkhttpCallBack{
         void onSuccess(Response response) throws IOException;

@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_square_detials"
+
     android:layout_margin="10dp"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_square_detials"
         >
 
         <ImageView
@@ -42,17 +43,42 @@
             android:text="2021-5-4"
             android:textSize="14sp"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="arnhguibr\n\nebguargnr\n\ngnnrnrgnann"
+            android:layout_below="@id/square_time"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginHorizontal="15dp"
+            />
+
+
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:text="arnhguibr\n\nebguargnr\n\ngnnrnrgnann"
-        android:layout_marginTop="6dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="16dp"
-        />
+
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="10dp"
+       android:background="@drawable/top_bar2">
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="6dp"
+           android:text="评论"
+           android:textColor="@color/title"
+           android:textSize="16dp"
+           android:textStyle="bold"
+           android:padding="3dp"
+           android:layout_marginLeft="7dp"
+           android:letterSpacing="0.3"/>
+
+
+   </LinearLayout>
 
 
 </LinearLayout>
