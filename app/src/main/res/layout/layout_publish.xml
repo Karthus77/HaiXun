@@ -26,14 +26,14 @@
 
 
         <RelativeLayout
-            android:id="@+id/datils_TopBar"
+            android:id="@+id/publish_TopBar"
             android:layout_width="match_parent"
             android:layout_height="53dp"
             android:background="@drawable/topbar">
 
 
             <Button
-                android:id="@+id/news_detils_back"
+                android:id="@+id/news_publish_back"
                 android:layout_width="20dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -66,7 +66,7 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/detils_layout"
+            android:id="@+id/publish_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="210dp"
@@ -74,6 +74,7 @@
             android:orientation="vertical">
 
           <EditText
+              android:id="@+id/publish_title"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:hint="请输入标题"

@@ -55,17 +55,18 @@ public class NewsDetilsActivity extends AppCompatActivity {
                     final String content=jsonObject1.getString("content");
                     final String title=jsonObject1.getString("title");
                     final String time=jsonObject1.getString("release_time");
-                   // final String photo=jsonObject1.getString("release_time");
+                    final String photo="http://47.102.215.61:8888/"+jsonObject1.getString("banner");
+                    Log.i("asd",photo);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
                             tv_title.setText(title);
                             tv_time.setText(time.substring(0,10));
-//                            Glide.with(NewsDetilsActivity.this)
-//                                    .load(photo)
-//                                    .error(R.drawable.img_error)
-//                                    .into(img);
+                            Glide.with(NewsDetilsActivity.this)
+                                    .load(photo)
+                                    .error(R.drawable.img_error)
+                                    .into(img);
                             RichText.from(content).bind(this)
                                     .showBorder(false)
                                     .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
