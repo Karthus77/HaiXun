@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,12 +19,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
+import okhttp3.Response;
+
 public class publishActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String token;
-    private String title,banner;
+    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8";
+    private String title,content;
+    private String  filePath=null, fileName=null;
     /********************View**********************/
-    private TextView tv_title;
+    private EditText tv_title;
     private ImageView imageView;
 
     //文本编辑器
@@ -113,7 +121,26 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 Log.i("asd","</Div ><head><style>img{ width:100%   !important;}</style></head>"+mEditor.getHtml());
 
-              //  OKhttpUtils.post_form(token,);
+                title=tv_title.getText().toString();
+                content="</Div ><head><style>img{ width:100%   !important;}</style></head>"+mEditor.getHtml();
+
+
+                try {
+                    OKhttpUtils.post_form(token, title, content, filePath, fileName, new OKhttpUtils.OkhttpCallBack() {
+                        @Override
+                        public void onSuccess(Response response) {
+
+                            Log.i("asd",response.body().toString());
+                        }
+
+                        @Override
+                        public void onFail(String error) {
+
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 
             }
@@ -396,7 +423,7 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             Intent intent = new Intent(publishActivity.this, WebDataActivity.class);
             intent.putExtra("diarys", mEditor.getHtml());
             intent.putExtra("title", tv_title.getText());
-            intent.putExtra("banner", banner);
+         //   intent.putExtra("banner", banner);
             startActivity(intent);
         }else if (id == R.id.button_image) {//插入图片
             //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相
