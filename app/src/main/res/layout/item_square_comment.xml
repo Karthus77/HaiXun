@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/square_comment_photo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:background="@color/blue"
+        android:layout_marginTop="9dp"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:id="@+id/square_comment_writer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/square_comment_photo"
+        android:layout_marginTop="9dp"
+        android:layout_marginLeft="6dp"
+        android:padding="2dp"
+        android:text="sflknsf"
+        android:textSize="16sp"
+        android:textColor="@color/title"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/square_comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/square_comment_writer"
+        android:layout_toRightOf="@id/square_comment_photo"
+        android:layout_marginLeft="6dp"
+        android:padding="2dp"
+        android:text="2021-5-4"
+        android:textSize="13sp"
+        />
+
+    <TextView
+        android:id="@+id/square_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:text="arnhguibr\n\nebguargnr\n\ngnnrnrgnann"
+        android:layout_below="@id/square_comment_time"
+        android:layout_toRightOf="@id/square_comment_photo"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="11dp"
+        android:layout_marginHorizontal="15dp"
+        />
+    
+    <Button
+        android:id="@+id/square_comment_like"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:background="@drawable/circle_like"
+        android:layout_alignBottom="@id/square_comment_time"
+        android:layout_toLeftOf="@id/square_comment_likenum"
+        android:layout_marginRight="4dp"
+      />
+    <TextView
+        android:id="@+id/square_comment_likenum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/square_comment_time"
+        android:layout_marginRight="24dp"
+        android:text="vv2"
+        android:textSize="12sp"
+        android:gravity="bottom|left"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/square_comment"
+        android:background="#E8E8E8"
+        android:layout_marginBottom="1dp"
+        android:layout_marginHorizontal="10dp"/>
+
+</RelativeLayout>
