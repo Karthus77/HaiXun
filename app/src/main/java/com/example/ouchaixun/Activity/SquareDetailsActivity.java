@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.ouchaixun.Adapter.CommentAdapter;
 import com.example.ouchaixun.Adapter.NewsAdapter;
 import com.example.ouchaixun.Data.SquareComment;
@@ -23,6 +26,7 @@ import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -34,8 +38,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 public class SquareDetailsActivity extends AppCompatActivity {
-    private String token;
-    private int page=1;
+    private String token,photo;
+    private int page=1,old_page=1;
     private int passage_id=1;
     private RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
@@ -84,13 +88,20 @@ public class SquareDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_square_details);
 
+        ImageView myPhoto=findViewById(R.id.square_myPhoto);
         recyclerView = findViewById(R.id.square_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(SquareDetailsActivity.this));
         smartRefreshLayout=findViewById(R.id.square_smartRefreshLayout);
 
         MyData myData = new MyData(SquareDetailsActivity.this);
         token = myData.load_token();
+        photo=myData.load_pic_url();
 
+        Glide.with(SquareDetailsActivity.this)
+                .load(photo)
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .error(R.drawable.img_error)
+                .into(myPhoto);
 
         List<SquareComment> list=new ArrayList<>();
         GetData(list);
@@ -125,16 +136,55 @@ public class SquareDetailsActivity extends AppCompatActivity {
             public void onSuccess(Response response)  {
                 try {
                     JSONObject jsonObject=new JSONObject(response.body().string());
-                    JSONObject jsonObject1=jsonObject.getJSONObject("data");
+
+                    Log.i("asddd",jsonObject.toString());
+                    JSONObject jsonObject1=jsonObject.optJSONObject("data");
                     SquareComment data=new SquareComment();
                     data.setPassage_id(jsonObject1.getInt("id"));
                     data.setTitles(jsonObject1.getString("title"));
                     data.setContents(jsonObject1.getString("content"));
                     data.setTag(jsonObject1.getString("tag"));
-                    data.setIs_star(jsonObject1.getInt("is_star"));
+                    data.setTime(jsonObject1.getString("release_time"));
+                    data.setWriter_nickname(jsonObject1.getString("writer_nickname"));
+                    data.setWriter_avatar(jsonObject1.getString("writer_avatar"));
+
+                    final JSONArray jsonArray1=jsonObject1.getJSONArray("pic_list");
+                    if (jsonArray1.length()!=0){
+                        List<String> imglist=new ArrayList<>();
+                        for (int i=0;i<jsonArray1.length();i++){
+                            imglist.add(jsonArray1.getString(i));
+                        }
+                        data.setPic_list(imglist);}
+
                     data.setTypes(2);
                     list.add(data);
 
+                    old_page=jsonObject1.getInt("num_pages");
+
+                   // data.setIs_star(jsonObject1.getInt("is_star"));
+
+
+
+                    JSONArray jsonArray=jsonObject1.getJSONArray("comments");
+                    if (jsonArray.length()>0){
+                        for (int i=0;i<jsonArray.length();i++){
+                            JSONObject jsonObject2=jsonArray.getJSONObject(i);
+                            SquareComment comments=new SquareComment();
+                            comments.setTypes(9);
+                            comments.setContents(jsonObject2.getString("content"));
+                            comments.setIs_like(jsonObject2.getInt("is_like"));
+                            comments.setLike_num(jsonObject2.getInt("like_num"));
+                            comments.setSender_nickname(jsonObject2.getString("sender_nickname"));
+                            comments.setSender_avatar(jsonObject2.getString("sender_avatar"));
+                            comments.setTime(jsonObject2.getString("time"));
+                            list.add(comments);
+                        }
+
+                    }else {
+                        SquareComment comments=new SquareComment();
+                        comments.setTypes(1);
+                        list.add(comments);
+                    }
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -150,7 +200,6 @@ public class SquareDetailsActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
