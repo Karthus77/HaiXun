@@ -57,11 +57,11 @@
             android:textSize="17sp"/>
             
         <Button
-            android:id="@+id/square_btn"
+            android:id="@+id/square_btn_star"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:background="@drawable/collect"
+            android:background="@drawable/collection_no"
             android:layout_marginRight="14dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />

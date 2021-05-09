@@ -229,7 +229,7 @@ button_write.setOnClickListener(new View.OnClickListener() {
                     public void run() {
                         Toast.makeText(getContext(),"网络连接失败，请检查网络连接",Toast.LENGTH_SHORT).show();
 
-                        if (refresh_num==1) {
+                        if (refresh_num==0) {
                             News news = new News();
                             news.setType(0);
                             list.add(news);

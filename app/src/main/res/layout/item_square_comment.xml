@@ -8,7 +8,6 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
-        android:background="@color/blue"
         android:layout_marginTop="9dp"
         android:layout_marginLeft="10dp"/>
     <TextView
