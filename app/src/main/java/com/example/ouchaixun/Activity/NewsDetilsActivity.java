@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
+import com.example.ouchaixun.richtext.publishActivity;
 import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
 
@@ -24,7 +26,7 @@ import okhttp3.Response;
 public class NewsDetilsActivity extends AppCompatActivity {
 
     private int news_id;
-    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDI2NzgsImlhdCI6MTYyMDEzNzg3OCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjJ9fQ.w_aUsshgV0SrA_AU2aCGJ7dMyiCS9F3TNLVFwbckcVk";
+    private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,8 @@ public class NewsDetilsActivity extends AppCompatActivity {
         TextView tv_type=findViewById(R.id.news_detils_type);
         final ImageView img=findViewById(R.id.news_detils_img);
         RichText.initCacheDir(this);
-
+        MyData myData = new MyData(NewsDetilsActivity.this);
+        token = myData.load_token();
         news_id= getIntent().getIntExtra("id",1);
 
 

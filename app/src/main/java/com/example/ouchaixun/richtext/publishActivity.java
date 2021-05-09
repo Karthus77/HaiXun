@@ -14,12 +14,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -28,7 +31,7 @@ import okhttp3.Response;
 public class publishActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8";
-    private String title,content;
+    private String title,content,banner;
     private String  filePath=null, fileName=null;
     /********************View**********************/
     private EditText tv_title;
@@ -112,7 +115,8 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_publish);
-
+        MyData myData = new MyData(publishActivity.this);
+        token = myData.load_token();
         initView();
         initClickListener();
 
@@ -130,12 +134,35 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                         @Override
                         public void onSuccess(Response response) {
 
-                            Log.i("asd",response.body().toString());
+                            try {
+                                JSONObject jsonObject=new JSONObject(response.body().string());
+                                final String msg=jsonObject.getString("msg");
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(publishActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                        if (msg.equals("发布成功")){
+                                            finish();
+                                        }
+                                    }
+                                });
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
                         }
 
                         @Override
                         public void onFail(String error) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
 
+                                    Toast.makeText(publishActivity.this,"网络连接失败，请检查网络连接",Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
                         }
                     });
                 } catch (Exception e) {
@@ -422,9 +449,20 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         else if (id == R.id.tv_main_preview) {//预览
             Intent intent = new Intent(publishActivity.this, WebDataActivity.class);
             intent.putExtra("diarys", mEditor.getHtml());
-            intent.putExtra("title", tv_title.getText());
-         //   intent.putExtra("banner", banner);
-            startActivity(intent);
+            title=tv_title.getText().toString();
+            if (title==null){
+                Toast.makeText(publishActivity.this,"还没有标题呀",Toast.LENGTH_SHORT).show();
+
+            } if(banner==null){
+                Toast.makeText(publishActivity.this,"还没有封面图片",Toast.LENGTH_SHORT).show();
+            } else {
+                intent.putExtra("banner", banner);
+                intent.putExtra("title", tv_title.getText());
+                startActivity(intent);
+            }
+
+
+
         }else if (id == R.id.button_image) {//插入图片
             //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相
             //或者拍照获取图片，传图本地图片路径，也可以将本地图片路径上传到服务器

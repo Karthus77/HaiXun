@@ -176,9 +176,9 @@ public class OKhttpUtils {
                                 .addFormDataPart("title", title)
                                 .addFormDataPart("content", content)
 
-                                .addFormDataPart("banner",fileName,
-                                        RequestBody.create(MediaType.parse("application/octet-stream"),
-                                                new File(filePath)))
+//                                .addFormDataPart("banner",fileName,
+//                                        RequestBody.create(MediaType.parse("application/octet-stream"),
+//                                                new File(filePath)))
                                 .build();
                         Log.i("asd", body.toString());
                         Request request = new Request.Builder()
