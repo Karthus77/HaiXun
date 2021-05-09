@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.ouchaixun.Activity.ChangeInfoActivity;
 import com.example.ouchaixun.Activity.LoginActivity;
 import com.example.ouchaixun.Activity.RegisterActivity;
 import  com.example.ouchaixun.R;
@@ -57,6 +58,7 @@ public class UserCenterFragment extends Fragment {
     private String info;
     private String gender;
     private String avatar;
+    private boolean islog=false;
     public UserCenterFragment() {
         // Required empty public constructor
     }
@@ -100,6 +102,7 @@ public class UserCenterFragment extends Fragment {
         tv_info = view.findViewById(R.id.textView5);
         iv_sex = view.findViewById(R.id.imageView2);
         iv_head_pic = view.findViewById(R.id.imageView8);
+        islog=false;
 
     }
     @Override
@@ -111,23 +114,28 @@ public class UserCenterFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyData myData = new MyData(getContext());
+                if(myData.load_token() != "NO"){
+                    startActivity(new Intent(getActivity(), ChangeInfoActivity.class));
+                }else{
+                    Toast.makeText(getContext(),"请先登录",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         final MyData myData = new MyData(getContext());
         final String my_token = myData.load_token();
-        if (myData.load_xx()) {
+        if (islog) {
             tv_name.setText(myData.load_name());
             tv_info.setText(info);
             Glide.with(getContext()).load(myData.load_pic_url())
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                     .into(iv_head_pic);
-            if(gender=="保密"){
+            if(gender.equals("保密")){
                 iv_sex.setImageResource(R.drawable.no_sex);
-            }else if(gender=="男"){
+            }else if(gender.equals("男")){
                 iv_sex.setImageResource(R.drawable.sex_girl);
             }else{
                 iv_sex.setImageResource(R.drawable.sex_boy);
@@ -191,6 +199,15 @@ public class UserCenterFragment extends Fragment {
                                                     .into(iv_head_pic);
                                             tv_info.setText(info);
                                             myData.save_xx(true);
+                                            Log.d("12334",gender);
+                                            if(gender.equals("保密")){
+                                                iv_sex.setImageResource(R.drawable.no_sex);
+                                            }else if(gender.equals("女")){
+                                                iv_sex.setImageResource(R.drawable.sex_girl);
+                                            }else{
+                                                iv_sex.setImageResource(R.drawable.sex_boy);
+                                            }
+                                            islog=true;
                                         }
                                     });
                                 }
@@ -202,6 +219,12 @@ public class UserCenterFragment extends Fragment {
                 }
             }).start();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
 
     }
 

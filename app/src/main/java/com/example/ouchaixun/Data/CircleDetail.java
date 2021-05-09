@@ -3,23 +3,18 @@ package com.example.ouchaixun.Data;
 import java.util.List;
 
 public class CircleDetail {
+
     /**
-     * data : {"id":1,"writer":1,"title":"test","content":"lllll","release_time":"2021-05-05 10:43:08","like_num":0,"click_num":5,"pic_list":[{"picture":"media/Talk_pic/u41053966379407115fm11gp0.jpg"},{"picture":"media/Talk_pic/2021-05-05_235919.662491.jpg"},{"picture":"media/Talk_pic/2021-05-06_183506.668686.jpg"}],"is_like":0,"comments":[{"id":1,"content":"test","like_num":0,"sender_id":1,"sender_avatar":"/media/avatar/default.png","sender_nickname":"江湖骗子","time":"2021-05-05 10:50:00.997362","is_like":0}],"num_pages":1}
      * code : 200
      * msg : 获取成功
+     * data : [{"release_time":"2021-05-06T22:00:35.658","id":9,"writer":1,"title":"反化联观么计","click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-06T21:54:26.232","id":8,"writer":3,"title":"省得局属任","click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[{"picture":"Talk_pic/2021-05-06_215542.355826.png"}],"is_like":0},{"release_time":"2021-05-05T23:56:08.925","id":7,"writer":1,"title":"11","click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-05T10:51:41.619","id":5,"writer":1,"title":"test5","click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-05T10:45:39.403","id":4,"writer":1,"title":"test4","click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-05T10:45:22.313","id":3,"writer":1,"title":"test2","click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-05T10:43:08.472","id":1,"writer":1,"title":"test","click_num":10,"comment_num":1,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[{"picture":"Talk_pic/u41053966379407115fm11gp0.jpg"},{"picture":"Talk_pic/2021-05-05_235919.662491.jpg"},{"picture":"Talk_pic/2021-05-06_183506.668686.jpg"}],"is_like":1}]
+     * num_pages : 1
      */
 
-    private DataBean data;
     private int code;
     private String msg;
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
+    private int num_pages;
+    private List<DataBean> data;
 
     public int getCode() {
         return code;
@@ -37,32 +32,54 @@ public class CircleDetail {
         this.msg = msg;
     }
 
+    public int getNum_pages() {
+        return num_pages;
+    }
+
+    public void setNum_pages(int num_pages) {
+        this.num_pages = num_pages;
+    }
+
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
     public static class DataBean {
         /**
-         * id : 1
+         * release_time : 2021-05-06T22:00:35.658
+         * id : 9
          * writer : 1
-         * title : test
-         * content : lllll
-         * release_time : 2021-05-05 10:43:08
-         * like_num : 0
-         * click_num : 5
-         * pic_list : [{"picture":"media/Talk_pic/u41053966379407115fm11gp0.jpg"},{"picture":"media/Talk_pic/2021-05-05_235919.662491.jpg"},{"picture":"media/Talk_pic/2021-05-06_183506.668686.jpg"}]
+         * title : 反化联观么计
+         * click_num : 0
+         * comment_num : 0
+         * writer_nickname : 江湖骗子
+         * writer_avatar : /media/avatar/default.png
+         * pic_list : []
          * is_like : 0
-         * comments : [{"id":1,"content":"test","like_num":0,"sender_id":1,"sender_avatar":"/media/avatar/default.png","sender_nickname":"江湖骗子","time":"2021-05-05 10:50:00.997362","is_like":0}]
-         * num_pages : 1
          */
 
+        private String release_time;
         private int id;
         private int writer;
         private String title;
-        private String content;
-        private String release_time;
-        private int like_num;
         private int click_num;
+        private int comment_num;
+        private String writer_nickname;
+        private String writer_avatar;
         private int is_like;
-        private int num_pages;
-        private List<PicListBean> pic_list;
-        private List<CommentsBean> comments;
+        private List<?> pic_list;
+
+        public String getRelease_time() {
+            return release_time;
+        }
+
+        public void setRelease_time(String release_time) {
+            this.release_time = release_time;
+        }
 
         public int getId() {
             return id;
@@ -88,36 +105,36 @@ public class CircleDetail {
             this.title = title;
         }
 
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public String getRelease_time() {
-            return release_time;
-        }
-
-        public void setRelease_time(String release_time) {
-            this.release_time = release_time;
-        }
-
-        public int getLike_num() {
-            return like_num;
-        }
-
-        public void setLike_num(int like_num) {
-            this.like_num = like_num;
-        }
-
         public int getClick_num() {
             return click_num;
         }
 
         public void setClick_num(int click_num) {
             this.click_num = click_num;
+        }
+
+        public int getComment_num() {
+            return comment_num;
+        }
+
+        public void setComment_num(int comment_num) {
+            this.comment_num = comment_num;
+        }
+
+        public String getWriter_nickname() {
+            return writer_nickname;
+        }
+
+        public void setWriter_nickname(String writer_nickname) {
+            this.writer_nickname = writer_nickname;
+        }
+
+        public String getWriter_avatar() {
+            return writer_avatar;
+        }
+
+        public void setWriter_avatar(String writer_avatar) {
+            this.writer_avatar = writer_avatar;
         }
 
         public int getIs_like() {
@@ -128,130 +145,12 @@ public class CircleDetail {
             this.is_like = is_like;
         }
 
-        public int getNum_pages() {
-            return num_pages;
-        }
-
-        public void setNum_pages(int num_pages) {
-            this.num_pages = num_pages;
-        }
-
-        public List<PicListBean> getPic_list() {
+        public List<?> getPic_list() {
             return pic_list;
         }
 
-        public void setPic_list(List<PicListBean> pic_list) {
+        public void setPic_list(List<?> pic_list) {
             this.pic_list = pic_list;
-        }
-
-        public List<CommentsBean> getComments() {
-            return comments;
-        }
-
-        public void setComments(List<CommentsBean> comments) {
-            this.comments = comments;
-        }
-
-        public static class PicListBean {
-            /**
-             * picture : media/Talk_pic/u41053966379407115fm11gp0.jpg
-             */
-
-            private String picture;
-
-            public String getPicture() {
-                return picture;
-            }
-
-            public void setPicture(String picture) {
-                this.picture = picture;
-            }
-        }
-
-        public static class CommentsBean {
-            /**
-             * id : 1
-             * content : test
-             * like_num : 0
-             * sender_id : 1
-             * sender_avatar : /media/avatar/default.png
-             * sender_nickname : 江湖骗子
-             * time : 2021-05-05 10:50:00.997362
-             * is_like : 0
-             */
-
-            private int id;
-            private String content;
-            private int like_num;
-            private int sender_id;
-            private String sender_avatar;
-            private String sender_nickname;
-            private String time;
-            private int is_like;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-
-            public int getLike_num() {
-                return like_num;
-            }
-
-            public void setLike_num(int like_num) {
-                this.like_num = like_num;
-            }
-
-            public int getSender_id() {
-                return sender_id;
-            }
-
-            public void setSender_id(int sender_id) {
-                this.sender_id = sender_id;
-            }
-
-            public String getSender_avatar() {
-                return sender_avatar;
-            }
-
-            public void setSender_avatar(String sender_avatar) {
-                this.sender_avatar = sender_avatar;
-            }
-
-            public String getSender_nickname() {
-                return sender_nickname;
-            }
-
-            public void setSender_nickname(String sender_nickname) {
-                this.sender_nickname = sender_nickname;
-            }
-
-            public String getTime() {
-                return time;
-            }
-
-            public void setTime(String time) {
-                this.time = time;
-            }
-
-            public int getIs_like() {
-                return is_like;
-            }
-
-            public void setIs_like(int is_like) {
-                this.is_like = is_like;
-            }
         }
     }
 }
