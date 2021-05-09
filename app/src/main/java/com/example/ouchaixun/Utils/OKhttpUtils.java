@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -123,9 +124,9 @@ public class OKhttpUtils {
                         JSONObject jsonObject=new JSONObject(json);
 
                         MediaType mediaType = MediaType.parse("application/json");
-                        RequestBody body = RequestBody.create(mediaType, jsonObject.toString());
+                        RequestBody body = RequestBody.create(mediaType,jsonObject.toString() );
 
-                        Log.i("asdqq", jsonObject.toString());
+                     //   Log.i("asdqq", jsonObject.toString());
                         Request request = new Request.Builder()
                                 .url(url)
                                 .post(body)
@@ -148,7 +149,7 @@ public class OKhttpUtils {
 
                         });
 
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -161,7 +162,7 @@ public class OKhttpUtils {
 
 
     // post form数据  token数据
-    public static void post_form(final String token, final String title, final String content,final String banner, final OkhttpCallBack okhttpCallBack) throws JSONException {
+    public static void post_form(final String token, final String title, final String content, final String filePath, final String fileName, final OkhttpCallBack okhttpCallBack) throws JSONException {
 
         try {
             Thread thread=new Thread(new Runnable() {
@@ -174,7 +175,10 @@ public class OKhttpUtils {
                         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                                 .addFormDataPart("title", title)
                                 .addFormDataPart("content", content)
-                                .addFormDataPart("banner", banner)
+
+//                                .addFormDataPart("banner",fileName,
+//                                        RequestBody.create(MediaType.parse("application/octet-stream"),
+//                                                new File(filePath)))
                                 .build();
                         Log.i("asd", body.toString());
                         Request request = new Request.Builder()

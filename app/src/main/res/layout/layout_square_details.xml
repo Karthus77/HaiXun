@@ -49,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="详情"
+            android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:letterSpacing="0.3"
@@ -64,14 +65,7 @@
             android:layout_marginRight="14dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-        <Button
-            android:id="@+id/square_btn2"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/messege"
-            android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@id/square_btn"  />
+
     </RelativeLayout>
 
 
@@ -84,12 +78,12 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/square_myPhoto"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:background="@color/blue"
             />
 
         <EditText

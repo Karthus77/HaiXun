@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,10 @@
     android:orientation="vertical"
     tools:context=".richtext.publishActivity">
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,45 +48,7 @@
 
 
 
-        <RelativeLayout
-            android:id="@+id/publish_TopBar"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:background="@drawable/topbar">
 
-
-            <Button
-                android:id="@+id/news_publish_back"
-                android:layout_width="20dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:background="@drawable/ic_baseline_arrow_back_ios_24"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginStart="22dp"
-                android:layout_marginLeft="22dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="发布新闻"
-                android:textColor="@color/title"
-                android:textSize="17sp"/>
-
-
-            <Button
-                android:id="@+id/publish_news"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:text="发布"
-                android:background="@null"
-                android:layout_marginRight="14dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/publish_layout"
@@ -128,6 +93,7 @@
 
 
 </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/ll_main_color"
@@ -221,35 +187,35 @@
                     style="@style/EditorIcon"
                     android:src="@drawable/button_align_right" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/button_indent"-->
-<!--                    style="@style/EditorIcon"-->
-<!--                    android:src="@mipmap/indent" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/button_indent"-->
+                <!--                    style="@style/EditorIcon"-->
+                <!--                    android:src="@mipmap/indent" />-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/button_outdent"-->
-<!--                    style="@style/EditorIcon"-->
-<!--                    android:src="@mipmap/outdent" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/button_outdent"-->
+                <!--                    style="@style/EditorIcon"-->
+                <!--                    android:src="@mipmap/outdent" />-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/action_blockquote"-->
-<!--                    style="@style/EditorIcon"-->
-<!--                    android:src="@mipmap/blockquote" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/action_blockquote"-->
+                <!--                    style="@style/EditorIcon"-->
+                <!--                    android:src="@mipmap/blockquote" />-->
 
                 <ImageView
                     android:id="@+id/action_strikethrough"
                     style="@style/EditorIcon"
                     android:src="@drawable/button_strikethrough" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/action_superscript"-->
-<!--                    style="@style/EditorIcon"-->
-<!--                    android:src="@mipmap/superscript" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/action_superscript"-->
+                <!--                    style="@style/EditorIcon"-->
+                <!--                    android:src="@mipmap/superscript" />-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/action_subscript"-->
-<!--                    style="@style/EditorIcon"-->
-<!--                    android:src="@mipmap/subscript" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/action_subscript"-->
+                <!--                    style="@style/EditorIcon"-->
+                <!--                    android:src="@mipmap/subscript" />-->
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -266,5 +232,44 @@
             android:textColor="#dd3333"
             android:textSize="18sp" />
     </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/publish_TopBar"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:background="@drawable/topbar">
 
-</LinearLayout>
+
+        <Button
+            android:id="@+id/news_publish_back"
+            android:layout_width="20dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_baseline_arrow_back_ios_24"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginLeft="22dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="发布新闻"
+            android:textColor="@color/title"
+            android:textSize="17sp"/>
+
+
+        <Button
+            android:id="@+id/publish_news"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:text="发布"
+            android:background="@null"
+            android:layout_marginRight="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -20,6 +20,7 @@ import com.example.ouchaixun.Adapter.NewsAdapter;
 import com.example.ouchaixun.Data.News;
 import com.example.ouchaixun.Data.ViewPagerData;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.example.ouchaixun.richtext.publishActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -45,6 +46,7 @@ public class NewsFragment extends Fragment {
     private NewsAdapter adapter;
     private Boolean header=false;
     private int page=1,page_num=1,refresh_num=0;
+    private String token;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,8 @@ public class NewsFragment extends Fragment {
         Button button=getActivity().findViewById(R.id.news_btn_header);
         Button button_write=getActivity().findViewById(R.id.news_btn_write);
         smartRefreshLayout=getActivity().findViewById(R.id.new_smartRefreshLayout);
-
+        MyData myData = new MyData(getContext());
+        token = myData.load_token();
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -247,11 +250,12 @@ button_write.setOnClickListener(new View.OnClickListener() {
 
 
         if (page <page_num) {
-            OKhttpUtils.get("http://47.102.215.61:8888/news/news_list?page=" + page + 1, new OKhttpUtils.OkhttpCallBack() {
+            OKhttpUtils.get("http://47.102.215.61:8888/news/news_list?page=" + (page + 1), new OKhttpUtils.OkhttpCallBack() {
                 @Override
-                public void onSuccess(Response response) throws IOException {
+                public void onSuccess(Response response)  {
 
                     try {
+                        Log.i("asd","http://47.102.215.61:8888/news/news_list?page=" + (page + 1));
                         JSONObject jsonObject0 = new JSONObject(response.body().string());
                         Log.i("asd", jsonObject0.getString("msg"));
                         JSONArray jsonArray = jsonObject0.getJSONArray("news_list");
@@ -274,7 +278,7 @@ button_write.setOnClickListener(new View.OnClickListener() {
                             public void run() {
 
                                 adapter.addData(list);
-                                page=page++;
+                                page++;
                             }
                         });
 

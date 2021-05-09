@@ -1,6 +1,7 @@
 package com.example.ouchaixun.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,10 +30,18 @@ import com.example.ouchaixun.Data.News;
 import com.example.ouchaixun.Data.ViewPagerData;
 import com.example.ouchaixun.Fragment.UserCenterFragment;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
+import com.example.ouchaixun.Utils.OKhttpUtils;
 
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Response;
 
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -142,13 +152,52 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 //////////////////////////////////////////顶部收藏
         if (holder instanceof HeaderHolder) {
+            MyData myData = new MyData(context);
+            String token = myData.load_token();
 
-
-            ((HeaderHolder)holder).setVisibility(list.get(i).getVisibility());
 
             List<News> listheader=new ArrayList<>();
 
 
+            OKhttpUtils.get_token(token, "http://47.102.215.61:8888/self/mystar?page=1", new OKhttpUtils.OkhttpCallBack() {
+                @Override
+                public void onSuccess(Response response)  {
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body().string());
+                        JSONArray jsonArray=jsonObject.getJSONArray("data");
+                        for (int i=0;i<jsonArray.length();i++){
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+                            News news=new News();
+                            //news.setNews_id(jsonObject1.getInt("news_id"));
+
+
+                        }
+
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context,"置",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onFail(String error) {
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context,"网络连接失败，\n请检查网络设置",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
 
 
             for (int j=0;j<10;j++){
@@ -164,6 +213,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             headerAdapter=new HeaderAdapter(context,listheader);
             ((HeaderHolder)holder).recyclerView.setAdapter(headerAdapter);
+
+            ((HeaderHolder)holder).setVisibility(list.get(i).getVisibility());
 
 
 
@@ -243,7 +294,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else {
             return ITEM_NEWS;
         }
-
 
     }
 

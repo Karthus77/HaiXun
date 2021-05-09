@@ -1,17 +1,26 @@
 package com.example.ouchaixun.richtext;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.CaseMap;
 import android.os.Bundle;
 
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 import com.example.ouchaixun.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by ZQiong on 2018/3/20.
@@ -19,6 +28,8 @@ import com.example.ouchaixun.R;
 
 public class WebDataActivity extends AppCompatActivity {
 
+
+    private String title, banner;
 
     //自己制造的一些假数据。外加筛选图片样式
     /****  3333333333 ***************************************************/
@@ -37,12 +48,21 @@ public class WebDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_diarys);
         final String dataStr = getIntent().getStringExtra("diarys");
+        title = getIntent().getStringExtra("title");
+         banner = getIntent().getStringExtra("banner");
         initWebView(dataStr);
+
+
+
+
     }
 
     public void initWebView(String data) {
         WebView mWebView = findViewById(R.id.showdiarys);
         WebSettings settings = mWebView.getSettings();
+        TextView tv_title=findViewById(R.id.show_diarys_title);
+        ImageView img_banner=findViewById(R.id.show_diarys_img);
+        TextView tv_time=findViewById(R.id.show_diarys_time);
 
         //settings.setUseWideViewPort(true);//调整到适合webview的大小，不过尽量不要用，有些手机有问题
         settings.setLoadWithOverviewMode(true);//设置WebView是否使用预览模式加载界面。
@@ -61,7 +81,16 @@ public class WebDataActivity extends AppCompatActivity {
         data = "</Div ><head><style>img{ width:100%   !important;}</style></head>" + data;//给图片设置一个样式，宽满屏
 /******  2222222222  ***********************************************************************/
 
+
+
+
         mWebView.loadDataWithBaseURL(null, data, "text/html", "utf-8", null);
+        String time=getStrTime_NYR(getTime());
+        tv_title.setText(title);
+        tv_time.setText(time.substring(0,10));
+        Glide.with(WebDataActivity.this)
+                .load(banner)
+                .into(img_banner);
     }
 
     /**
@@ -88,5 +117,17 @@ public class WebDataActivity extends AppCompatActivity {
             intent.putExtra("name", name);
             startActivity(intent);
         }
+    }
+    public static String getTime(){
+        long time=System.currentTimeMillis()/1000;//获取系统时间的10位的时间戳
+        String  str=String.valueOf(time);
+        return str;
+    }
+    public static String getStrTime_NYR(String cc_time) {
+        String re_StrTime = null;
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        long lcc_time = Long.parseLong(cc_time);
+        re_StrTime = sdf.format(new Date(lcc_time * 1000L));
+        return re_StrTime;
     }
 }
