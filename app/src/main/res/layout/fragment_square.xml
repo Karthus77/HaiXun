@@ -106,7 +106,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/fragmentsBar"
-        android:id="@+id/squareChild_fragment"></RelativeLayout>
+        android:id="@+id/squareChild_fragment">
+        <ImageView
+            android:id="@+id/publish_square"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@drawable/publish_news"
+            android:layout_marginBottom="19dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp">
+        </ImageView>
+    </RelativeLayout>
 
 
 </RelativeLayout>

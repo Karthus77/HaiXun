@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:background="@drawable/background_box22"
+    android:background="@drawable/background_box"
     android:layout_height="wrap_content">
     <RelativeLayout
+        android:id="@+id/kkk"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_box22">
         <ImageView
             android:id="@+id/comment_userHead"
             android:layout_width="33.33dp"
@@ -56,7 +58,19 @@
             android:layout_alignParentRight="true">
 
         </ImageView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@id/comment_content">
+
+        </RelativeLayout>
+
+
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/kkk"></RelativeLayout>
 
 </RelativeLayout>

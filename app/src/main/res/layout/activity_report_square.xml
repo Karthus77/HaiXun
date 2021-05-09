@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_box"
+    tools:context=".Activity.ReportSquareActivity">
+    <RelativeLayout
+        android:id="@+id/square_topBar"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:background="@drawable/topbar">
+
+
+        <View
+            android:id="@+id/news_btn0"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/haixun"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginLeft="22dp" />
+
+        <Button
+            android:id="@+id/news_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/collect"
+            android:layout_marginRight="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp" />
+        <Button
+            android:id="@+id/news_btn2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/messege"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/news_btn"
+            android:layout_marginEnd="16dp"
+            android:layout_toStartOf="@id/news_btn" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/re1"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/square_topBar"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_box22"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+        <EditText
+            android:id="@+id/title_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textSize="15sp"
+            android:text="输入标题..."
+            android:paddingStart="5dp"
+            android:textColor="#FF888888"
+            android:paddingLeft="10dp" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/re2"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_below="@id/re1"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_box22"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textSize="12sp"
+            android:textColor="#FF888888"
+            android:text="输入内容......"
+            android:gravity="left"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:minLines="10">
+        </EditText>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/re3"
+        android:layout_below="@id/re2"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_box22"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择标签"
+            android:layout_centerVertical="true"
+            android:textSize="12sp"
+            android:textColor="#FF444444"
+            android:layout_marginLeft="5dp"></TextView>
+
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/edit_square_image"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/re3">
+
+    </androidx.recyclerview.widget.RecyclerView>
+    <Button
+        android:id="@+id/report"
+        android:layout_width="match_parent"
+        android:layout_height="46.67dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background_box11"
+        android:layout_marginLeft="10.33dp"
+        android:layout_marginRight="10.33dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="发  布"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"></Button>
+</RelativeLayout>
