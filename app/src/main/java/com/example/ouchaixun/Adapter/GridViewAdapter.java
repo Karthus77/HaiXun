@@ -13,6 +13,10 @@ import com.example.ouchaixun.R;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+
 /**
  * Created by Administrator on 2018/5/11.
  */
@@ -62,7 +66,12 @@ public class GridViewAdapter extends BaseAdapter {
 
         //placeholder()是图片的占位符，网络还没下载下来的时候占着位置
         //centerCrop()缓存
-        Glide.with(context).load(list.get(position)).placeholder(R.mipmap.ic_launcher).centerCrop().into(holder.imageView);
+        Glide.with(context)
+                .load("http://47.102.215.61:8888/" +list.get(position))
+                .placeholder(R.drawable.img_error)
+                .apply(bitmapTransform(new RoundedCornersTransformation(15, 0, RoundedCornersTransformation.CornerType.ALL)))
+                .centerCrop()
+                .into(holder.imageView);
 
 //        /**
 //         * 加载图片
@@ -75,8 +84,6 @@ public class GridViewAdapter extends BaseAdapter {
 
         return convertView;
     }
-
-
 
     public class ViewHolder
     {

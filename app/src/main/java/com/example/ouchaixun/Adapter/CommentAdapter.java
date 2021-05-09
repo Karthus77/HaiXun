@@ -55,7 +55,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         RecyclerView.ViewHolder holder = null;
 
         if (i == ITEM_NO) {
-            itemview = LayoutInflater.from(context).inflate(R.layout.item_nodata, viewGroup, false);
+            itemview = LayoutInflater.from(context).inflate(R.layout.item_nocomment, viewGroup, false);
             holder = new NoHolder(itemview);
         }
         if (i == ITEM_HEADER) {
