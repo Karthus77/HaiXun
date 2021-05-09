@@ -36,13 +36,19 @@
         android:windowSoftInputMode="adjustResize"
         tools:targetApi="n">
         <activity android:name=".Activity.SquareDetailsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".Activity.CircleDetilsActivity" />
         <activity android:name=".Activity.ReportCircleActivity" />
         <activity android:name=".richtext.publishActivity" />
         <activity android:name=".richtext.WebDataActivity" />
-        <activity android:name=".Activity.NewsDetilsActivity" />
+        <activity android:name=".Activity.NewsDetilsActivity" >
+
+        </activity>
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.LoginActivity" >
 
@@ -50,11 +56,7 @@
         <activity android:name=".Activity.ChangePasswordActivity" />
         <activity android:name=".Activity.ChangeInfoActivity" />
         <activity android:name=".Activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

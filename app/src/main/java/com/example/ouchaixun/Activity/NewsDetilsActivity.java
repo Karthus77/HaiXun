@@ -37,8 +37,6 @@ public class NewsDetilsActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-
-
         if (star!=old_star){
             int star_type;
             if (star){
