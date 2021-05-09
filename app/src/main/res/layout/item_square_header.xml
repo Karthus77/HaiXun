@@ -15,10 +15,9 @@
 
         <ImageView
             android:id="@+id/square_photo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_alignParentLeft="true"
-            android:background="@color/blue"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"/>
         <TextView
@@ -29,7 +28,7 @@
             android:layout_toRightOf="@id/square_photo"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="6dp"
-            android:padding="2dp"
+            android:padding="1dp"
             android:text="sflknsf"
             android:textSize="16sp"
             android:textColor="@color/title"
@@ -40,21 +39,52 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/square_writer"
             android:layout_toRightOf="@id/square_photo"
+            android:layout_alignBottom="@id/square_photo"
             android:layout_marginLeft="6dp"
-            android:padding="2dp"
+            android:padding="1dp"
             android:text="2021-5-4"
             android:textSize="14sp"
             />
 
         <TextView
+            android:id="@+id/square_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="arnhguibrnnrnrgnann"
+            android:textSize="17sp"
+            android:textColor="@color/title"
+            android:textStyle="bold"
+            android:gravity="left"
+            android:layout_below="@id/square_time"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="15dp"
+            />
+        <TextView
+            android:id="@+id/square_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:text="arnhguibr\n\nebguargnr\n\ngnnrnrgnann"
-            android:layout_below="@id/square_time"
+            android:layout_below="@id/square_title"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginHorizontal="15dp"
+            />
+
+        <com.example.ouchaixun.Utils.MyGridView
+            android:id="@+id/gridview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/square_content"
+            android:layout_marginBottom="10dp"
+            android:columnWidth="90dp"
+            android:numColumns="auto_fit"
+            android:layout_marginHorizontal="24dp"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
             />
 
 
@@ -72,7 +102,6 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginTop="6dp"
-           android:layout_marginBottom="6dp"
            android:text="评论"
            android:textColor="@color/title"
            android:textSize="16dp"
