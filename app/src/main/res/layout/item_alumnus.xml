@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_box"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_box">
+
     <RelativeLayout
         android:id="@+id/circle_item"
         android:layout_width="match_parent"
@@ -84,6 +84,8 @@
                 android:layout_marginTop="9.67dp"
                 android:textSize="10sp"
                 android:textColor="#888888"></TextView>
+
+
             <ImageView
                 android:id="@+id/circleItem_comment"
                 android:layout_width="22.67dp"
@@ -95,6 +97,21 @@
                 android:layout_marginTop="19.97dp">
 
             </ImageView>
+            <TextView
+                android:id="@+id/comments_num"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/yuan"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="67.33dp"
+                android:layout_below="@id/item_NinePictures"
+                android:layout_marginTop="12dp"
+                android:text="99+"
+                android:textSize="6sp"
+                android:textColor="#FFFFFFFF"
+                android:gravity="center">
+
+            </TextView>
             <ImageView
                 android:id="@+id/circleItem_like"
                 android:layout_width="19.33dp"
@@ -104,6 +121,21 @@
                 android:layout_below="@id/item_NinePictures"
                 android:layout_marginTop="18.33dp"
                 android:layout_marginRight="33.33dp"></ImageView>
+            <TextView
+                android:id="@+id/likes_num"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/yuan"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="21.33dp"
+                android:layout_below="@id/item_NinePictures"
+                android:layout_marginTop="12dp"
+                android:text="99+"
+                android:textSize="6sp"
+                android:textColor="#FFFFFFFF"
+                android:gravity="center">
+
+            </TextView>
             <TextView
                 android:layout_below="@id/circleItem_like"
                 android:layout_width="match_parent"
@@ -119,4 +151,11 @@
     </RelativeLayout>
 
 
-</LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="10dp"
+    android:layout_below="@id/circle_item">
+
+</RelativeLayout>
+
+</RelativeLayout>

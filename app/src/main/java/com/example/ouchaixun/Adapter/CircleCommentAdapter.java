@@ -35,6 +35,10 @@ public class CircleCommentAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewholder = (ViewHolder) holder;
+        viewholder.content.setText(list.get(position).get("content").toString());
+        viewholder.name.setText(list.get(position).get("name").toString());
+        viewholder.time.setText(list.get(position).get("time").toString());
+
     }
 
     @Override

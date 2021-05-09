@@ -1,5 +1,7 @@
 package com.example.ouchaixun.Adapter;
 import com.example.ouchaixun.R;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +19,12 @@ import java.util.Map;
 
 public class NineReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     OnAddPicturesListener listener;
-    private ReportCircleActivity context;
+    private Context context;
     private List<Map<String,Object>> list;
     private View inflater;
     private static final int no = 0;
     private static final int yes = 1;
-    public NineReportAdapter(ReportCircleActivity context, List<Map<String,Object>> list){
+    public NineReportAdapter(Context context, List<Map<String,Object>> list){
         this.context = context;
         this.list = list;
     }
@@ -47,8 +49,8 @@ public class NineReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if(viewType==no)
         {
             inflater= LayoutInflater.from(context).inflate(R.layout.item_addcirclephoto,parent,false);
-            RecyclerView.ViewHolder ViewHolder = new NineReportAdapter.ViewHolder(inflater);
-            return ViewHolder;}
+        RecyclerView.ViewHolder ViewHolder = new NineReportAdapter.ViewHolder(inflater);
+        return ViewHolder;}
         else
         {
             inflater= LayoutInflater.from(context).inflate(R.layout.item_showcirclephoto,parent,false);
