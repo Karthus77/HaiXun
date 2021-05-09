@@ -124,9 +124,9 @@ public class OKhttpUtils {
                         JSONObject jsonObject=new JSONObject(json);
 
                         MediaType mediaType = MediaType.parse("application/json");
-                        RequestBody body = RequestBody.create(mediaType, jsonObject.toString());
+                        RequestBody body = RequestBody.create(mediaType,jsonObject.toString() );
 
-                        Log.i("asdqq", jsonObject.toString());
+                     //   Log.i("asdqq", jsonObject.toString());
                         Request request = new Request.Builder()
                                 .url(url)
                                 .post(body)
@@ -149,7 +149,7 @@ public class OKhttpUtils {
 
                         });
 
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }

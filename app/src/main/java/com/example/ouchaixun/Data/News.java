@@ -4,12 +4,20 @@ import java.util.List;
 
 public class News {
 
-    private int type;
+    private int type,news_type;
     private int news_id;
     private List<ViewPagerData> pager;
     private String title,nickName,img;
     private Boolean visibility,intop;
 
+
+    public void setNews_type(int news_type) {
+        this.news_type = news_type;
+    }
+
+    public int getNews_type() {
+        return news_type;
+    }
 
     public void setIntop(Boolean intop) {
         this.intop = intop;
