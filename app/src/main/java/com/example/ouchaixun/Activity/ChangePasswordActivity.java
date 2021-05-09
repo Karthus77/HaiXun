@@ -55,19 +55,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
         get_password_two = findViewById(R.id.editTextTextPassword2);
         get_verify = findViewById(R.id.editTextNumberSigned);
         get_get_verify = findViewById(R.id.button2);
-        go_change= findViewById(R.id.button4);
-
+        go_change = findViewById(R.id.button4);
 
 
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tp==2){
-                    Intent intent=new Intent(ChangePasswordActivity.this,MainActivity.class);
-                    ChangePasswordActivity.this.startActivity(intent);
+                if (tp == 2) {
+//                    Intent intent=new Intent(ChangePasswordActivity.this,MainActivity.class);
+//                    ChangePasswordActivity.this.startActivity(intent);
                     finish();
-                }else{
-                    Intent intent=new Intent(ChangePasswordActivity.this,LoginActivity.class);
+                } else {
+                    Intent intent = new Intent(ChangePasswordActivity.this, LoginActivity.class);
                     ChangePasswordActivity.this.startActivity(intent);
                     finish();
                 }
@@ -88,12 +87,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             Gson gson = new Gson();
                             ChangePasswordActivity.Myemail myemail = new ChangePasswordActivity.Myemail();
                             myemail.email = email;
-                            myemail.usage = 2;
+                            myemail.type = 2;
 
                             MediaType mediaType = MediaType.parse("text/x-markdown; charset=utf-8");
                             String requestBody = gson.toJson(myemail);
                             Request request = new Request.Builder()
-                                    .url("http://47.102.215.61:8888/reglog/change_pwd")
+                                    .url("http://47.102.215.61:8888/reglog/send_email")
                                     .post(RequestBody.create(mediaType, requestBody))
                                     .build();
 
@@ -109,17 +108,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                     Log.d("1233", response.protocol() + " " + response.code() + " " + response.message());
                                     Headers headers = response.headers();
                                     String responseData = response.body().string();
+                                    Log.d("1233", responseData);
                                     try {
                                         JSONObject jsonObject1 = new JSONObject(responseData);
                                         int code = jsonObject1.getInt("code");
-                                        if (code != 1000) {
+                                        if (code != 200) {
                                             ChangePasswordActivity.this.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     Toast.makeText(ChangePasswordActivity.this, "出错啦，请重试", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-                                        }else {
+                                        } else {
                                             ChangePasswordActivity.this.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -129,7 +129,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
                                                 }
                                             });
-
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -145,40 +144,40 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             }
         });
-
         go_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String password;
                 final String password2;
                 final String email;
-                final String string_verify ;
-                password =get_password_one.getText().toString();
-                password2 =get_password_two.getText().toString();
+                final String string_verify;
+                password = get_password_one.getText().toString();
+                password2 = get_password_two.getText().toString();
                 email = get_email.getText().toString();
-                string_verify  = get_verify.getText().toString();
-                if(!password.equals(password2)){
+                string_verify = get_verify.getText().toString();
+                if (!password.equals(password2)) {
                     Log.d("passw", password);
                     Log.d("passw2", password2);
                     Toast.makeText(ChangePasswordActivity.this, "两次密码输入不一致", Toast.LENGTH_SHORT).show();
-                }else if(!checkPassword(password)){
+                } else if (!checkPassword(password)) {
                     Toast.makeText(ChangePasswordActivity.this, "密码应为6~12位字母或数字！", Toast.LENGTH_SHORT).show();
-                }else if(!checkEmail(email)){
+                } else if (!checkEmail(email)) {
                     Toast.makeText(ChangePasswordActivity.this, "邮箱格式有误！", Toast.LENGTH_SHORT).show();
-                }else if(!checkVerify(string_verify)){
+                } else if (!checkVerify(string_verify)) {
                     Toast.makeText(ChangePasswordActivity.this, "验证码有误！", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-                            String requestBody =  "{\r\n    \"email\": \""+email+"\",\r\n    \"email_code\": \""+string_verify+"\",\r\n    \"new_password\": \""+password+"\"\r\n}";
+                            String requestBody = "{\r\n    \"email\": \"" + email + "\",\r\n    \"email_code\": \"" + string_verify + "\",\r\n    \"new_password\": \"" + password + "\"\r\n}";
+                            Log.d("1233d", requestBody);
                             Request request = new Request.Builder()
-                                    .url("http://122.9.2.27/api/reglog/pwd-recall")
+                                    .url("http://47.102.215.61:8888/reglog/change_pwd")
                                     .post(RequestBody.create(mediaType, requestBody))
                                     .build();
                             OkHttpClient okHttpClient = new OkHttpClient();
-                            Log.d("1233d",request.toString());
+                            Log.d("1233d", request.toString());
                             okHttpClient.newCall(request).enqueue(new Callback() {
                                 @Override
                                 public void onFailure(Call call, IOException e) {
@@ -194,22 +193,27 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                         JSONObject jsonObject1 = new JSONObject(responseData);
                                         int code = jsonObject1.getInt("code");
                                         final String msg = jsonObject1.getString("msg");
-                                        if (code != 1000) {
+                                        if (code != 200) {
                                             ChangePasswordActivity.this.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    Toast.makeText(ChangePasswordActivity.this,msg, Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(ChangePasswordActivity.this, msg, Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-                                        }else {
+                                        } else {
                                             ChangePasswordActivity.this.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    Toast.makeText(ChangePasswordActivity.this,"修改成功！", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(ChangePasswordActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-                                            //startActivity(new Intent(ChangePasswordActivity.this,LoginActivity.class));
-                                            finish();
+                                            if (tp == 2) {
+                                                finish();
+                                            } else {
+                                                Intent intent = new Intent(ChangePasswordActivity.this, LoginActivity.class);
+                                                ChangePasswordActivity.this.startActivity(intent);
+                                                finish();
+                                            }
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -233,21 +237,24 @@ public class ChangePasswordActivity extends AppCompatActivity {
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }
+
     public boolean checkVerify(String str) {
         String regexp = "^[0-9]{6}$";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }
+
     public boolean checkEmail(String str) {
         String regexp = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
         Pattern pattern = Pattern.compile(regexp);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }
+
     public class Myemail {
         public String email;
-        int usage;
+        int type;
     }
 
 }

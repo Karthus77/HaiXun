@@ -19,8 +19,11 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.ouchaixun.Activity.AboutUsActivity;
 import com.example.ouchaixun.Activity.ChangeInfoActivity;
+import com.example.ouchaixun.Activity.ChangePasswordActivity;
 import com.example.ouchaixun.Activity.LoginActivity;
+import com.example.ouchaixun.Activity.MixActivity;
 import com.example.ouchaixun.Activity.RegisterActivity;
 import  com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.MyData;
@@ -114,6 +117,56 @@ public class UserCenterFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
+        collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MixActivity.class);
+                Bundle bd = new Bundle();
+                bd.putString("name", "收藏");
+                bd.putInt("num", 1);
+                intent.putExtras(bd);
+                startActivity(intent);
+            }
+        });
+        change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+                Bundle bd = new Bundle();
+                bd.putInt("type", 2);
+                intent.putExtras(bd);
+                startActivity(intent);
+            }
+        });
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutUsActivity.class);
+            }
+        });
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MixActivity.class);
+                Bundle bd = new Bundle();
+                bd.putString("name", "历史记录");
+                bd.putInt("num", 2);
+                intent.putExtras(bd);
+                startActivity(intent);
+            }
+        });
+        create_center.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MixActivity.class);
+                Bundle bd = new Bundle();
+                bd.putString("name", "创作中心");
+                bd.putInt("num", 3);
+                intent.putExtras(bd);
+                startActivity(intent);
+            }
+        });
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
