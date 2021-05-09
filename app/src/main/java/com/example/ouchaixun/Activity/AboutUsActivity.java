@@ -24,6 +24,7 @@ public class AboutUsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_my_collection);
+        back = findViewById(R.id.imageView);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

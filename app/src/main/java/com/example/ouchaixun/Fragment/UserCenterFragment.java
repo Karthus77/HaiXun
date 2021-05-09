@@ -142,6 +142,7 @@ public class UserCenterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AboutUsActivity.class);
+                startActivity(intent);
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
@@ -189,9 +190,9 @@ public class UserCenterFragment extends Fragment {
             if(gender.equals("保密")){
                 iv_sex.setImageResource(R.drawable.no_sex);
             }else if(gender.equals("男")){
-                iv_sex.setImageResource(R.drawable.sex_girl);
-            }else{
                 iv_sex.setImageResource(R.drawable.sex_boy);
+            }else{
+                iv_sex.setImageResource(R.drawable.sex_girl);
             }
         }
         if (my_token != "NO") {
