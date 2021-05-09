@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         get_username = findViewById(R.id.editTextNumber);
         back = findViewById(R.id.imageView);
 
+
+
         findViewById(R.id.textView10).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
