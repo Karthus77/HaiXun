@@ -156,24 +156,36 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String token = myData.load_token();
 
 
-            List<News> listheader=new ArrayList<>();
+            final List<News> listheader=new ArrayList<>();
+            LinearLayoutManager layoutManager=new LinearLayoutManager(context);
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            ((HeaderHolder)holder).recyclerView.setLayoutManager(layoutManager);
 
-
-            OKhttpUtils.get_token(token, "http://47.102.215.61:8888/self/mystar?page=1", new OKhttpUtils.OkhttpCallBack() {
+            OKhttpUtils.get_token(token, "http://47.102.215.61:8888/self/mystar?page=1&type=1", new OKhttpUtils.OkhttpCallBack() {
                 @Override
                 public void onSuccess(Response response)  {
                     try {
                         JSONObject jsonObject=new JSONObject(response.body().string());
+                        Log.i("asdfff",jsonObject.toString());
                         JSONArray jsonArray=jsonObject.getJSONArray("data");
-                        for (int i=0;i<jsonArray.length();i++){
-                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
-                            News news=new News();
-                            //news.setNews_id(jsonObject1.getInt("news_id"));
 
+                        if (jsonArray.length()>0) {
 
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                News news = new News();
+                                news.setNews_id(jsonObject1.optInt("news_id"));
+                                news.setTitle(jsonObject1.getString("title"));
+                                news.setNickName(jsonObject1.getString("writer_nickname"));
+                                news.setType(9);
+                                listheader.add(news);
+                            }
+
+                        }else {
+                            News news = new News();
+                            news.setType(1);
+                            listheader.add(news);
                         }
-
-
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -183,7 +195,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context,"置",Toast.LENGTH_SHORT).show();
+
+                            headerAdapter=new HeaderAdapter(context,listheader);
+                            ((HeaderHolder)holder).recyclerView.setAdapter(headerAdapter);
+
+//                            Toast.makeText(context,"置",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -193,26 +209,17 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            News news=new News();
+                            news.setType(0);
+                            listheader.add(news);
+                            headerAdapter=new HeaderAdapter(context,listheader);
+                            ((HeaderHolder)holder).recyclerView.setAdapter(headerAdapter);
                             Toast.makeText(context,"网络连接失败，\n请检查网络设置",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             });
 
-
-            for (int j=0;j<10;j++){
-                News news1=new News();
-                news1.setTitle("skjjdsj");
-                Log.i("asd","asdasd");
-                listheader.add(news1);
-            }
-
-            LinearLayoutManager layoutManager=new LinearLayoutManager(context);
-            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            ((HeaderHolder)holder).recyclerView.setLayoutManager(layoutManager);
-
-            headerAdapter=new HeaderAdapter(context,listheader);
-            ((HeaderHolder)holder).recyclerView.setAdapter(headerAdapter);
 
             ((HeaderHolder)holder).setVisibility(list.get(i).getVisibility());
 

@@ -119,6 +119,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
 
                 refresh_num++;
+                page=1;
                 smartRefreshLayout.setEnableLoadMore(true);
                 List<SquareComment> list=new ArrayList<>();
                 GetData(list);
@@ -163,11 +164,9 @@ public class SquareDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (star){
                         star=false;
-                        old_star=false;
                         tostar.setBackgroundResource(R.drawable.collection_no);
                 }else {
                     star=true;
-                    old_star=true;
                     tostar.setBackgroundResource(R.drawable.collect);
                 }
             }
@@ -209,13 +208,9 @@ public class SquareDetailsActivity extends AppCompatActivity {
                     data.setTypes(2);
                     list.add(data);
 
-                    if (jsonObject1.getInt("num_pages")==1){
-                        star=true;
-                        old_star=true;
-                        //tostar.setBackgroundResource(R.drawable.collect);
-                    }
 
-                    data.setIs_star(jsonObject1.getInt("is_star"));
+
+                    final int isStar=jsonObject1.getInt("is_star");
 
 
 
@@ -243,6 +238,12 @@ public class SquareDetailsActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            if (isStar==1){
+                                star=true;
+                                old_star=true;
+                                tostar.setBackgroundResource(R.drawable.collect);
+                            }
                             adapter=new CommentAdapter(SquareDetailsActivity.this,list);
                             recyclerView.setAdapter(adapter);
                         }
