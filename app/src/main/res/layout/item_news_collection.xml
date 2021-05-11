@@ -21,7 +21,8 @@
         android:background="@drawable/official_background"
         android:gravity="center"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="14dp"/>
+        android:layout_marginStart="14dp"
+        android:layout_marginLeft="14dp" />
 
     <TextView
         android:id="@+id/news_header_official"
@@ -37,7 +38,9 @@
         android:layout_toEndOf="@id/news_header_intop"
         android:layout_alignWithParentIfMissing="true"
         android:layout_marginStart="10dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:layout_toRightOf="@id/news_header_intop"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/news_header_title"
@@ -54,7 +57,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="14dp"
         android:layout_toStartOf="@+id/news_img"
-        />
+        android:layout_toLeftOf="@+id/news_img"
+        android:layout_marginLeft="14dp" />
 
 
     <TextView
@@ -72,7 +76,8 @@
         android:layout_marginBottom="8dp"
         android:text="由于原因，部分教室不再开放预约通道，先......"
         android:textSize="10sp"
-         />
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="10dp" />
 
 
 

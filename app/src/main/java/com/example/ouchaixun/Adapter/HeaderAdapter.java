@@ -80,10 +80,14 @@ public class HeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-//        ((Holder) holder).intop.setText("置顶");
-//        ((Holder) holder).intop.setTextColor(context.getResources().getColor(R.color.orange));
-//        ((Holder) holder).intop.setBackgroundResource(R.drawable.intop);
-//        ((Holder) holder).official.setVisibility(View.VISIBLE);
+            ((Holder) holder).title.setText(list.get(i).getTitle());
+            ((Holder) holder).writer.setText(list.get(i).getNickName());
+
+
+        ((Holder) holder).intop.setText("收藏");
+        ((Holder) holder).intop.setTextColor(context.getResources().getColor(R.color.orange));
+        ((Holder) holder).intop.setBackgroundResource(R.drawable.intop);
+        ((Holder) holder).official.setVisibility(View.VISIBLE);
 
         }
     }
@@ -125,11 +129,13 @@ public class HeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public class Holder extends RecyclerView.ViewHolder {
 
 
-        TextView intop,official;
+        TextView intop,official,title,writer;
         public Holder(@NonNull View itemView) {
             super(itemView);
             intop=itemView.findViewById(R.id.news_header_intop);
             official=itemView.findViewById(R.id.news_header_official);
+            title=itemView.findViewById(R.id.news_header_title);
+            writer=itemView.findViewById(R.id.news_header_hint);
 
 
         }
