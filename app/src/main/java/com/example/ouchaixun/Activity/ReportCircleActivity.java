@@ -2,7 +2,6 @@ package com.example.ouchaixun.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -30,9 +28,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ouchaixun.Adapter.NineReportAdapter;
 import com.example.ouchaixun.Adapter.OnAddPicturesListener;
+import com.example.ouchaixun.Data.Circleback;
+import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
 import com.google.gson.Gson;
 
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -49,6 +51,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+class  circle_upload{
+    String content;
+    String id_list;
+}
 
 public class ReportCircleActivity extends AppCompatActivity {
     private ImageView back;
@@ -112,20 +118,32 @@ public class ReportCircleActivity extends AppCompatActivity {
                         try {
                             OkHttpClient client = new OkHttpClient().newBuilder()
                                     .build();
-                            MediaType mediaType = MediaType.parse("text/plain");
+                            MediaType mediaType = MediaType.parse("multipart/form-data");
                             RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                    .addFormDataPart("img",selectPhoto,
+                                    .addFormDataPart("picture",selectPhoto,
                                             RequestBody.create(MediaType.parse("application/octet-stream"),
                                                     new File(selectPhoto)))
-                                    .addFormDataPart("type", "2")
+                                    .addFormDataPart("type", "1")
                                     .build();
                             Request request = new Request.Builder()
-                                    .url("http://122.9.2.27/api/img-upload")
+                                    .url("http://47.102.215.61:8888/whole/picture")
                                     .method("POST", body)
-                                    .addHeader("Authorization", token)
+                                    .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8")
+                                    .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
                                     .build();
-
                             Response response = client.newCall(request).execute();
+                            String responseData = response.body().string();
+                            Gson gson=new Gson();
+                            picback picback =gson.fromJson(responseData, com.example.ouchaixun.Data.picback.class);
+                            String url=picback.getPic_url();
+                            int id=picback.getPic_id();
+                            int size=list.size();
+                            list.remove(size-1);
+                            Map<String,Object> map=new HashMap<>();
+                            map.put("type",1);
+                            map.put("uri",url);
+                            list.add(map);
+                            IdList.add(String.valueOf(id));
                             if(list.size()!=9) {
                                 Map<String, Object> map2 = new HashMap<>();
                                 map2.put("type", 1);
@@ -133,13 +151,13 @@ public class ReportCircleActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 nineReportAdapter.notifyDataSetChanged();
                             }
                         });
+
 
                     }
                 });
@@ -285,14 +303,26 @@ public class ReportCircleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_circle);
+
+
         back=findViewById(R.id.report_back);
         recyclerView=findViewById(R.id.edit_image);
+        nineReportAdapter=new NineReportAdapter(ReportCircleActivity.this,list);
+        GridLayoutManager manager=new GridLayoutManager(this,3){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+
         edit_content=findViewById(R.id.report_content);
         post=findViewById(R.id.report);
         Map<String,Object> map=new HashMap<>();
         map.put("type",1);
         list.add(map);
-        nineReportAdapter=new NineReportAdapter(ReportCircleActivity.this,list);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(nineReportAdapter);
+
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
@@ -302,6 +332,13 @@ public class ReportCircleActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         nineReportAdapter.setOnAddPicturesListener(new OnAddPicturesListener() {
             @Override
             public void onAdd() {
@@ -342,20 +379,77 @@ public class ReportCircleActivity extends AppCompatActivity {
             }
 
         });
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        recyclerView.setAdapter(nineReportAdapter);
-        GridLayoutManager manager=new GridLayoutManager(this,3){
+        post.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean canScrollVertically() {
-                return false;
+            public void onClick(View v) {
+                if(edit_content.getText().toString().equals(""))
+                {
+                    Toast.makeText(ReportCircleActivity.this,"内容不能为空",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    String ids=IdList.toString();
+                    String content=edit_content.getText().toString();
+                    String s=ids.substring(1,ids.length()-1);
+                    final Gson gson1=new Gson();
+                    final String img_ids="["+s+"]";
+                    final circle_upload circle_upload=new circle_upload();
+                    circle_upload.content=content;
+                    circle_upload.id_list=img_ids;
+                    final String a=gson1.toJson(circle_upload);
+                    Thread thread=new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            OkHttpClient client = new OkHttpClient().newBuilder()
+                                    .build();
+                            MediaType mediaType = MediaType.parse("application/json");
+                            RequestBody body = RequestBody.create(mediaType,a);
+                            Request request = new Request.Builder()
+                                    .url("http://47.102.215.61:8888/school/release_talk")
+                                    .method("POST", body)
+                                    .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8")
+                                    .build();
+                            try {
+                                Response response = client.newCall(request).execute();
+                                String responseData = response.toString();
+                                Gson gson=new Gson();
+                                Circleback circleback=gson.fromJson(responseData,Circleback.class);
+                                final int code=circleback.getCode();
+                                final String tip=circleback.getMsg();
+                                {
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(code==200)
+                                            {
+                                                Toast.makeText(ReportCircleActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                            else
+                                            {
+                                                Toast.makeText(ReportCircleActivity.this,tip,Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        }
+                                    });
+
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(ReportCircleActivity.this,"网络连接好像断开了哦",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    thread.start();
+                }
             }
-        };
-        recyclerView.setLayoutManager(manager);
+        });
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.ouchaixun.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.ouchaixun.Activity.ReportSquareActivity;
 import com.example.ouchaixun.R;
 
 
@@ -20,6 +22,7 @@ public class SquareFragment extends Fragment {
     private ImageView table;
     private ImageView bullshit;
     private ImageView treehole;
+    private ImageView post;
     private SquareWallFragment squareWallFragment=new SquareWallFragment();
     private SquareCarFragment squareCarFragment=new SquareCarFragment();
     private SquareTableFragment squareTableFragment=new SquareTableFragment();
@@ -85,6 +88,7 @@ public class SquareFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         wall=view.findViewById(R.id.square_wall);
+        post=view.findViewById(R.id.publish_square);
         table=view.findViewById(R.id.square_table);
         carpool=view.findViewById(R.id.square_carpool);
         bullshit=view.findViewById(R.id.square_bullshit);
@@ -117,6 +121,13 @@ public class SquareFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 chooseFragment(squareBullshitFragment,bullshit);
+            }
+        });
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ReportSquareActivity.class);
+                startActivity(intent);
             }
         });
     }

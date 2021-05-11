@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.ouchaixun.Activity.SquareDetailsActivity;
 import com.example.ouchaixun.Adapter.NewsAdapter;
 import com.example.ouchaixun.Data.News;
 import com.example.ouchaixun.Data.ViewPagerData;
@@ -81,6 +82,7 @@ public class NewsFragment extends Fragment {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 refresh_num++;
+                page=1;
                 smartRefreshLayout.setEnableLoadMore(true);
                 List<News> list=new ArrayList<>();
                 GetFirst(list);
@@ -123,6 +125,14 @@ button_write.setOnClickListener(new View.OnClickListener() {
     }
 });
 
+
+
+getActivity().findViewById(R.id.news_msg).setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        startActivity(new Intent(getActivity(), SquareDetailsActivity.class));
+    }
+});
     }
 
 
