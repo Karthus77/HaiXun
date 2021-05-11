@@ -114,6 +114,12 @@ public class RegisterActivity extends AppCompatActivity {
                                             });
                                         }
                                     } catch (JSONException e) {
+                                        RegisterActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(RegisterActivity.this, "无连接网络", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                         e.printStackTrace();
                                     }
                                     for (int i = 0; i < headers.size(); i++) {
@@ -204,6 +210,12 @@ public class RegisterActivity extends AppCompatActivity {
                                             finish();
                                         }
                                     } catch (JSONException e) {
+                                        RegisterActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(RegisterActivity.this, "无连接网络", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                         e.printStackTrace();
                                     }
                                     for (int i = 0; i < headers.size(); i++) {
