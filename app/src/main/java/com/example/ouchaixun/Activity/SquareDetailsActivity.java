@@ -149,7 +149,52 @@ public class SquareDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onTextSend(String msg) {
                         //点击发送按钮后，回调此方法，msg为输入的值
-                        String json="{\"content\": \""+msg+"\"}";
+                        final String json= " { \"content\":"+msg+" ,\"type\":2 ,\"id\":"+passage_id+" }";
+
+                        try {
+                            OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/comment", json, new OKhttpUtils.OkhttpCallBack() {
+                                @Override
+                                public void onSuccess(Response response)  {
+
+                                    try {
+                                        final JSONObject jsonObject=new JSONObject(response.body().string());
+
+                                        final String msg=jsonObject.getString("msg");
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (msg.equals("发布成功")){
+                                                    Toast.makeText(SquareDetailsActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                                    inputTextMsgDialog.clearText();
+                                                    inputTextMsgDialog.dismiss();
+                                                    refresh_num++;
+                                                    page=1;
+                                                    smartRefreshLayout.setEnableLoadMore(true);
+                                                    List<SquareComment> list=new ArrayList<>();
+                                                    GetData(list);
+                                                }
+
+                                            }
+                                        });
+
+                                        Log.i("asdf",jsonObject.toString());
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFail(String error) {
+
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
 
                     }
                 });
@@ -209,8 +254,24 @@ public class SquareDetailsActivity extends AppCompatActivity {
                     list.add(data);
 
 
+                    if (refresh_num==0){
+                        final int isStar=jsonObject1.getInt("is_star");
 
-                    final int isStar=jsonObject1.getInt("is_star");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (isStar==1){
+                                    star=true;
+                                    old_star=true;
+                                    tostar.setBackgroundResource(R.drawable.collect);
+                                }
+
+                            }
+                        });
+
+                    }
+
+
 
 
 
@@ -239,11 +300,6 @@ public class SquareDetailsActivity extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            if (isStar==1){
-                                star=true;
-                                old_star=true;
-                                tostar.setBackgroundResource(R.drawable.collect);
-                            }
                             adapter=new CommentAdapter(SquareDetailsActivity.this,list);
                             recyclerView.setAdapter(adapter);
                         }
