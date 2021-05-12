@@ -46,7 +46,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
     private String token,photo;
     private int page=1,old_page=1,refresh_num=0;
 
-    private int passage_id=5;
+    private int passage_id=3;
     private RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
     private CommentAdapter adapter;
@@ -119,7 +119,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
 
                 refresh_num++;
-                page=1;
+                page=1;old_page=1;
                 smartRefreshLayout.setEnableLoadMore(true);
                 List<SquareComment> list=new ArrayList<>();
                 GetData(list);
@@ -222,7 +222,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
 
 
     private void GetData(final List<SquareComment> list){
-        OKhttpUtils.get_token(token, "http://47.102.215.61:8888/passage/"+passage_id+"/detail?page="+page, new OKhttpUtils.OkhttpCallBack() {
+        OKhttpUtils.get_token(token, "http://47.102.215.61:8888/passage/"+passage_id+"/detail?page=1", new OKhttpUtils.OkhttpCallBack() {
             @SuppressLint("ResourceType")
             @Override
             public void onSuccess(Response response)  {
@@ -232,7 +232,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
                     Log.i("asddd",jsonObject.toString());
                     JSONObject jsonObject1=jsonObject.optJSONObject("data");
                     SquareComment data=new SquareComment();
-                    data.setPassage_id(jsonObject1.getInt("id"));
+                    data.setPassage_id(passage_id);
                     data.setTitles(jsonObject1.getString("title"));
                     data.setContents(jsonObject1.getString("content"));
                     data.setTag(jsonObject1.getString("tag"));
@@ -240,6 +240,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
                     data.setWriter_nickname(jsonObject1.getString("writer_nickname"));
                     data.setWriter_avatar(jsonObject1.getString("writer_avatar"));
 
+                    old_page=jsonObject1.getInt("num_pages");
                     final JSONArray jsonArray1=jsonObject1.getJSONArray("pic_list");
                     if (jsonArray1.length()!=0){
                         List<String> imglist=new ArrayList<>();
@@ -271,10 +272,6 @@ public class SquareDetailsActivity extends AppCompatActivity {
 
                     }
 
-
-
-
-
                     JSONArray jsonArray=jsonObject1.getJSONArray("comments");
                     if (jsonArray.length()>0){
                         for (int i=0;i<jsonArray.length();i++){
@@ -283,10 +280,20 @@ public class SquareDetailsActivity extends AppCompatActivity {
                             comments.setTypes(9);
                             comments.setContents(jsonObject2.getString("content"));
                             comments.setIs_like(jsonObject2.getInt("is_like"));
+                            comments.setId(jsonObject2.getInt("id"));
                             comments.setLike_num(jsonObject2.getInt("like_num"));
                             comments.setSender_nickname(jsonObject2.getString("sender_nickname"));
                             comments.setSender_avatar(jsonObject2.getString("sender_avatar"));
                             comments.setTime(jsonObject2.getString("time"));
+                            comments.setIs_reply(jsonObject2.getInt(  "is_reply"));
+                            if (jsonObject2.getInt(  "is_reply")==1){
+                                JSONObject jsonObject3=jsonObject2.getJSONObject("original_comment");
+
+                                comments.setReply_avatar(jsonObject3.getString("sender_avatar"));
+                                comments.setReply_content(jsonObject3.getString("content"));
+                                comments.setReply_nickname(jsonObject3.getString("sender_nickname"));
+                                comments.setReply_time(jsonObject3.getString("time"));
+                            }
                             list.add(comments);
                         }
 
@@ -300,7 +307,8 @@ public class SquareDetailsActivity extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            adapter=new CommentAdapter(SquareDetailsActivity.this,list);
+                            adapter=new CommentAdapter(SquareDetailsActivity.this,list,passage_id);
+                            recyclerView.setItemViewCacheSize(10000);
                             recyclerView.setAdapter(adapter);
                         }
                     });
@@ -325,7 +333,8 @@ public class SquareDetailsActivity extends AppCompatActivity {
                             SquareComment comments=new SquareComment();
                             comments.setTypes(0);
                             list.add(comments);
-                            adapter = new CommentAdapter(SquareDetailsActivity.this, list);
+                            adapter = new CommentAdapter(SquareDetailsActivity.this, list,passage_id);
+                            recyclerView.setItemViewCacheSize(10000);
                             recyclerView.setAdapter(adapter);
                         }
                     }
@@ -339,7 +348,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
     private void GetComment(final List<SquareComment> list){
 
         if (page<old_page) {
-            OKhttpUtils.get_token(token, "http://47.102.215.61:8888/passage/" + passage_id + "/detail?page=" + page++, new OKhttpUtils.OkhttpCallBack() {
+            OKhttpUtils.get_token(token, "http://47.102.215.61:8888/passage/" + passage_id + "/detail?page=" + (page+1), new OKhttpUtils.OkhttpCallBack() {
                 @Override
                 public void onSuccess(Response response) {
                     try {
@@ -354,12 +363,26 @@ public class SquareDetailsActivity extends AppCompatActivity {
                                 JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                                 SquareComment comments = new SquareComment();
                                 comments.setTypes(9);
+                                comments.setId(jsonObject2.getInt("id"));
                                 comments.setContents(jsonObject2.getString("content"));
                                 comments.setIs_like(jsonObject2.getInt("is_like"));
                                 comments.setLike_num(jsonObject2.getInt("like_num"));
+
                                 comments.setSender_nickname(jsonObject2.getString("sender_nickname"));
                                 comments.setSender_avatar(jsonObject2.getString("sender_avatar"));
                                 comments.setTime(jsonObject2.getString("time"));
+                                comments.setIs_reply(jsonObject2.getInt(  "is_reply"));
+                                if (jsonObject2.getInt(  "is_reply")==1){
+
+                                    JSONObject jsonObject3=jsonObject2.getJSONObject("original_comment");
+
+                                    comments.setReply_avatar(jsonObject3.getString("sender_avatar"));
+                                    comments.setReply_content(jsonObject3.getString("content"));
+                                    comments.setReply_nickname(jsonObject3.getString("sender_nickname"));
+                                    comments.setReply_time(jsonObject3.getString("time"));
+                                }
+
+
                                 list.add(comments);
                             }
 
@@ -372,8 +395,8 @@ public class SquareDetailsActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                adapter = new CommentAdapter(SquareDetailsActivity.this, list);
-                                recyclerView.setAdapter(adapter);
+                                page=page+1;
+                                adapter.addData(list);
                             }
                         });
 
@@ -395,8 +418,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
                                 SquareComment comments = new SquareComment();
                                 comments.setTypes(0);
                                 list.add(comments);
-                                adapter = new CommentAdapter(SquareDetailsActivity.this, list);
-                                recyclerView.setAdapter(adapter);
+                                adapter .addData(list);
                             }
                         }
                     });
