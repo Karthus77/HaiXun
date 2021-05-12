@@ -3,11 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:background="@drawable/background_box"
     android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#FFE8E8E8"
+        android:id="@+id/topbar">
+    </TextView>
     <RelativeLayout
         android:id="@+id/kkk"
+        android:layout_below="@id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_box22">
+
         <ImageView
             android:id="@+id/comment_userHead"
             android:layout_width="33.33dp"
@@ -68,9 +76,6 @@
 
 
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_below="@id/kkk"></RelativeLayout>
+
 
 </RelativeLayout>

@@ -11,7 +11,7 @@
         android:id="@+id/tv_camera"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/background_box22"
         android:gravity="center"
         android:text="拍摄"
         android:textColor="#CC000000"
@@ -42,5 +42,6 @@
         android:textColor="#CC000000"
 
         android:textSize="16sp" />
+
 
 </LinearLayout>

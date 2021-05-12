@@ -35,6 +35,18 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int ITEM_NEWS =1;
     private static final int ITEM_ERROR =2;
     private static final int ITEM_NO =3;
+    public void setNumber(TextView textView,String num)
+    {
+        if(Integer.parseInt(num)>99)
+        {
+            textView.setText("99+");
+        }
+        else
+        {
+            textView.setText(num);
+        }
+    }
+
     public CircleAdapter(Context context, List<Map<String,Object>> list){
         this.context = context;
         this.list = list;
@@ -65,11 +77,11 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             piclist.add(map);
         }
         viewholder.time.setText(time);
-        viewholder.comments.setText(comment);
-        viewholder.likes.setText(like);
+        setNumber(viewholder.comments,comment);
+        setNumber(viewholder.likes,like);
         viewholder.content.setText(content);
         viewholder.name.setText(name);
-        Glide.with(context).load(list.get(position).get("head")).into(viewholder.head);
+        Glide.with(context).load(head).into(viewholder.head);
         circleShowAdapter=new CircleShowAdapter(context,piclist);
         GridLayoutManager manager=new GridLayoutManager(context,3){
             @Override
