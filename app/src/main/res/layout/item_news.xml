@@ -83,6 +83,7 @@
         android:id="@+id/news_img"
         android:layout_width="118dp"
         android:layout_height="82dp"
+        android:scaleType="fitXY"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:layout_centerVertical="true"

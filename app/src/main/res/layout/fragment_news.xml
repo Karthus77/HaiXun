@@ -56,7 +56,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
         <Button
-            android:id="@+id/news_btn2"
+            android:id="@+id/news_msg"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"

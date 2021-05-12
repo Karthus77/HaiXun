@@ -138,6 +138,12 @@ public class LoginActivity extends AppCompatActivity {
                                             startActivity(intent);
                                         }
                                     } catch (JSONException e) {
+                                        LoginActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(LoginActivity.this, "无连接网络", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                         e.printStackTrace();
                                     }
                                     for (int i = 0; i < headers.size(); i++) {

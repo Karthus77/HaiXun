@@ -27,9 +27,29 @@ public class SquareComment {
      * writer_avatar : /media/avatar/default.png
      * pic_list : []
      */
+
+
     private String writer_nickname;
     private String writer_avatar;
     private List<String> pic_list;
+    /**
+     * id : 2
+     * is_reply : 0
+     */
+    private int id;
+    private int is_reply;
+    /**
+     * reply_time : 2021-05-11 22:46:03
+     * reply_nickname : 江湖
+     * reply_avatar : /media/avatar/default.png
+     * reply_content : 个哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+     * reply_sender : 7
+     */
+    private String reply_time;
+    private String reply_nickname;
+    private String reply_avatar;
+    private String reply_content;
+    private int reply_sender;
 
 
     public void setIs_star(int is_star) {
@@ -160,5 +180,61 @@ public class SquareComment {
 
     public List<String> getPic_list() {
         return pic_list;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setIs_reply(int is_reply) {
+        this.is_reply = is_reply;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getIs_reply() {
+        return is_reply;
+    }
+
+    public void setReply_time(String reply_time) {
+        this.reply_time = reply_time;
+    }
+
+    public void setReply_nickname(String reply_nickname) {
+        this.reply_nickname = reply_nickname;
+    }
+
+    public void setReply_avatar(String reply_avatar) {
+        this.reply_avatar = reply_avatar;
+    }
+
+    public void setReply_content(String reply_content) {
+        this.reply_content = reply_content;
+    }
+
+    public void setReply_sender(int reply_sender) {
+        this.reply_sender = reply_sender;
+    }
+
+    public String getReply_time() {
+        return reply_time;
+    }
+
+    public String getReply_nickname() {
+        return reply_nickname;
+    }
+
+    public String getReply_avatar() {
+        return reply_avatar;
+    }
+
+    public String getReply_content() {
+        return reply_content;
+    }
+
+    public int getReply_sender() {
+        return reply_sender;
     }
 }

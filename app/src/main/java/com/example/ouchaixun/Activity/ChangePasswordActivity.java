@@ -131,6 +131,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                             });
                                         }
                                     } catch (JSONException e) {
+                                        ChangePasswordActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(ChangePasswordActivity.this, "无连接网络", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                         e.printStackTrace();
                                     }
                                     for (int i = 0; i < headers.size(); i++) {
@@ -216,6 +222,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                             }
                                         }
                                     } catch (JSONException e) {
+                                        ChangePasswordActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(ChangePasswordActivity.this, "无连接网络", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                         e.printStackTrace();
                                     }
                                     for (int i = 0; i < headers.size(); i++) {
