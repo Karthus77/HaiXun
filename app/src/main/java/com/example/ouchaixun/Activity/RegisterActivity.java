@@ -11,6 +11,7 @@ package com.example.ouchaixun.Activity;
         import android.widget.CheckBox;
         import android.widget.EditText;
         import android.widget.ImageView;
+        import android.widget.TextView;
         import android.widget.Toast;
 
         import com.example.ouchaixun.R;
@@ -58,6 +59,13 @@ public class RegisterActivity extends AppCompatActivity {
         iv_back = findViewById(R.id.imageView);
         final CheckBox checkBox = findViewById(R.id.checkBox);//复选框
 
+
+        findViewById(R.id.agreement).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, AgreementActivity.class));
+            }
+        });
         get_get_verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

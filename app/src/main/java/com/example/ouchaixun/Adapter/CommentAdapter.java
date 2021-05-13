@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Response;
 
@@ -47,6 +48,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int ITEM_COMMENT = 1;
     private static final int ITEM_ERROR = 2;
     private static final int ITEM_NO = 3;
+    //全局定义
+    private long lastClickTime = 0L;
+    // 两次点击间隔不能少于1000ms
+    private static final int FAST_CLICK_DELAY_TIME = 1000;
 
 
     public CommentAdapter(Context context, List<SquareComment> list,int passage_id) {
@@ -122,11 +127,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                     .error(R.drawable.img_error)
                     .into( ((sCommentHolder)holder).photo);
-            int islike=list.get(i).getIs_like();
+            final int islike=list.get(i).getIs_like();
+            final int[] like = {1};
             if (islike==1){
+                like[0] =2;
                 ((sCommentHolder)holder).like.setBackgroundResource(R.drawable.like_fill);
                 Log.i("qwe","asd");
-               // ((sCommentHolder)holder).like.setClickable(false);
+                ((sCommentHolder)holder).like.setClickable(false);
             }
             if (list.get(i).getIs_reply()==1){
 
@@ -144,18 +151,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
 
-
-
-
-
             ((sCommentHolder)holder).like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    if (System.currentTimeMillis() - lastClickTime >= FAST_CLICK_DELAY_TIME) {
+
+
                     MyData myData = new MyData(context);
                     final String token = myData.load_token();
 
-                    String json="{\"type\": 3,\"id\": "+list.get(i).getId()+",\"action\": 1}";
+                    String json="{\"type\": 3,\"id\": "+list.get(i).getId()+",\"action\": "+ like[0] +"}";
                     try {
                         OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/like", json, new OKhttpUtils.OkhttpCallBack() {
                             @Override
@@ -165,18 +171,34 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                     Log.i("asd",jsonObject.getString("msg"));
 
-                                    if (jsonObject.getString("msg").equals("点赞成功")){
+                                    final String msg=jsonObject.getString("msg");
 
                                         ((Activity)context).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-//                                                ((sCommentHolder)holder).like.setBackgroundResource(R.drawable.like_fill);
-//                                                ((sCommentHolder)holder).like.setClickable(false);
-//                                                ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+1+"");
+
+                                                if (msg.equals("点赞成功")){
+
+                                                    if (islike==1){
+                                                        ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+"");
+                                                    }else {
+                                                        ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+1+"");
+                                                    }
+                                                ((sCommentHolder)holder).like.setBackgroundResource(R.drawable.like_fill);
+                                                like[0] =2;
+                                                }else {
+                                                    if (islike==1){
+                                                        ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()-1+"");
+                                                    }else {
+                                                        ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+"");
+                                                    }
+                                                    ((sCommentHolder)holder).like.setBackgroundResource(R.drawable.circle_like);
+                                                    like[0] =1;
+                                                }
                                             }
                                         });
 
-                                    }
+
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -191,6 +213,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                        lastClickTime = System.currentTimeMillis();
+                }else {
+
+                        Toast.makeText(context,"点击频繁，请稍后再试",Toast.LENGTH_SHORT).show();
+                    }
+
 
                 }
             });
@@ -201,65 +229,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public boolean onLongClick(View v) {
 
-
-                    MyData myData = new MyData(context);
-                    final String token = myData.load_token();
-                    final InputTextMsgDialog inputTextMsgDialog = new InputTextMsgDialog(context, R.style.dialog_center);
-                    inputTextMsgDialog.setmOnTextSendListener(new InputTextMsgDialog.OnTextSendListener() {
-                        @Override
-                        public void onTextSend(String msg) {
-                            //点击发送按钮后，回调此方法，msg为输入的值
-                            final String json= " { \"content\":"+msg+" ,\"type\":2 ,\"id\":"+passage_id+",\"original_com_id\":"+list.get(i).getId()+" }";
-
-                            Log.i("asd",json);
-                            try {
-                                OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/comment", json, new OKhttpUtils.OkhttpCallBack() {
-                                    @Override
-                                    public void onSuccess(Response response)  {
-
-                                        try {
-                                            final JSONObject jsonObject=new JSONObject(response.body().string());
-
-                                            final String msg=jsonObject.getString("msg");
-
-                                            Log.i("asd",msg);
-                                            ((Activity)context).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    if (msg.equals("发布成功")){
-                                                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
-                                                        inputTextMsgDialog.clearText();
-                                                        inputTextMsgDialog.dismiss();
-
-
-                                                    }
-
-                                                }
-                                            });
-
-                                            Log.i("asdf",jsonObject.toString());
-
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onFail(String error) {
-
-                                    }
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-
-                        }
-                    });
-                    //设置评论字数
-                    inputTextMsgDialog.setMaxNumber(50);
-                    inputTextMsgDialog .show();
+                    listener.onItemClick(i);
 
                     return true;
                 }
@@ -340,6 +310,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
     }
+
+    //声明接口
+    private ItemClickListener listener;
+    //set方法
+    public void setListener(ItemClickListener listener) {
+        this.listener = listener;
+    }
+    //定义接口
+    public interface ItemClickListener{
+        //实现点击的方法，传递条目下标
+        void onItemClick(int position);
+    }
+
+
 
 
 }

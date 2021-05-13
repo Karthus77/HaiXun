@@ -20,6 +20,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -392,22 +393,28 @@ public class ReportCircleActivity extends AppCompatActivity {
                     String content=edit_content.getText().toString();
                     String s=ids.substring(1,ids.length()-1);
                     final String img_ids="["+s+"]";
-                    final String a="{"+"\"content\""+":"+content+","+"\"id_list\""+":"+img_ids+"}";
-                    String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8";
+                    final String a="{\"content\":"+content+",\"id_list\":\"1\"}";
+                    String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjE0OTE4MzQsImlhdCI6MTYyMDg4NzAzNCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjZ9fQ.AoOgYQG2lWydzRb5hv_SZYrXPbW0VrX8cGrdYFndXxc";
                     try {
                         OKhttpUtils.post_json(token,"http://47.102.215.61:8888/school/release_talk",a, new OKhttpUtils.OkhttpCallBack() {
                             @Override
-                            public void onSuccess(Response response) throws IOException {
-                                String responseData = response.body().string();
+                            public void onSuccess(Response response)  {
+                                try {
+                                    String responseData = response.body().string();
+                                    Log.i("asd",responseData);
+
+                                }catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                             @Override
                             public void onFail(String error) {
 
                             }
                         });
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    }  catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 }
             }

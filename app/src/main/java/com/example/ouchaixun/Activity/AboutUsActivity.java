@@ -9,6 +9,7 @@ package com.example.ouchaixun.Activity;
         import android.view.View;
         import android.widget.ImageView;
         import android.widget.TextView;
+        import android.widget.Toast;
 
         import com.example.ouchaixun.R;
         import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -23,12 +24,24 @@ public class AboutUsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_my_collection);
-        back = findViewById(R.id.imageView);
+        setContentView(R.layout.layout_aboutus);
+        back = findViewById(R.id.imageView17);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        findViewById(R.id.aaaat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AboutUsActivity.this, AgreementActivity.class));
+            }
+        });
+        findViewById(R.id.www996).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AboutUsActivity.this,"暂无更新！",Toast.LENGTH_SHORT).show();
             }
         });
     }

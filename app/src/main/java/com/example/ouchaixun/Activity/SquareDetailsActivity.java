@@ -129,14 +129,20 @@ public class SquareDetailsActivity extends AppCompatActivity {
 
 
 
+
+
+
         Glide.with(SquareDetailsActivity.this)
                 .load(photo)
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .error(R.drawable.img_error)
                 .into(myPhoto);
 
-        List<SquareComment> list=new ArrayList<>();
+        final List<SquareComment> list=new ArrayList<>();
         GetData(list);
+
+
+
 
 
         //评论
@@ -169,7 +175,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
                                                     inputTextMsgDialog.clearText();
                                                     inputTextMsgDialog.dismiss();
                                                     refresh_num++;
-                                                    page=1;
+                                                    page=1;old_page=1;
                                                     smartRefreshLayout.setEnableLoadMore(true);
                                                     List<SquareComment> list=new ArrayList<>();
                                                     GetData(list);
@@ -217,6 +223,12 @@ public class SquareDetailsActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.square_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -310,6 +322,74 @@ public class SquareDetailsActivity extends AppCompatActivity {
                             adapter=new CommentAdapter(SquareDetailsActivity.this,list,passage_id);
                             recyclerView.setItemViewCacheSize(10000);
                             recyclerView.setAdapter(adapter);
+
+                            //回复评论
+                            adapter.setListener(new CommentAdapter.ItemClickListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                @Override
+                                public void onItemClick(final int position) {
+
+                                    final InputTextMsgDialog inputTextMsgDialog = new InputTextMsgDialog(SquareDetailsActivity.this, R.style.dialog_center);
+                                    inputTextMsgDialog.setmOnTextSendListener(new InputTextMsgDialog.OnTextSendListener() {
+                                        @Override
+                                        public void onTextSend(String msg) {
+                                            //点击发送按钮后，回调此方法，msg为输入的值
+                                            final String json= " { \"content\":"+msg+" ,\"type\":2 ,\"id\":"+passage_id+",\"original_com_id\":"+position+" }";
+
+                                            Log.i("asd",json);
+                                            try {
+                                                OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/comment", json, new OKhttpUtils.OkhttpCallBack() {
+                                                    @Override
+                                                    public void onSuccess(Response response)  {
+
+                                                        try {
+                                                            final JSONObject jsonObject=new JSONObject(response.body().string());
+
+                                                            final String msg=jsonObject.getString("msg");
+
+                                                            Log.i("asd",msg);
+                                                            runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    if (msg.equals("发布成功")){
+                                                                        Toast.makeText(SquareDetailsActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                                                        inputTextMsgDialog.clearText();
+                                                                        inputTextMsgDialog.dismiss();
+
+                                                                        refresh_num++;
+                                                                        page=1;old_page=1;
+                                                                        smartRefreshLayout.setEnableLoadMore(true);
+                                                                        List<SquareComment> list=new ArrayList<>();
+                                                                        GetData(list);
+                                                                    }
+
+                                                                }
+                                                            });
+
+                                                            Log.i("asdf",jsonObject.toString());
+
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onFail(String error) {
+
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                    //设置评论字数
+                                    inputTextMsgDialog.setMaxNumber(50);
+                                    inputTextMsgDialog .show();
+                                }
+                            });
+
                         }
                     });
 

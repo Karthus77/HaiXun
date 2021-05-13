@@ -17,7 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.CameraActivity;
 import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 
@@ -30,7 +33,7 @@ import okhttp3.Response;
 
 public class publishActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8";
+    private String token;
     private String title,content,banner;
     private String  filePath=null, fileName=null;
     /********************View**********************/
@@ -169,6 +172,14 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                     e.printStackTrace();
                 }
 
+
+            }
+        });
+
+        findViewById(R.id.publish_add_img).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(publishActivity.this, CameraActivity.class).putExtra(CameraActivity.ExtraType, CameraActivity.PHOTO));
 
             }
         });
@@ -467,6 +478,7 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相
             //或者拍照获取图片，传图本地图片路径，也可以将本地图片路径上传到服务器
             //返回在服务端的URL地址，将地址传如即可（我这里传了一张写死的图片URL，如果你插入的图片不现实，请检查你是否添加
+            startActivity(new Intent(publishActivity.this, CameraActivity.class).putExtra(CameraActivity.ExtraType, CameraActivity.PHOTO));
             mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
                     "dachshund");
         }
@@ -528,5 +540,19 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         return animator;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //获得相册、相机返回的结果，并显示
+        if (CameraActivity.LISTENING) {
+            Log.i("TAG", "返回的Uri结果：" + CameraActivity.IMG_URI);
+            Log.i("TAG", "返回的File结果：" + CameraActivity.IMG_File.getPath());
+            CameraActivity.LISTENING = false;
+
+
+        }
+
     }
 }
