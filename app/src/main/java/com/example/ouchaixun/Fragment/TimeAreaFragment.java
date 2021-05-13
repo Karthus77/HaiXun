@@ -81,6 +81,7 @@ public class TimeAreaFragment extends Fragment {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page=1;
                 refresh_num++;
+                list.clear();
                 GetCircle(list, true);
                 refreshLayout.finishRefresh();
             }
@@ -169,7 +170,6 @@ public class TimeAreaFragment extends Fragment {
                 @Override
                 public void run() {
                     Toast.makeText(getContext(),"没有更多了",Toast.LENGTH_SHORT).show();
-                    smartRefreshLayout.setEnableLoadMore(false);
 
                 }
             });

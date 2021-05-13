@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.ouchaixun.Adapter.CircleAdapter;
+import com.example.ouchaixun.Adapter.HotListAdapter;
 import com.example.ouchaixun.Data.CircleList;
+import com.example.ouchaixun.Data.HotData;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
@@ -36,7 +38,7 @@ import okhttp3.Response;
 public class HotAreaFragment extends Fragment {
     private String token;
     private SmartRefreshLayout smartRefreshLayout;
-    private CircleAdapter circleAdapter;
+    private HotListAdapter hotListAdapter;
     private RecyclerView recyclerView;
     private int page=1,size=9,o_page=1,refresh_num=0;
 
@@ -68,13 +70,13 @@ public class HotAreaFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
         final List<Map<String,Object>> list=new ArrayList<>();
-        GetCircle(list,true);
+        GetHot(list,true);
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 page++;
-                GetCircle(list, false);
+                GetHot(list, false);
                 refreshLayout.finishLoadMore();
             }
 
@@ -83,46 +85,38 @@ public class HotAreaFragment extends Fragment {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page=1;
                 refresh_num++;
-                GetCircle(list, true);
+                list.clear();
+                GetHot(list, true);
                 refreshLayout.finishRefresh();
             }
         });}
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void GetCircle(final List<Map<String,Object>> list, final Boolean refresh){
+    public void GetHot(final List<Map<String,Object>> list, final Boolean refresh){
 
         if (page<=o_page) {
 
             OKhttpUtils.get_token(token ,
-                    "http://47.102.215.61:8888" +
-                            "/school/talk_list?page="+page, new OKhttpUtils.OkhttpCallBack() {
+                    "http://47.102.215.61:8888/passage/hit_passages", new OKhttpUtils.OkhttpCallBack() {
                         @Override
                         public void onSuccess(Response response) {
 
                             try {
                                 Gson gson=new Gson();
                                 String responseData = response.body().string();
-                                final CircleList circleList=gson.fromJson(responseData,CircleList.class);
-                                o_page=circleList.getNum_pages();
+                                final HotData hotData=gson.fromJson(responseData,HotData.class);
 
-                                if (circleList.getMsg().equals("数据库暂无相关数据")){
+                                if (hotData.getMsg().equals("数据库暂无相关数据")){
 
                                 }else {
 
-                                    for(int i=0;i<circleList.getData().size();i++)
+                                    for(int i=0;i<hotData.getData().size();i++)
                                     {
                                         Map<String,Object> map=new HashMap<>();
-                                        map.put("id",circleList.getData().get(i).getId());
-                                        map.put("head",circleList.getData().get(i).getWriter_avatar());
-                                        map.put("name",circleList.getData().get(i).getWriter_nickname());
-                                        map.put("time",circleList.getData().get(i).getRelease_time());
-                                        map.put("content",circleList.getData().get(i).getContent());
-                                        map.put("comment",circleList.getData().get(i).getComment_num());
-                                        map.put("like",circleList.getData().get(i).getClick_num());
-                                        map.put("islike",circleList.getData().get(i).getIs_like());
-                                        for(int k=0;k<circleList.getData().get(i).getPic_list().size();k++)
-                                        {
-                                            map.put("url"+k,circleList.getData().get(i).getPic_list().get(k).getPicture());
-                                        }
+                                        map.put("id",hotData.getData().get(i).getId());
+                                        map.put("img",hotData.getData().get(i).getFirst_pic());
+                                        map.put("title",hotData.getData().get(i).getTitle());
+                                        map.put("click",hotData.getData().get(i).getClick_num());
+                                        map.put("rank",i);
                                         list.add(map);
                                     }
 
@@ -131,10 +125,10 @@ public class HotAreaFragment extends Fragment {
                                         public void run() {
 
                                             if (refresh) {
-                                                circleAdapter = new CircleAdapter(getContext(), list);
-                                                recyclerView.setAdapter(circleAdapter);
+                                                hotListAdapter = new HotListAdapter(getContext(), list);
+                                                recyclerView.setAdapter(hotListAdapter);
                                             } else {
-                                                circleAdapter.notifyDataSetChanged();
+                                                hotListAdapter.notifyDataSetChanged();
                                             }
                                         }
                                     });}

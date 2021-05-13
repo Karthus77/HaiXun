@@ -15,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.ouchaixun.Adapter.CircleAdapter;
+import com.example.ouchaixun.Adapter.SquareAdapter;
 import com.example.ouchaixun.Data.CircleList;
+import com.example.ouchaixun.Data.SquareList;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
@@ -38,40 +40,43 @@ public class SquareWallFragment extends Fragment {
     private String token;
     private static final String tag="1";
     private int page=1,o_page=1,refresh_num=0;
+    private SquareAdapter squareAdapter;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void GetSquare(final List<Map<String,Object>> list, final Boolean refresh){
 
         if (page<=o_page) {
 
             OKhttpUtils.get_token(token ,
-                    "http://47.102.215.61:8888/passage/passage_list?page=1&tag=1"+page, new OKhttpUtils.OkhttpCallBack() {
+                    "http://47.102.215.61:8888/passage/passage_list?page="+page+"&tag=1", new OKhttpUtils.OkhttpCallBack() {
                         @Override
                         public void onSuccess(Response response) {
 
                             try {
                                 Gson gson=new Gson();
                                 String responseData = response.body().string();
-                                final CircleList circleList=gson.fromJson(responseData,CircleList.class);
-                                o_page=circleList.getNum_pages();
+                                final SquareList squareList=gson.fromJson(responseData,SquareList.class);
+                                o_page=squareList.getNum_pages();
 
-                                if (circleList.getMsg().equals("数据库暂无相关数据")){
+                                if (squareList.getMsg().equals("数据库暂无相关数据")){
 
                                 }else {
 
-                                    for(int i=0;i<circleList.getData().size();i++)
+                                    for(int i=0;i<squareList.getData().size();i++)
                                     {
                                         Map<String,Object> map=new HashMap<>();
-                                        map.put("id",circleList.getData().get(i).getId());
-                                        map.put("head",circleList.getData().get(i).getWriter_avatar());
-                                        map.put("name",circleList.getData().get(i).getWriter_nickname());
-                                        map.put("time",circleList.getData().get(i).getRelease_time());
-                                        map.put("content",circleList.getData().get(i).getContent());
-                                        map.put("comment",circleList.getData().get(i).getComment_num());
-                                        map.put("like",circleList.getData().get(i).getLike_num());
-                                        map.put("islike",circleList.getData().get(i).getIs_like());
-                                        for(int k=0;k<circleList.getData().get(i).getPic_list().size();k++)
+                                        map.put("id",squareList.getData().get(i).getId());
+                                        map.put("head",squareList.getData().get(i).getWriter_avatar());
+                                        map.put("tag",squareList.getData().get(i).getTag());
+                                        map.put("title",squareList.getData().get(i).getTitle());
+                                        if (squareList.getData().get(i).getWriter_nickname().equals("该内容由匿名用户发布"))
                                         {
-                                            map.put("url"+k,circleList.getData().get(i).getPic_list().get(k).getPicture());
+                                            map.put("anonymous",1);
+                                            map.put("name","匿名");
+                                        }
+                                        else
+                                        {
+                                            map.put("anonymous",2);
+                                            map.put("name",squareList.getData().get(i).getWriter_nickname());
                                         }
                                         list.add(map);
                                     }
@@ -81,10 +86,10 @@ public class SquareWallFragment extends Fragment {
                                         public void run() {
 
                                             if (refresh) {
-//                                                circleAdapter = new CircleAdapter(getContext(), list);
-//                                                recyclerView.setAdapter(circleAdapter);
+                                                squareAdapter = new SquareAdapter(getContext(), list);
+                                              recyclerView.setAdapter(squareAdapter);
                                             } else {
-//                                                circleAdapter.notifyDataSetChanged();
+                                        squareAdapter.notifyDataSetChanged();
                                             }
                                         }
                                     });}
@@ -160,12 +165,12 @@ public class SquareWallFragment extends Fragment {
                 GetSquare(list, false);
                 refreshLayout.finishLoadMore();
             }
-
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page=1;
                 refresh_num++;
+                list.clear();
                 GetSquare(list, true);
                 refreshLayout.finishRefresh();
             }
