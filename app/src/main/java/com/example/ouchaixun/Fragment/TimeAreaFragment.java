@@ -44,13 +44,6 @@ public class TimeAreaFragment extends Fragment {
     private CircleAdapter circleAdapter;
     private RecyclerView recyclerView;
     private int page=1,size=9,o_page=1,refresh_num=0;
-
-
-
-
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

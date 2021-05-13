@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/hot_re"
+        android:background="@drawable/background_box22"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/circle_rank1"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/hot_rank">
+        </ImageView>
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/hot_rank"
+            android:id="@+id/hot_title"
+            android:text="你怎么看待你怎么看待你怎么看待你怎么看待你怎么看待你怎么看待"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"
+            android:textColor="#FF444444">
+        </TextView>
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/official_background"
+            android:id="@+id/first_pic"></ImageView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:background="#D8D8D8"></TextView>
+        <TextView
+            android:id="@+id/hot_click_nums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="访问量"
+            android:layout_marginLeft="61dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="10sp">
+
+        </TextView>
+
+    </RelativeLayout>
+        
+</RelativeLayout>
