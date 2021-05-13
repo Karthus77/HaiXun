@@ -171,14 +171,14 @@ public class OKhttpUtils {
                     getInstance();
                     try {
 
-                        MediaType mediaType = MediaType.parse("text/plain");
+                        MediaType mediaType = MediaType.parse("multipart/form-data");
                         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                                 .addFormDataPart("title", title)
                                 .addFormDataPart("content", content)
 
-//                                .addFormDataPart("banner",fileName,
-//                                        RequestBody.create(MediaType.parse("application/octet-stream"),
-//                                                new File(filePath)))
+                                .addFormDataPart("banner",fileName,
+                                        RequestBody.create(MediaType.parse("application/octet-stream"),
+                                                new File(filePath)))
                                 .build();
                         Log.i("asd", body.toString());
                         Request request = new Request.Builder()

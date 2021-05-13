@@ -18,6 +18,8 @@
     <uses-permission android:name="android.permission.REPLACE_EXISTING_PACKAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
@@ -47,6 +49,7 @@
         <activity android:name=".Activity.AgreementActivity" />
         <activity android:name=".richtext.publishActivity" />
         <activity android:name=".Activity.SquareDetailsActivity" />
+        <activity android:name=".Utils.CameraActivity" />
         <activity android:name=".Activity.ReportSquareActivity" >
 
         </activity>
