@@ -30,7 +30,7 @@ import okhttp3.Response;
 
 public class publishActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8";
+    private String token;
     private String title,content,banner;
     private String  filePath=null, fileName=null;
     /********************View**********************/

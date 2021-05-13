@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -73,7 +74,7 @@ public class NewsDetilsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_news_detils);
-        final TextView textView=findViewById(R.id.news_detils_textview);
+        final WebView textView=findViewById(R.id.news_detils_textview);
         final TextView tv_title=findViewById(R.id.news_detils_title);
         final TextView tv_time=findViewById(R.id.news_detils_time);
         TextView tv_type=findViewById(R.id.news_detils_type);
@@ -114,10 +115,13 @@ public class NewsDetilsActivity extends AppCompatActivity {
                                     .load(photo)
                                     .error(R.drawable.img_error)
                                     .into(img);
-                            RichText.from(content).bind(this)
-                                    .showBorder(false)
-                                    .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
-                                    .into(textView);
+
+
+                            textView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
+//                            RichText.from(content).bind(this)
+//                                    .showBorder(false)
+//                                    .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
+//                                    .into(textView);
                             if (is_star==1){
                                 star=true;
                                 old_star=true;

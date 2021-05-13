@@ -125,21 +125,27 @@
 
            </RelativeLayout>
 
-           <TextView
-               android:id="@+id/news_detils_textview"
+
+
+           <RelativeLayout
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:layout_weight="1"
                android:layout_below="@id/relativelayout_news"
                android:layout_gravity="center_horizontal"
-               android:gravity="center"
-               android:text="新闻详情/\n\n\nttt\n\n\nttt\n\n\n\n\n\n\n\n"
-               android:textColor="@color/title"
-               android:layout_marginHorizontal="10dp"
-               android:padding="10dp"
-               android:background="@drawable/richtextview"
-               android:textSize="16sp"/>
 
+
+               android:layout_marginHorizontal="10dp"
+               android:padding="6dp"
+               android:background="@drawable/richtextview"
+               >
+           <WebView
+               android:id="@+id/news_detils_textview"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:padding="3dp"
+             />
+       </RelativeLayout>
 
        </RelativeLayout>
 
