@@ -4,60 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_box"
+    android:background="#CEE3F6"
     tools:context=".Activity.ReportSquareActivity">
+
     <RelativeLayout
         android:id="@+id/square_topBar"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:background="@drawable/topbar">
+        <ImageView
+            android:id="@+id/square_report_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp">
+        </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="发布帖子"
+            android:textSize="18sp"
+            android:textColor="#FF444444"
+            android:textStyle="bold"></TextView>
 
 
-        <View
-            android:id="@+id/news_btn0"
-            android:layout_width="48dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/haixun"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="22dp"
-            android:layout_marginLeft="22dp" />
-
-        <Button
-            android:id="@+id/news_btn"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/collect"
-            android:layout_marginRight="14dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="14dp" />
-        <Button
-            android:id="@+id/news_btn2"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/messege"
-            android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@id/news_btn"
-            android:layout_marginEnd="16dp"
-            android:layout_toStartOf="@id/news_btn" />
     </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/square_topBar">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/no_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="匿名"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#FF444444">
+    </TextView>
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/check_anonymous"
+        android:layout_width="50dp"
+        android:layout_height="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"></androidx.appcompat.widget.SwitchCompat>
+
+
+    <TextView
+        android:id="@+id/title_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="帖子标题"
+        android:textStyle="bold"
+        android:layout_below="@id/re3"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:textColor="#FF444444"
+        android:layout_marginLeft="10dp"></TextView>
     <RelativeLayout
         android:id="@+id/re1"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_below="@id/square_topBar"
+        android:layout_below="@id/title_word"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_box22"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp">
+
         <EditText
             android:id="@+id/title_edit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:background="@null"
             android:textSize="15sp"
             android:text="输入标题..."
@@ -66,22 +91,34 @@
             android:paddingLeft="10dp" />
 
     </RelativeLayout>
+    <TextView
+        android:id="@+id/content_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="帖子内容"
+        android:layout_below="@id/re1"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="#FF444444"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"></TextView>
     <RelativeLayout
         android:id="@+id/re2"
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        android:layout_below="@id/re1"
+        android:layout_below="@id/content_word"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_box22"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp">
         <EditText
+            android:id="@+id/edit_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
             android:textSize="12sp"
             android:textColor="#FF888888"
-            android:text="输入内容......"
+            android:text="输入内容......  如时间、地点等"
             android:gravity="left"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
@@ -91,21 +128,86 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="60dp"
         android:id="@+id/re3"
-        android:layout_below="@id/re2"
         android:layout_marginTop="10dp"
-        android:background="@drawable/background_box22"
+
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
+
+
         <TextView
+            android:id="@+id/tag_word"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选择标签"
-            android:layout_centerVertical="true"
-            android:textSize="12sp"
+            android:text="帖子主题"
+            android:textStyle="bold"
+            android:textSize="16sp"
             android:textColor="#FF444444"
             android:layout_marginLeft="5dp"></TextView>
+        <ImageView
+            android:id="@+id/tag_wall"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tag_word"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:layout_height="25dp"
+            android:layout_width="53.33dp"
+            android:src="@drawable/wall_icon">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/tag_carpool"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tag_word"
+            android:layout_toRightOf="@id/tag_wall"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:layout_height="25dp"
+            android:layout_width="53.33dp"
+            android:src="@drawable/carpool_icon">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/tag_table"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tag_word"
+            android:layout_toRightOf="@id/tag_carpool"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:layout_height="25dp"
+            android:layout_width="53.33dp"
+            android:src="@drawable/table_icon">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/tag_hole"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tag_word"
+            android:layout_toRightOf="@id/tag_table"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:layout_height="25dp"
+            android:layout_width="53.33dp"
+            android:src="@drawable/treehole_icon">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/tag_bullshit"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tag_word"
+            android:layout_toRightOf="@id/tag_hole"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:layout_height="25dp"
+            android:layout_width="53.33dp"
+            android:src="@drawable/bullshit_icon">
+
+        </ImageView>
 
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
@@ -115,9 +217,12 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/re3">
+        android:layout_below="@id/re2">
 
     </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+    </ScrollView>
+
     <Button
         android:id="@+id/report"
         android:layout_width="match_parent"
@@ -131,4 +236,5 @@
         android:text="发  布"
         android:textSize="20sp"
         android:textColor="#FFFFFF"></Button>
+
 </RelativeLayout>

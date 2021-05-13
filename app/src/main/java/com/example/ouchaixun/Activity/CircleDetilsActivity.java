@@ -61,9 +61,7 @@ public class CircleDetilsActivity extends AppCompatActivity {
         });
         Intent int2 =getIntent();
         String id =int2.getStringExtra("id");
-        String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8";
-
-
+        String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
         OKhttpUtils.get_token(token,"http://47.102.215.61:8888/school/"+id+"/detail", new OKhttpUtils.OkhttpCallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -76,12 +74,13 @@ public class CircleDetilsActivity extends AppCompatActivity {
                         name.setText(circleDetail.getData().getWriter_nickname());
                         content.setText(circleDetail.getData().getContent());
                         time.setText(circleDetail.getData().getRelease_time());
+                        Glide.with(CircleDetilsActivity.this).load(circleDetail.getData().getWriter_avatar()).into(head);
 
 
                         for(int i=0;i<circleDetail.getData().getPic_list().size();i++)
                         {
                             Map<String,Object> map=new HashMap<>();
-                            map.put("url"+i,circleDetail.getData().getPic_list().get(i));
+                            map.put("url",circleDetail.getData().getPic_list().get(i).getPicture());
                             piclist.add(map);
                         }
                         for(int i=0;i<circleDetail.getData().getComments().size();i++)

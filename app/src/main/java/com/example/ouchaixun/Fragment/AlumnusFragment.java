@@ -62,10 +62,10 @@ public class AlumnusFragment extends Fragment {
         Log.i("news", "onViewCreated ");
         fragments.clear();
         titleList.clear();
-        fragments.add(new HotAreaFragment());
         fragments.add(new TimeAreaFragment());
-        titleList.add("热帖区");
+        fragments.add(new HotAreaFragment());
         titleList.add("实时区");
+        titleList.add("热贴区");
         edit=getActivity().findViewById(R.id.publish_circle);
         viewPager= Objects.requireNonNull(getActivity()).findViewById(R.id.vp_fragment);
         tabLayout=getActivity().findViewById(R.id.tab1);

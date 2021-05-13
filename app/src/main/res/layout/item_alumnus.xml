@@ -27,7 +27,7 @@
                 android:layout_width="17.33dp"
                 android:layout_height="17.33dp"
                 android:layout_marginLeft="21.33dp"
-                android:src="@drawable/circle_rank1"
+
                 android:layout_marginTop="40dp">
 
             </ImageView>

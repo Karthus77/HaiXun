@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.ouchaixun.R;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class CircleCommentAdapter extends RecyclerView.Adapter<RecyclerView.View
         viewholder.content.setText(list.get(position).get("content").toString());
         viewholder.name.setText(list.get(position).get("name").toString());
         viewholder.time.setText(list.get(position).get("time").toString());
+        Glide.with(context).load(list.get(position).get("head")).into(viewholder.head);
 
     }
 

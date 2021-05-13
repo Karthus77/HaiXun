@@ -35,7 +35,10 @@ import com.example.ouchaixun.Adapter.OnAddPicturesListener;
 import com.example.ouchaixun.Data.Circleback;
 import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,10 +54,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-class  circle_upload{
-    String content;
-    String id_list;
-}
+
 
 public class ReportCircleActivity extends AppCompatActivity {
     private ImageView back;
@@ -128,7 +128,7 @@ public class ReportCircleActivity extends AppCompatActivity {
                             Request request = new Request.Builder()
                                     .url("http://47.102.215.61:8888/whole/picture")
                                     .method("POST", body)
-                                    .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8")
+                                    .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEzNDYzNzIsImlhdCI6MTYyMDc0MTU3MiwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.R7AgngEke_I3zWDCmmwSWKs4hJN0fOjkakBvnPSVNFU")
                                     .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
                                     .build();
                             Response response = client.newCall(request).execute();
@@ -391,62 +391,24 @@ public class ReportCircleActivity extends AppCompatActivity {
                     String ids=IdList.toString();
                     String content=edit_content.getText().toString();
                     String s=ids.substring(1,ids.length()-1);
-                    final Gson gson1=new Gson();
                     final String img_ids="["+s+"]";
-                    final circle_upload circle_upload=new circle_upload();
-                    circle_upload.content=content;
-                    circle_upload.id_list=img_ids;
-                    final String a=gson1.toJson(circle_upload);
-                    Thread thread=new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            OkHttpClient client = new OkHttpClient().newBuilder()
-                                    .build();
-                            MediaType mediaType = MediaType.parse("application/json");
-                            RequestBody body = RequestBody.create(mediaType,a);
-                            Request request = new Request.Builder()
-                                    .url("http://47.102.215.61:8888/school/release_talk")
-                                    .method("POST", body)
-                                    .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8")
-                                    .build();
-                            try {
-                                Response response = client.newCall(request).execute();
-                                String responseData = response.toString();
-                                Gson gson=new Gson();
-                                Circleback circleback=gson.fromJson(responseData,Circleback.class);
-                                final int code=circleback.getCode();
-                                final String tip=circleback.getMsg();
-                                {
-
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if(code==200)
-                                            {
-                                                Toast.makeText(ReportCircleActivity.this,"发布成功",Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }
-                                            else
-                                            {
-                                                Toast.makeText(ReportCircleActivity.this,tip,Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }
-                                        }
-                                    });
-
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(ReportCircleActivity.this,"网络连接好像断开了哦",Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                    final String a="{"+"\"content\""+":"+content+","+"\"id_list\""+":"+img_ids+"}";
+                    String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjA3NDA2MTAsImlhdCI6MTYyMDEzNTgxMCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.M1a1yKyf29lG4PF-8fYnvQ2CwW-OeemRTfuZ6ODXZD8";
+                    try {
+                        OKhttpUtils.post_json(token,"http://47.102.215.61:8888/school/release_talk",a, new OKhttpUtils.OkhttpCallBack() {
+                            @Override
+                            public void onSuccess(Response response) throws IOException {
+                                String responseData = response.body().string();
                             }
-                        }
-                    });
-                    thread.start();
+                            @Override
+                            public void onFail(String error) {
+
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         });
