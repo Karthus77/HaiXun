@@ -2,6 +2,7 @@ package com.example.ouchaixun.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,11 +22,23 @@ import com.example.ouchaixun.Activity.CircleDetilsActivity;
 import com.example.ouchaixun.Activity.ReportCircleActivity;
 import com.example.ouchaixun.Fragment.TimeAreaFragment;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.OKhttpUtils;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Response;
+class Post_like{
+    int id;
+    int type;
+    int action;
+}
 
 public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -35,6 +49,14 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int ITEM_NEWS =1;
     private static final int ITEM_ERROR =2;
     private static final int ITEM_NO =3;
+    private static final  String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
+    public void changeLike(ImageView view)
+    {
+        if (view.getDrawable().getCurrent().getConstantState()==view.getResources().getDrawable(R.drawable.circle_like).getConstantState())
+            view.setImageResource(R.drawable.islike);
+        else
+            view.setImageResource(R.drawable.circle_like);
+    }
     public void setNumber(TextView textView,String num)
     {
         if(Integer.parseInt(num)>99)
@@ -61,13 +83,14 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        ViewHolder viewholder = (ViewHolder) holder;
+        final ViewHolder viewholder = (ViewHolder) holder;
         String name=list.get(position).get("name").toString();
         final String content=list.get(position).get("content").toString();
         String time =list.get(position).get("time").toString();
         String comment=list.get(position).get("comment").toString();
-        String like=list.get(position).get("like").toString();
+        final String like=list.get(position).get("like").toString();
         String islike=list.get(position).get("islike").toString();
+        final String id=list.get(position).get("id").toString();
         String head=list.get(position).get("head").toString();
         List<Map<String,Object>> piclist =new ArrayList<>();
         for(int i=0;i<list.get(position).size()-8;i++)
@@ -81,7 +104,9 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         setNumber(viewholder.likes,like);
         viewholder.content.setText(content);
         viewholder.name.setText(name);
-        Glide.with(context).load(head).into(viewholder.head);
+        if(islike.equals("1"))
+            viewholder.islike.setImageResource(R.drawable.islike);
+        Glide.with(context).load(head).circleCrop().into(viewholder.head);
         circleShowAdapter=new CircleShowAdapter(context,piclist);
         GridLayoutManager manager=new GridLayoutManager(context,3){
             @Override
@@ -99,6 +124,36 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 context.startActivity(intent);
             }
         });
+        viewholder.islike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Gson gson=new Gson();
+                Post_like postLike=new Post_like();
+                postLike.id=Integer.parseInt(id);
+                postLike.type=1;
+                if (viewholder.islike.getDrawable().getCurrent().getConstantState()==viewholder.islike.getResources().getDrawable(R.drawable.circle_like).getConstantState())
+                    postLike.action=1;
+                else
+                    postLike.action=2;
+                changeLike(viewholder.islike);
+                setNumber(viewholder.likes,String.valueOf(Integer.parseInt(like)+1));
+
+                try {
+                    OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/like",gson.toJson(postLike) , new OKhttpUtils.OkhttpCallBack() {
+                        @Override
+                        public void onSuccess(Response response) throws IOException {
+                            String responseData = response.body().string();
+                        }
+                        @Override
+                        public void onFail(String error) {
+                            Toast.makeText(context,"网络连接好像出问题了",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -113,6 +168,7 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     class ViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout circle_item;
         RecyclerView recyclerView;
+        ImageView islike;
         ImageView head;
         TextView name;
         TextView content;
@@ -122,6 +178,7 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            islike=itemView.findViewById(R.id.circleItem_like);
             circle_item=itemView.findViewById(R.id.circle_item);
             recyclerView=itemView.findViewById(R.id.item_NinePictures);
             head=itemView.findViewById(R.id.circle_userHead);

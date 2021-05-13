@@ -37,6 +37,8 @@ public class CircleDetilsActivity extends AppCompatActivity {
     TextView likes;
     TextView comments;
     TextView time;
+    private ImageView islike;
+    private ImageView iscomment;
     List<Map<String,Object>> piclist =new ArrayList<>();
     CircleShowAdapter circleShowAdapter;
     List<Map<String,Object>> comlist =new ArrayList<>();
@@ -46,6 +48,9 @@ public class CircleDetilsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_circle_detils);
+        likes=findViewById(R.id.details_like_nums);
+        islike=findViewById(R.id.details_like);
+        comments=findViewById(R.id.details_com_nums);
         head=findViewById(R.id.details_userHead);
         name=findViewById(R.id.details_userName);
         content=findViewById(R.id.details_content);
@@ -74,7 +79,9 @@ public class CircleDetilsActivity extends AppCompatActivity {
                         name.setText(circleDetail.getData().getWriter_nickname());
                         content.setText(circleDetail.getData().getContent());
                         time.setText(circleDetail.getData().getRelease_time());
-                        Glide.with(CircleDetilsActivity.this).load(circleDetail.getData().getWriter_avatar()).into(head);
+                        comments.setText(String.valueOf(circleDetail.getData().getClick_num()));
+                        likes.setText(String.valueOf(circleDetail.getData().getLike_num()));
+                        Glide.with(CircleDetilsActivity.this).load(circleDetail.getData().getWriter_avatar()).circleCrop().into(head);
 
 
                         for(int i=0;i<circleDetail.getData().getPic_list().size();i++)
@@ -86,10 +93,13 @@ public class CircleDetilsActivity extends AppCompatActivity {
                         for(int i=0;i<circleDetail.getData().getComments().size();i++)
                         {
                             Map<String,Object> map2=new HashMap<>();
+                            map2.put("id",circleDetail.getData().getComments().get(i).getId());
                             map2.put("content",circleDetail.getData().getComments().get(i).getContent());
                             map2.put("time",circleDetail.getData().getComments().get(i).getTime());
                             map2.put("name",circleDetail.getData().getComments().get(i).getSender_nickname());
                             map2.put("head",circleDetail.getData().getComments().get(i).getSender_avatar());
+                            map2.put("likes",circleDetail.getData().getComments().get(i).getLike_num());
+                            map2.put("islike",circleDetail.getData().getComments().get(i).getIs_like());
                             comlist.add(map2);
                         }
                         circleCommentAdapter=new CircleCommentAdapter(CircleDetilsActivity.this,comlist);
