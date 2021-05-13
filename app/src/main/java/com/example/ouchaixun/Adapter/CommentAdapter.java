@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Response;
 
@@ -126,7 +127,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (islike==1){
                 ((sCommentHolder)holder).like.setBackgroundResource(R.drawable.like_fill);
                 Log.i("qwe","asd");
-               // ((sCommentHolder)holder).like.setClickable(false);
+                ((sCommentHolder)holder).like.setClickable(false);
             }
             if (list.get(i).getIs_reply()==1){
 
@@ -170,9 +171,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         ((Activity)context).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-//                                                ((sCommentHolder)holder).like.setBackgroundResource(R.drawable.like_fill);
-//                                                ((sCommentHolder)holder).like.setClickable(false);
-//                                                ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+1+"");
+                                                ((sCommentHolder)holder).like.setBackgroundResource(R.drawable.like_fill);
+                                                ((sCommentHolder)holder).like.setClickable(false);
+                                                ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+1+"");
                                             }
                                         });
 
@@ -218,7 +219,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     public void onSuccess(Response response)  {
 
                                         try {
-                                            final JSONObject jsonObject=new JSONObject(response.body().string());
+                                            final JSONObject jsonObject=new JSONObject(Objects.requireNonNull(response.body()).string());
 
                                             final String msg=jsonObject.getString("msg");
 
