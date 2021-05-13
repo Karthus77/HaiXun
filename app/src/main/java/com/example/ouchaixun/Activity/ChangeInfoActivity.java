@@ -113,7 +113,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         } else if(myData.load_sex().equals("女")){
             my_sex = 0;
         }else{
-            my_sex = 0;
+            my_sex = 2;
             Log.d("12333","cwtl");
         }
         token = myData.load_token();
@@ -176,9 +176,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
                 if(my_sex==1){
                     rb_1.setChecked(true);
                     rb_0.setChecked(false);
-                }else{
+                }else if(my_sex==0){
                     rb_0.setChecked(true);
                     rb_1.setChecked(false);
+                }else{
+                    rb_1.setChecked(false);
+                    rb_0.setChecked(false);
                 }
                 new AlertDialog.Builder(ChangeInfoActivity.this)
                         .setTitle("请选择新的性别吧~")//提示框标题
