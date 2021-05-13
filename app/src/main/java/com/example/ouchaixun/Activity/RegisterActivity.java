@@ -75,8 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "邮箱格式不正确", Toast.LENGTH_SHORT).show();
                 } else {
                     new Thread(new Runnable() {
-                        @Override
-                        public void run() {
+                            @Override
+                            public void run() {
                             Gson gson = new Gson();
                             Myemail myemail = new Myemail();
                             myemail.email = email;
@@ -246,7 +246,7 @@ public class RegisterActivity extends AppCompatActivity {
                     RegisterActivity.this.startActivity(intent);
                     finish();
                 } else {
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this, WelcomeLoginActivity.class);
                     RegisterActivity.this.startActivity(intent);
                     finish();
                 }

@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -100,7 +101,7 @@ public class MixActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(false);  //避免滑动卡顿
+        recyclerView.setNestedScrollingEnabled(false);
         list.clear();
         adapter = new MixAdapter(MixActivity.this, list);
         adapter.myNotifyDataSetChange();
@@ -109,6 +110,7 @@ public class MixActivity extends AppCompatActivity {
         once = false;
         wzy();
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onResume() {
@@ -122,9 +124,10 @@ public class MixActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     OkHttpClient client = new OkHttpClient().newBuilder()
+                            .connectTimeout(300, TimeUnit.MILLISECONDS)
+                            .readTimeout(300, TimeUnit.MILLISECONDS)
                             .build();
                     Request request = new Request.Builder()
                             .url("http://47.102.215.61:8888" + tp_url)
@@ -149,7 +152,7 @@ public class MixActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(MixActivity.this));
-//                            recyclerView.setAdapter(new MixAdapter(MixActivity.this, list));
+                            recyclerView.setAdapter(new MixAdapter(MixActivity.this, list));
                         }
                     });
                     e.printStackTrace();
@@ -266,7 +269,7 @@ public class MixActivity extends AppCompatActivity {
                     public void run() {
                         if (flag != 666) {
                             recyclerView.setLayoutManager(new LinearLayoutManager(MixActivity.this));
-//                            recyclerView.setAdapter(new MixAdapter(MixActivity.this, list));
+                            recyclerView.setAdapter(new MixAdapter(MixActivity.this, list));
                             Log.d("12332", "2here");
                         }
                         if (i == len) {

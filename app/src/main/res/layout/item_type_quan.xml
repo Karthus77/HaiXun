@@ -2,12 +2,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_box">
+>
 
     <RelativeLayout
         android:id="@+id/circle_item"
         android:layout_width="match_parent"
-        android:background="@drawable/background_box22"
         android:layout_height="wrap_content">
 
         <RelativeLayout
@@ -40,7 +39,7 @@
                 android:id="@+id/circle_rank"
                 android:layout_width="17.33dp"
                 android:layout_height="17.33dp"
-                android:layout_marginLeft="21.33dp"
+                android:layout_marginLeft="30dp"
 
                 android:layout_marginTop="40dp">
 
@@ -161,10 +160,7 @@
 
 
         </RelativeLayout>
-
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>
