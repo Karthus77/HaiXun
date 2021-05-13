@@ -178,8 +178,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             public void run() {
 
                                                 if (msg.equals("点赞成功")){
+
+                                                    if (islike==1){
+                                                        ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+"");
+                                                    }else {
+                                                        ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+1+"");
+                                                    }
                                                 ((sCommentHolder)holder).like.setBackgroundResource(R.drawable.like_fill);
-                                                ((sCommentHolder)holder).liek_num.setText(list.get(i).getLike_num()+1+"");
                                                 like[0] =2;
                                                 }else {
                                                     if (islike==1){
