@@ -58,14 +58,25 @@
 
         </TextView>
         <ImageView
+            android:id="@+id/click_like"
             android:layout_width="14.67dp"
             android:layout_height="16dp"
             android:layout_marginRight="40dp"
             android:src="@drawable/circle_like"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="22dp"
             android:layout_alignParentRight="true">
 
         </ImageView>
+        <TextView
+            android:id="@+id/comment_likenums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="22dp"
+            android:text="13"
+            android:textSize="6sp"
+            android:layout_marginRight="30dp"></TextView>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="5dp"

@@ -8,8 +8,8 @@ public class CircleList {
     /**
      * code : 200
      * msg : 获取成功
-     * data : [{"release_time":"2021-05-09T10:22:21.370","content":"aliquip aliqua dolor","id":15,"writer":1,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[{"picture":"Talk_pic/u41053966379407115fm11gp0.jpg"}],"is_like":0},{"release_time":"2021-05-09T10:13:11.579","content":"aliquip aliqua dolor","id":14,"writer":1,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-09T10:13:00.019","content":"aliquip aliqua dolor","id":13,"writer":1,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-09T10:12:53.215","content":"aliquip aliqua dolor","id":12,"writer":1,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-08T21:48:07.400","content":"pic id list test","id":11,"writer":1,"click_num":1,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[{"picture":"Talk_pic/2021-05-08_214607.997289.jpg"}],"is_like":0},{"release_time":"2021-05-06T22:00:35.658","content":"dolor ex sed nisi Ut","id":9,"writer":1,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-06T21:54:26.232","content":"occaecat in non fugiat","id":8,"writer":3,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-05T23:56:08.925","content":"1","id":7,"writer":1,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-05T10:51:41.619","content":"lllll","id":5,"writer":1,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-05T10:45:39.403","content":"test4","id":4,"writer":1,"click_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","pic_list":[],"is_like":0}]
-     * num_pages : 2
+     * data : [{"release_time":"2021-05-12T23:27:50.787","content":"lalal","id":48,"writer":1,"click_num":10,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[{"picture":"http://47.102.215.61:8888/media/Talk_pic/u41053966379407115fm11gp0.jpg"},{"picture":"http://47.102.215.61:8888/media/Talk_pic/2021-05-05_235919.662491.jpg"},{"picture":"http://47.102.215.61:8888/media/Talk_pic/2021-05-06_183506.668686.jpg"}],"is_like":0},{"release_time":"2021-05-12T20:47:31.454","content":"proident Duis ut ad","id":47,"writer":3,"click_num":0,"like_num":1,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[],"is_like":1},{"release_time":"2021-05-12T20:45:18.542","content":"proident Duis ut ad","id":46,"writer":3,"click_num":0,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-12T20:45:10.295","content":"proident Duis ut ad","id":45,"writer":3,"click_num":1,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-12T20:45:00.753","content":"proident Duis ut ad","id":44,"writer":3,"click_num":0,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-12T20:25:16.874","content":"aliqua consectetur cillum i","id":43,"writer":3,"click_num":0,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[{"picture":"http://47.102.215.61:8888/media/Talk_pic/2021-05-12_201036.905650.jpg"}],"is_like":0},{"release_time":"2021-05-12T20:24:55.320","content":"lalal","id":42,"writer":1,"click_num":0,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[{"picture":"http://47.102.215.61:8888/media/Talk_pic/2021-05-12_195153.093054.jpg"},{"picture":"http://47.102.215.61:8888/media/Talk_pic/2021-05-12_195410.115793.jpg"}],"is_like":0},{"release_time":"2021-05-12T20:24:44.028","content":"lalal","id":41,"writer":1,"click_num":0,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-12T20:22:20.670","content":"aliqua consectetur cillum i","id":40,"writer":3,"click_num":0,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[],"is_like":0},{"release_time":"2021-05-12T20:15:40.234","content":"aliqua consectetur cillum in","id":39,"writer":3,"click_num":1,"like_num":0,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"http://47.102.215.61:8888/media/avatar/default.png","pic_list":[],"is_like":0}]
+     * num_pages : 5
      */
 
     private int code;
@@ -51,15 +51,16 @@ public class CircleList {
 
     public static class DataBean {
         /**
-         * release_time : 2021-05-09T10:22:21.370
-         * content : aliquip aliqua dolor
-         * id : 15
+         * release_time : 2021-05-12T23:27:50.787
+         * content : lalal
+         * id : 48
          * writer : 1
-         * click_num : 0
+         * click_num : 10
+         * like_num : 0
          * comment_num : 0
          * writer_nickname : 江湖骗子
-         * writer_avatar : /media/avatar/default.png
-         * pic_list : [{"picture":"Talk_pic/u41053966379407115fm11gp0.jpg"}]
+         * writer_avatar : http://47.102.215.61:8888/media/avatar/default.png
+         * pic_list : [{"picture":"http://47.102.215.61:8888/media/Talk_pic/u41053966379407115fm11gp0.jpg"},{"picture":"http://47.102.215.61:8888/media/Talk_pic/2021-05-05_235919.662491.jpg"},{"picture":"http://47.102.215.61:8888/media/Talk_pic/2021-05-06_183506.668686.jpg"}]
          * is_like : 0
          */
 
@@ -68,6 +69,7 @@ public class CircleList {
         private int id;
         private int writer;
         private int click_num;
+        private int like_num;
         private int comment_num;
         private String writer_nickname;
         private String writer_avatar;
@@ -114,6 +116,14 @@ public class CircleList {
             this.click_num = click_num;
         }
 
+        public int getLike_num() {
+            return like_num;
+        }
+
+        public void setLike_num(int like_num) {
+            this.like_num = like_num;
+        }
+
         public int getComment_num() {
             return comment_num;
         }
@@ -156,7 +166,7 @@ public class CircleList {
 
         public static class PicListBean {
             /**
-             * picture : Talk_pic/u41053966379407115fm11gp0.jpg
+             * picture : http://47.102.215.61:8888/media/Talk_pic/u41053966379407115fm11gp0.jpg
              */
 
             private String picture;

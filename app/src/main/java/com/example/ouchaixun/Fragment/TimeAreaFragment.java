@@ -122,7 +122,7 @@ public class TimeAreaFragment extends Fragment {
                                 map.put("time",circleList.getData().get(i).getRelease_time());
                                 map.put("content",circleList.getData().get(i).getContent());
                                 map.put("comment",circleList.getData().get(i).getComment_num());
-                                map.put("like",circleList.getData().get(i).getClick_num());
+                                map.put("like",circleList.getData().get(i).getLike_num());
                                 map.put("islike",circleList.getData().get(i).getIs_like());
                                 for(int k=0;k<circleList.getData().get(i).getPic_list().size();k++)
                                 {

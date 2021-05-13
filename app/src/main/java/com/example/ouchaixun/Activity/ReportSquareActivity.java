@@ -2,6 +2,7 @@ package com.example.ouchaixun.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,12 +26,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ouchaixun.Adapter.NineReportAdapter;
 import com.example.ouchaixun.Adapter.OnAddPicturesListener;
 import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +50,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+class Squarepost
+{
+    int tag;
+    String title;
+    String content;
+    int anonymous;
+    String id_list;
+}
+
 
 public class ReportSquareActivity extends AppCompatActivity {
     private ImageView tag_wall;
@@ -52,6 +66,7 @@ public class ReportSquareActivity extends AppCompatActivity {
     private ImageView tag_table;
     private ImageView tag_hole;
     private ImageView tag_bullshit;
+    private SwitchCompat anonymous;
     private EditText title;
     private EditText content;
     private RecyclerView recyclerView;
@@ -296,6 +311,30 @@ public class ReportSquareActivity extends AppCompatActivity {
                 tag_wall.setSelected(false);
                 view.setSelected(true);
     }
+    public  int getAnonymous(final  SwitchCompat switchCompat)
+    {
+        if(switchCompat.isChecked())
+        {
+            return 1;
+        }
+        else
+            return 0;
+    }
+    public  int getTag()
+    {
+        if(tag_wall.isSelected())
+            return 1;
+        else if(tag_hole.isSelected())
+            return 2;
+        else if (tag_bullshit.isSelected())
+            return 3;
+        else  if (tag_car.isSelected())
+            return 4;
+        else  if(tag_table.isSelected())
+            return 5;
+        else
+            return 0;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -311,8 +350,8 @@ public class ReportSquareActivity extends AppCompatActivity {
         Map<String,Object> map=new HashMap<>();
         map.put("type",1);
         list.add(map);
-
         recyclerView.setLayoutManager(manager);
+        anonymous=findViewById(R.id.check_anonymous);
         recyclerView.setAdapter(nineReportAdapter);
         back=findViewById(R.id.square_report_back);
         tag_wall=findViewById(R.id.tag_wall);
@@ -398,6 +437,48 @@ public class ReportSquareActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(title.equals(""))
+                {
+                    Toast.makeText(ReportSquareActivity.this,"标题不能为空",Toast.LENGTH_SHORT).show();
+                }
+                else if(content.equals(""))
+                {
+                    Toast.makeText(ReportSquareActivity.this,"内容不能为空",Toast.LENGTH_SHORT).show();
+                }
+                else if(getTag()==0)
+                {
+                    Toast.makeText(ReportSquareActivity.this,"请选择帖子标签",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Gson gson=new Gson();
+                    Squarepost squarepost=new Squarepost();
+                    squarepost.content=content.getText().toString();
+                    squarepost.anonymous=getAnonymous(anonymous);
+                    squarepost.tag=getTag();
+                    squarepost.id_list=IdList.toString();
+                    String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
+                    try {
+                        OKhttpUtils.post_json(token, "http://47.102.215.61:8888/passage/release_passage", gson.toJson(squarepost), new OKhttpUtils.OkhttpCallBack() {
+                            @Override
+                            public void onSuccess(Response response) throws IOException {
+                                String responseData = response.body().string();
+                            }
+
+                            @Override
+                            public void onFail(String error) {
+
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

@@ -85,7 +85,7 @@
             android:layout_height="30dp"
             android:background="@null"
             android:textSize="15sp"
-            android:text="输入标题..."
+            android:hint="输入标题..."
             android:paddingStart="5dp"
             android:textColor="#FF888888"
             android:paddingLeft="10dp" />
@@ -118,7 +118,7 @@
             android:background="@null"
             android:textSize="12sp"
             android:textColor="#FF888888"
-            android:text="输入内容......  如时间、地点等"
+            android:hint="输入内容......  如时间、地点等"
             android:gravity="left"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
