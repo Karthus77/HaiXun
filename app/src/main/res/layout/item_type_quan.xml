@@ -9,16 +9,30 @@
         android:layout_width="match_parent"
         android:background="@drawable/background_box22"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/circleItem_topBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="45dp"
+                android:layout_height="20dp"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/write"
+                android:background="@drawable/official_background"
+                android:text="校友圈"
+                android:layout_marginLeft="10dp" />
+
             <ImageView
                 android:id="@+id/circle_userHead"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/circle_userdefault"
-                android:layout_marginTop="8.67dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginLeft="10dp">
 
             </ImageView>
@@ -35,7 +49,7 @@
                 android:id="@+id/circle_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22.67dp"
+                android:layout_marginTop="35dp"
                 android:layout_toRightOf="@id/circle_userHead"
                 android:layout_marginLeft="6.67dp"
                 android:text="用户名"
@@ -52,14 +66,14 @@
                 android:layout_marginLeft="57.33dp"
                 android:layout_marginTop="0.67dp"
                 android:text="2021-4-13 12:10"
-                android:textSize="6.67sp"
+                android:textSize="8sp"
                 android:textColor="#666666"></TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/circleItem_content"
                 android:layout_below="@id/circle_rank"
-                android:layout_marginTop="1.33dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="56.67dp"
                 android:layout_marginRight="25.67dp"
                 android:textColor="#444444"
@@ -67,14 +81,15 @@
                 android:text="帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子内容帖子的内">
 
             </TextView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/item_NinePictures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="131dp"
+                android:layout_below="@+id/circleItem_content"
                 android:layout_marginLeft="57dp"
-                android:layout_marginRight="43dp">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginTop="23dp"
+                android:layout_marginRight="43dp"></androidx.recyclerview.widget.RecyclerView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,23 +154,17 @@
             <TextView
                 android:layout_below="@id/circleItem_like"
                 android:layout_width="match_parent"
-                android:layout_height="9.33dp"></TextView>
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="#E8E8E8"
+                android:layout_marginHorizontal="10dp"></TextView>
 
 
         </RelativeLayout>
 
-
-
-
-
     </RelativeLayout>
 
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="10dp"
-    android:layout_below="@id/circle_item">
 
-</RelativeLayout>
 
 </RelativeLayout>
