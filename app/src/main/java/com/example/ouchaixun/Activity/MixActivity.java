@@ -130,8 +130,8 @@ public class MixActivity extends AppCompatActivity {
             public void run() {
                 try {
                     OkHttpClient client = new OkHttpClient().newBuilder()
-                            .connectTimeout(600, TimeUnit.MILLISECONDS)
-                            .readTimeout(1200, TimeUnit.MILLISECONDS)
+                            .connectTimeout(3000, TimeUnit.MILLISECONDS)
+                            .readTimeout(3000, TimeUnit.MILLISECONDS)
                             .build();
                     Request request = new Request.Builder()
                             .url("http://47.102.215.61:8888" + tp_url)

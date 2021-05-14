@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.ouchaixun.Activity.NewsDetilsActivity;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.MyData;
 
@@ -95,7 +96,7 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof NoViewHolder) {
             NoViewHolder viewHolder = (NoViewHolder) holder;
             viewHolder.textView.setText(list.get(position).get("text").toString());
@@ -106,6 +107,14 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             viewHolder.news_hint.setText(list.get(position).get("writer_nickname").toString());
             Log.d("12333",list.get(position).get("banner").toString()+"aaa");
             Glide.with(context).load(list.get(position).get("banner").toString()).centerCrop().into(viewHolder.news_img);
+            viewHolder.news_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, NewsDetilsActivity.class);
+                    intent.putExtra("id",Integer.valueOf(list.get(position).get("news_id").toString()));
+                    context.startActivity(intent);
+                }
+            });
         }else if(holder instanceof  NetViewHolder){
             NetViewHolder viewHolder = (NetViewHolder) holder;
 

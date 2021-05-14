@@ -371,6 +371,15 @@ public class ChangeInfoActivity extends AppCompatActivity {
                                 Log.d("1233g", "onResponse:123 " + responseData);
                                 JSONObject jsonObject1 = new JSONObject(responseData);
                                 int code = jsonObject1.getInt("code");
+                                final String img_url = jsonObject1.getString("url");
+                                Objects.requireNonNull(ChangeInfoActivity.this).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(ChangeInfoActivity.this).load(img_url)
+                                                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                                .into(change_pic);
+                                    }
+                                });
                                 if (code != 1000) {
                                     Objects.requireNonNull(ChangeInfoActivity.this).runOnUiThread(new Runnable() {
                                         @Override
