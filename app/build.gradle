@@ -48,6 +48,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
-
+    implementation 'com.github.wildma:PictureSelector:2.1.0'
     implementation 'com.zzhoujay.richtext:richtext:3.0.7'
+
+
+
 }

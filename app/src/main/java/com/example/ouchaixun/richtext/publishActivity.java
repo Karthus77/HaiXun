@@ -8,8 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.os.Environment;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 
@@ -36,6 +39,8 @@ import com.example.ouchaixun.Utils.CameraActivity;
 import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
+import com.wildma.pictureselector.PictureBean;
+import com.wildma.pictureselector.PictureSelector;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -45,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -56,240 +62,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class publishActivity extends AppCompatActivity implements View.OnClickListener {
-
-
-    private Button post;private Uri photoUri;   //相机拍照返回图片路径
-    private File outputImage;
-    private static final int GET_BACKGROUND_FROM_CAPTURE_RESOULT = 1;
-    private static final int RESULT_REQUEST_CODE = 2;
-    private static final int TAKE_PHOTO = 3;
-    private void selectCamera() {
-
-        //创建file对象，用于存储拍照后的图片，这也是拍照成功后的照片路径
-        outputImage = new File(this.getExternalCacheDir(), "camera_photos.jpg");
-        try {
-            //判断文件是否存在，存在删除，不存在创建
-            if (outputImage.exists()) {
-                outputImage.delete();
-            }
-            outputImage.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        photoUri = Uri.fromFile(outputImage);
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-        startActivityForResult(intent, TAKE_PHOTO);
-
-    }
-    public static final String STR_IMAGE = "image/*";
-    //选择相册
-    private void selectPhoto(){
-        Intent intent = new Intent(Intent.ACTION_PICK, null);
-        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, STR_IMAGE);
-        startActivityForResult(intent, GET_BACKGROUND_FROM_CAPTURE_RESOULT);
-
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) return;
-
-        switch (requestCode) {
-
-            case RESULT_REQUEST_CODE:   //相册返回
-
-
-
-                final String selectPhoto = getRealPathFromUri(this,cropImgUri);
-                Thread thread=new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            OkHttpClient client = new OkHttpClient().newBuilder()
-                                    .build();
-                            MediaType mediaType = MediaType.parse("multipart/form-data");
-                            RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                    .addFormDataPart("picture",selectPhoto,
-                                            RequestBody.create(MediaType.parse("application/octet-stream"),
-                                                    new File(selectPhoto)))
-                                    .addFormDataPart("type", "2")
-                                    .build();
-                            Request request = new Request.Builder()
-                                    .url("http://47.102.215.61:8888/whole/picture")
-                                    .method("POST", body)
-                                    .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo")
-                                    .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
-                                    .build();
-
-
-                            client.newCall(request).enqueue(new Callback() {
-                                @Override
-                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-                                }
-
-                                @Override
-                                public void onResponse(@NotNull Call call, @NotNull Response response)  {
-                                    try {
-                                        Log.i("asd", response.body().string());
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    Log.i("asd", "OKHTTPUtils连接成功");
-                                }
-                            });
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-
-
-                    }
-                });
-                thread.start();
-
-
-
-
-
-
-
-
-                break;
-
-            case TAKE_PHOTO://   拍照返回
-                cropRawPhoto(photoUri);
-
-                break;
-            case GET_BACKGROUND_FROM_CAPTURE_RESOULT:
-                photoUri = data.getData();
-                cropRawPhoto(photoUri);
-
-
-        }
-
-    }
-    private Uri cropImgUri;
-    public void cropRawPhoto(Uri uri) {
-        //创建file文件，用于存储剪裁后的照片
-        File cropImage = new File(Environment.getExternalStorageDirectory(), "crop_image.jpg");
-        String path = cropImage.getAbsolutePath();
-        try {
-            if (cropImage.exists()) {
-                cropImage.delete();
-            }
-            cropImage.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        cropImgUri = Uri.fromFile(cropImage);
-        Intent intent = new Intent("com.android.camera.action.CROP");
-//设置源地址uri
-        intent.setDataAndType(photoUri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 200);
-        intent.putExtra("aspectY", 200);
-        intent.putExtra("outputX", 200);
-        intent.putExtra("outputY", 200);
-        intent.putExtra("scale", true);
-//设置目的地址uri
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, cropImgUri);
-//设置图片格式
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("return-data", false);
-        intent.putExtra("noFaceDetection", true); // no face detection
-        startActivityForResult(intent, RESULT_REQUEST_CODE);
-    }
-    public static String getRealPathFromUri(Context context, Uri uri) {
-        if(context == null || uri == null) {
-            return null;
-        }
-        if("file".equalsIgnoreCase(uri.getScheme())) {
-            return getRealPathFromUri_Byfile(context,uri);
-        } else if("content".equalsIgnoreCase(uri.getScheme())) {
-            return getRealPathFromUri_Api11To18(context,uri);
-        }
-//        int sdkVersion = Build.VERSION.SDK_INT;
-//        if (sdkVersion < 11) {
-//            // SDK < Api11
-//            return getRealPathFromUri_BelowApi11(context, uri);
-//        }
-
-//        // SDK > 19
-        return getRealPathFromUri_AboveApi19(context, uri);//没用到
-    }
-    private static String getRealPathFromUri_Byfile(Context context,Uri uri){
-        String uri2Str = uri.toString();
-        String filePath = uri2Str.substring(uri2Str.indexOf(":") + 3);
-        return filePath;
-    }
-    @SuppressLint("NewApi")
-    private static String getRealPathFromUri_AboveApi19(Context context, Uri uri) {
-        String filePath = null;
-        String wholeID = null;
-
-        wholeID = DocumentsContract.getDocumentId(uri);
-
-        // 使用':'分割
-        String id = wholeID.split(":")[1];
-
-        String[] projection = { MediaStore.Images.Media.DATA };
-        String selection = MediaStore.Images.Media._ID + "=?";
-        String[] selectionArgs = { id };
-
-        Cursor cursor = context.getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
-                selection, selectionArgs, null);
-        int columnIndex = cursor.getColumnIndex(projection[0]);
-
-        if (cursor.moveToFirst()) {
-            filePath = cursor.getString(columnIndex);
-        }
-        cursor.close();
-        return filePath;
-    }
-
-    /**
-     * //适配api11-api18,根据uri获取图片的绝对路径。
-     * 针对图片URI格式为Uri:: content://media/external/images/media/1028
-     */
-    private static String getRealPathFromUri_Api11To18(Context context, Uri uri) {
-        String filePath = null;
-        String[] projection = { MediaStore.Images.Media.DATA };
-
-        CursorLoader loader = new CursorLoader(context, uri, projection, null,
-                null, null);
-        Cursor cursor = loader.loadInBackground();
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-            filePath = cursor.getString(cursor.getColumnIndex(projection[0]));
-            cursor.close();
-        }
-        return filePath;
-    }
-
-    /**
-     * 适配api11以下(不包括api11),根据uri获取图片的绝对路径
-     */
-    private static String getRealPathFromUri_BelowApi11(Context context, Uri uri) {
-        String filePath = null;
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver().query(uri, projection,
-                null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            filePath = cursor.getString(cursor.getColumnIndex(projection[0]));
-            cursor.close();
-        }
-        return filePath;
-    }
-
 
 
 
@@ -376,6 +148,76 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean isheader=true;
 
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*结果回调*/
+        if (requestCode == PictureSelector.SELECT_REQUEST_CODE) {
+            if (data != null) {
+                final PictureBean pictureBean = data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
+
+                fileName=pictureBean.getPath();
+                filePath=pictureBean.getPath();
+
+
+//                Thread thread=new Thread(new Runnable() {
+//                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//                    @Override
+//                    public void run() {
+//                        try {
+//
+//
+//                OkHttpClient client = new OkHttpClient().newBuilder()
+//                        .build();
+//                MediaType mediaType = MediaType.parse("text/plain");
+//                RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+//                        .addFormDataPart("picture",pictureBean.getPath(),
+//                                RequestBody.create(MediaType.parse("application/octet-stream"),
+//                                        new File(pictureBean.getPath())))
+//                        .build();
+//                Request request = new Request.Builder()
+//                        .url("http://47.102.215.61:8888/news/upload_pic")
+//                        .method("POST", body)
+//                        .addHeader("Authorization", token)
+//
+//                        .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
+//                        .build();
+//                Response response = null;
+//                try {
+//                    response= client.newCall(request).execute();
+//
+//                    JSONObject jsonObject=new JSONObject(response.body().string());
+//
+//
+//                    Log.i("asd",jsonObject.toString());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+
+//
+//                    }
+//                });
+//                thread.start();
+
+                //使用 Glide 加载图片
+                Glide.with(this)
+                        .load(pictureBean.isCut() ? pictureBean.getPath() : pictureBean.getUri())
+                        .into(imageView);
+            }
+        }
+    }
+
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -384,6 +226,10 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         token = myData.load_token();
         initView();
         initClickListener();
+
+
+
+
 
         findViewById(R.id.publish_news).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -395,12 +241,13 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
 
 
                 try {
-                    OKhttpUtils.post_form(token, title, content, filePath, fileName, new OKhttpUtils.OkhttpCallBack() {
+                    OKhttpUtils.post_form(token, title, content, filePath, new OKhttpUtils.OkhttpCallBack() {
+                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                         @Override
                         public void onSuccess(Response response) {
 
                             try {
-                                JSONObject jsonObject=new JSONObject(response.body().string());
+                                JSONObject jsonObject=new JSONObject(Objects.requireNonNull(response.body()).string());
                                 final String msg=jsonObject.getString("msg");
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -441,7 +288,10 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.publish_add_img).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectPhoto();                isheader=true;
+                PictureSelector
+                        .create(publishActivity.this, PictureSelector.SELECT_REQUEST_CODE)
+                        .selectPicture(true, 200, 100, 2, 1);
+              isheader=true;
             }
         });
 
@@ -740,7 +590,9 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相
             //或者拍照获取图片，传图本地图片路径，也可以将本地图片路径上传到服务器
             //返回在服务端的URL地址，将地址传如即可（我这里传了一张写死的图片URL，如果你插入的图片不现实，请检查你是否添加
-            startActivity(new Intent(publishActivity.this, CameraActivity.class).putExtra(CameraActivity.ExtraType, CameraActivity.PHOTO));
+            PictureSelector
+                    .create(publishActivity.this, PictureSelector.SELECT_REQUEST_CODE)
+                    .selectPicture(true, 300, 200, 3, 2);
             isheader=false;
 
 //            mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",

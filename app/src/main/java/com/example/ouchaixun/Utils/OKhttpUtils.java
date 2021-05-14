@@ -162,7 +162,7 @@ public class OKhttpUtils {
 
 
     // post form数据  token数据
-    public static void post_form(final String token, final String title, final String content, final String filePath, final String fileName, final OkhttpCallBack okhttpCallBack) throws JSONException {
+    public static void post_form(final String token, final String title, final String content, final String filePath, final OkhttpCallBack okhttpCallBack) throws JSONException {
 
         try {
             Thread thread=new Thread(new Runnable() {
@@ -171,16 +171,16 @@ public class OKhttpUtils {
                     getInstance();
                     try {
 
-                        MediaType mediaType = MediaType.parse("multipart/form-data");
+                        MediaType mediaType = MediaType.parse("text/form-data");
                         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("title", title)
-                                .addFormDataPart("content", content)
 
-                                .addFormDataPart("banner",fileName,
+                                .addFormDataPart("picture",filePath,
                                         RequestBody.create(MediaType.parse("application/octet-stream"),
                                                 new File(filePath)))
+                                .addFormDataPart("title", title)
+                                .addFormDataPart("content", content)
                                 .build();
-                        Log.i("asd", body.toString());
+                        Log.i("asddddd", body.toString()+filePath);
                         Request request = new Request.Builder()
                                 .url("http://47.102.215.61:8888/news/release_news")
                                 .post(body)
@@ -198,7 +198,7 @@ public class OKhttpUtils {
                             @Override
                             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                                 okhttpCallBack.onSuccess(response);
-                                Log.i("asd","OKHTTPUtils连接成功");
+                                Log.i("asd","OKHTTPUtils连接成功hh");
                             }
 
                         });
