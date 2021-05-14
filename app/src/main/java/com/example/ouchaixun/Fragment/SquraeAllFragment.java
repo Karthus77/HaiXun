@@ -34,12 +34,11 @@ import java.util.Objects;
 import okhttp3.Response;
 
 
-public class SquareBullshitFragment extends Fragment {
+public class SquraeAllFragment extends Fragment {
     private SmartRefreshLayout smartRefreshLayout;
     private RecyclerView recyclerView;
     private RelativeLayout relativeLayout;
     private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjE1MjM4MDIsImlhdCI6MTYyMDkxOTAwMiwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.zzO6gk1Y6iaRawxb--avh4xaGeUhuI16BnxgtRydxks";
-    private static final String tag="2";
     private int page=1,o_page=1,refresh_num=0;
     private SquareAdapter squareAdapter;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -48,7 +47,7 @@ public class SquareBullshitFragment extends Fragment {
         if (page<=o_page) {
 
             OKhttpUtils.get_token(token ,
-                    "http://47.102.215.61:8888/passage/passage_list?page="+page+"&tag=3", new OKhttpUtils.OkhttpCallBack() {
+                    "http://47.102.215.61:8888/passage/passage_list?page="+page+"&tag=", new OKhttpUtils.OkhttpCallBack() {
                         @Override
                         public void onSuccess(Response response) {
 
@@ -138,8 +137,6 @@ public class SquareBullshitFragment extends Fragment {
 
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,16 +146,17 @@ public class SquareBullshitFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_square_bullshit, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_squrae_all, container, false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        smartRefreshLayout=view.findViewById(R.id.bullshit_refresh);
-        relativeLayout=view.findViewById(R.id.bullshit_background);
-        recyclerView=view.findViewById(R.id.bullshit_recycler);
+        smartRefreshLayout=view.findViewById(R.id.all_refresh);
+        relativeLayout=view.findViewById(R.id.all_background);
+        recyclerView=view.findViewById(R.id.all_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         final List<Map<String,Object>> list=new ArrayList<>();
         GetSquare(list,true);

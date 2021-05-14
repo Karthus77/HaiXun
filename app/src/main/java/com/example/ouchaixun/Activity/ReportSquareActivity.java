@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.ouchaixun.Adapter.NineReportAdapter;
 import com.example.ouchaixun.Adapter.OnAddPicturesListener;
+import com.example.ouchaixun.Data.Circleback;
 import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.OKhttpUtils;
@@ -50,14 +52,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-class Squarepost
-{
-    int tag;
-    String title;
-    String content;
-    int anonymous;
-    String id_list;
-}
+
 
 
 public class ReportSquareActivity extends AppCompatActivity {
@@ -456,23 +451,33 @@ public class ReportSquareActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Gson gson=new Gson();
-                    Squarepost squarepost=new Squarepost();
-                    squarepost.content=content.getText().toString();
-                    squarepost.anonymous=getAnonymous(anonymous);
-                    squarepost.tag=getTag();
-                    squarepost.id_list=IdList.toString();
+
+                    String square="{\"tag\":"+String.valueOf(getTag())+",\"title\":"+"\""+title.getText().toString()+"\""+",\"content\":"+content.getText().toString()+",\"anonymous\":"+String.valueOf(getAnonymous(anonymous))+",\"id_list\":"+IdList.toString()+"}";
+                    Log.i("sqback",square);
                     String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
                     try {
-                        OKhttpUtils.post_json(token, "http://47.102.215.61:8888/passage/release_passage", gson.toJson(squarepost), new OKhttpUtils.OkhttpCallBack() {
+                        OKhttpUtils.post_json(token, "http://47.102.215.61:8888/passage/release_passage",square, new OKhttpUtils.OkhttpCallBack() {
                             @Override
                             public void onSuccess(Response response) throws IOException {
                                 String responseData = response.body().string();
+                                Log.i("sqback",responseData);
+                                Gson gson=new Gson();
+                                final Circleback circleback=gson.fromJson(responseData,Circleback.class);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(ReportSquareActivity.this,circleback.getMsg(),Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                if (circleback.getCode()==200)
+                                {
+                                    finish();
+                                }
                             }
 
                             @Override
                             public void onFail(String error) {
-
+                                Log.i("sqback",error);
                             }
                         });
                     } catch (JSONException e) {

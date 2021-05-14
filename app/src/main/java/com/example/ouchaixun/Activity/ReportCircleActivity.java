@@ -59,7 +59,7 @@ import okhttp3.Response;
 
 public class ReportCircleActivity extends AppCompatActivity {
     private ImageView back;
-    private String token;
+    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjE1MjM4MDIsImlhdCI6MTYyMDkxOTAwMiwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.zzO6gk1Y6iaRawxb--avh4xaGeUhuI16BnxgtRydxks";
     private EditText edit_content;
     private Button post;
     private RecyclerView recyclerView;
@@ -129,7 +129,7 @@ public class ReportCircleActivity extends AppCompatActivity {
                             Request request = new Request.Builder()
                                     .url("http://47.102.215.61:8888/whole/picture")
                                     .method("POST", body)
-                                    .addHeader("Authorization", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEzNDYzNzIsImlhdCI6MTYyMDc0MTU3MiwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.R7AgngEke_I3zWDCmmwSWKs4hJN0fOjkakBvnPSVNFU")
+                                    .addHeader("Authorization", token)
                                     .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
                                     .build();
                             Response response = client.newCall(request).execute();
@@ -392,16 +392,27 @@ public class ReportCircleActivity extends AppCompatActivity {
                     String ids=IdList.toString();
                     String content=edit_content.getText().toString();
                     String s=ids.substring(1,ids.length()-1);
-                    final String img_ids="["+s+"]";
-                    final String a="{\"content\":"+content+",\"id_list\":\"1\"}";
-                    String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjE0OTE4MzQsImlhdCI6MTYyMDg4NzAzNCwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjZ9fQ.AoOgYQG2lWydzRb5hv_SZYrXPbW0VrX8cGrdYFndXxc";
+                    final String img_ids=s;
+                    final String a="{\"content\":"+"\""+content+"\""+",\"id_list\":"+"\""+img_ids+"\""+"}";
                     try {
                         OKhttpUtils.post_json(token,"http://47.102.215.61:8888/school/release_talk",a, new OKhttpUtils.OkhttpCallBack() {
                             @Override
                             public void onSuccess(Response response)  {
                                 try {
                                     String responseData = response.body().string();
-                                    Log.i("asd",responseData);
+                                    Log.i("rec",responseData);
+                                    Gson gson=new Gson();
+                                    final Circleback circleback=gson.fromJson(responseData,Circleback.class);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(ReportCircleActivity.this,circleback.getMsg(),Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        if (circleback.getCode()==200)
+                                        {
+                                            finish();
+                                        }
 
                                 }catch (Exception e) {
                                     e.printStackTrace();
@@ -409,7 +420,7 @@ public class ReportCircleActivity extends AppCompatActivity {
                             }
                             @Override
                             public void onFail(String error) {
-
+                                Log.i("rec",error);
                             }
                         });
                     }  catch (Exception e) {
