@@ -6,7 +6,7 @@
         android:id="@+id/hot_re"
         android:background="@drawable/background_box22"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp">
         <ImageView

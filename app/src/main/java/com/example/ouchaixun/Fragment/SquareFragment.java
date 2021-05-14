@@ -23,11 +23,13 @@ public class SquareFragment extends Fragment {
     private ImageView bullshit;
     private ImageView treehole;
     private ImageView post;
+    private ImageView all;
     private SquareWallFragment squareWallFragment=new SquareWallFragment();
     private SquareCarFragment squareCarFragment=new SquareCarFragment();
     private SquareTableFragment squareTableFragment=new SquareTableFragment();
     private SquareBullshitFragment squareBullshitFragment=new SquareBullshitFragment();
     private SquareHoleFragment squareHoleFragment=new SquareHoleFragment();
+    private SquraeAllFragment squraeAllFragment=new SquraeAllFragment();
 
     public void hideFragment(FragmentTransaction transaction){
         if(squareWallFragment != null){
@@ -40,6 +42,9 @@ public class SquareFragment extends Fragment {
             transaction.hide(squareTableFragment);
         }
         if(squareBullshitFragment != null){
+            transaction.hide(squareBullshitFragment);
+        }
+        if(squraeAllFragment != null){
             transaction.hide(squareBullshitFragment);
         }
         if(squareHoleFragment != null){
@@ -68,6 +73,7 @@ public class SquareFragment extends Fragment {
         table.setSelected(false);
         treehole.setSelected(false);
         bullshit.setSelected(false);
+        all.setSelected(false);
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,6 +99,8 @@ public class SquareFragment extends Fragment {
         carpool=view.findViewById(R.id.square_carpool);
         bullshit=view.findViewById(R.id.square_bullshit);
         treehole=view.findViewById(R.id.square_treehole);
+        all=view.findViewById(R.id.square_all);
+        chooseFragment(squraeAllFragment,all);
         wall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +129,12 @@ public class SquareFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 chooseFragment(squareBullshitFragment,bullshit);
+            }
+        });
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseFragment(squraeAllFragment,all);
             }
         });
         post.setOnClickListener(new View.OnClickListener() {

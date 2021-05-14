@@ -4,10 +4,11 @@ import java.util.List;
 
 public class SquareList {
 
+
     /**
      * code : 200
      * msg : 获取成功
-     * data : [{"id":1,"writer":1,"title":"test","click_num":46,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","tag":"表白墙","first_pic":"","is_star":1},{"id":6,"writer":3,"title":"离与总使温局","click_num":0,"comment_num":0,"writer_nickname":"该内容由匿名用户发布","writer_avatar":"media/avatar/default.png","tag":"表白墙","first_pic":"media/Post_pic/2021-05-04_203009.967077.jpg","is_star":0}]
+     * data : [{"release_time":"2021-05-13T08:59:17.554","id":6,"writer":3,"title":"离与总使温局","click_num":0,"comment_num":0,"writer_nickname":"该内容由匿名用户发布","writer_avatar":"media/avatar/default.png","tag":"表白墙","first_pic":"media/Post_pic/2021-05-04_203009.967077.jpg","is_star":0},{"release_time":"2021-05-04T20:01:37.594","id":1,"writer":1,"title":"test","click_num":46,"comment_num":0,"writer_nickname":"江湖骗子","writer_avatar":"/media/avatar/default.png","tag":"表白墙","first_pic":"","is_star":0}]
      * num_pages : 1
      */
 
@@ -50,18 +51,20 @@ public class SquareList {
 
     public static class DataBean {
         /**
-         * id : 1
-         * writer : 1
-         * title : test
-         * click_num : 46
+         * release_time : 2021-05-13T08:59:17.554
+         * id : 6
+         * writer : 3
+         * title : 离与总使温局
+         * click_num : 0
          * comment_num : 0
-         * writer_nickname : 江湖骗子
-         * writer_avatar : /media/avatar/default.png
+         * writer_nickname : 该内容由匿名用户发布
+         * writer_avatar : media/avatar/default.png
          * tag : 表白墙
-         * first_pic :
-         * is_star : 1
+         * first_pic : media/Post_pic/2021-05-04_203009.967077.jpg
+         * is_star : 0
          */
 
+        private String release_time;
         private int id;
         private int writer;
         private String title;
@@ -72,6 +75,14 @@ public class SquareList {
         private String tag;
         private String first_pic;
         private int is_star;
+
+        public String getRelease_time() {
+            return release_time;
+        }
+
+        public void setRelease_time(String release_time) {
+            this.release_time = release_time;
+        }
 
         public int getId() {
             return id;

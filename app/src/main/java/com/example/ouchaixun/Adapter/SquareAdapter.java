@@ -41,22 +41,27 @@ public class SquareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if(list.get(position).get("tag").equals("表白墙"))
         {
             viewholder.relativeLayout.setBackgroundResource(R.drawable.background_wall);
+            viewholder.head.setImageResource(R.drawable.anonymous_wall);
         }
         else if(list.get(position).get("tag").equals("树洞"))
         {
             viewholder.relativeLayout.setBackgroundResource(R.drawable.background_tree);
+            viewholder.head.setImageResource(R.drawable.anonymous_tree);
         }
         else if(list.get(position).get("tag").equals("吐槽"))
         {
             viewholder.relativeLayout.setBackgroundResource(R.drawable.background_bullshit);
+            viewholder.head.setImageResource(R.drawable.anonymous_bullshit);
         }
         else if(list.get(position).get("tag").equals("失物招领"))
         {
             viewholder.relativeLayout.setBackgroundResource(R.drawable.background_car);
+            viewholder.head.setImageResource(R.drawable.anonymous_car);
         }
         else
         {
             viewholder.relativeLayout.setBackgroundResource(R.drawable.background_table);
+            viewholder.head.setImageResource(R.drawable.anonymous_table);
         }
         viewholder.title.setText(list.get(position).get("title").toString());
         viewholder.time.setText(list.get(position).get("time").toString());

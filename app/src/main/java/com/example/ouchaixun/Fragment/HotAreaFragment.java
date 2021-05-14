@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.ouchaixun.Adapter.CircleAdapter;
@@ -36,10 +37,11 @@ import okhttp3.Response;
 
 
 public class HotAreaFragment extends Fragment {
-    private String token;
+    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjE1MjM4MDIsImlhdCI6MTYyMDkxOTAwMiwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.zzO6gk1Y6iaRawxb--avh4xaGeUhuI16BnxgtRydxks";;
     private SmartRefreshLayout smartRefreshLayout;
     private HotListAdapter hotListAdapter;
     private RecyclerView recyclerView;
+    private RelativeLayout relativeLayout;
     private int page=1,size=9,o_page=1,refresh_num=0;
 
 
@@ -67,6 +69,7 @@ public class HotAreaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         smartRefreshLayout=view.findViewById(R.id.hot_refresh);
         recyclerView=view.findViewById(R.id.hot_recycler);
+        relativeLayout=view.findViewById(R.id.hot_background);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
         final List<Map<String,Object>> list=new ArrayList<>();
@@ -123,12 +126,23 @@ public class HotAreaFragment extends Fragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-
+                                            relativeLayout.setBackgroundResource(R.drawable.background_box22);
+                                            if (list.size()==0)
+                                                relativeLayout.setBackgroundResource(R.drawable.hbb_no);
                                             if (refresh) {
+                                                if (list.size()==0)
+                                                {
+                                                    Map<String,Object> map=new HashMap<>();
+                                                    map.put("no",1);
+                                                    list.add(map);
+                                                }
                                                 hotListAdapter = new HotListAdapter(getContext(), list);
                                                 recyclerView.setAdapter(hotListAdapter);
+                                                if(refresh_num!=0)
+                                                Toast.makeText(getContext(),"刷新成功",Toast.LENGTH_SHORT).show();
                                             } else {
                                                 hotListAdapter.notifyDataSetChanged();
+                                                Toast.makeText(getContext(),"加载成功",Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });}
@@ -149,14 +163,8 @@ public class HotAreaFragment extends Fragment {
                             Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (!refresh) {
-                                        page--;
-                                    }
-                                    if (refresh_num >= 1) {
-                                        Toast.makeText(getContext(), "网络走丢了", Toast.LENGTH_SHORT).show();
-                                    } else {
-
-                                    }
+                                    Toast.makeText(getContext(),"网络连接好像断开了哦",Toast.LENGTH_SHORT).show();
+                                    relativeLayout.setBackgroundResource(R.drawable.hbb_nonet);
                                 }
                             });
                         }

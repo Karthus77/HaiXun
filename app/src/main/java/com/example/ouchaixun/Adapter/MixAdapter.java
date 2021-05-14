@@ -37,9 +37,9 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
     private List<Map<String, Object>> list;
     public Context context;
     public final int VIEW_NO = 0;
-    public final int VIEW_TIE = 1;
-    public final int VIEW_SCHOOLMATE = 2;
-    public final int VIEW_NEWS = 3;
+    public final int VIEW_TIE = 2;
+    public final int VIEW_SCHOOLMATE = 3;
+    public final int VIEW_NEWS = 1;
     public final int VIEW_NO_NET = 4;
     private long lastClickTime = 0L;
     private static final int FAST_CLICK_DELAY_TIME = 2000;
@@ -101,12 +101,34 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             viewHolder.textView.setText(list.get(position).get("text").toString());
             Log.d("12332", "00");
         } else if(holder instanceof NewsViewHolder){
-
+            NewsViewHolder viewHolder = (NewsViewHolder) holder;
+            viewHolder.news_title.setText(list.get(position).get("title").toString());
+            viewHolder.news_hint.setText(list.get(position).get("writer_nickname").toString());
+            Log.d("12333",list.get(position).get("banner").toString()+"aaa");
+            Glide.with(context).load(list.get(position).get("banner").toString()).centerCrop().into(viewHolder.news_img);
         }else if(holder instanceof  NetViewHolder){
+            NetViewHolder viewHolder = (NetViewHolder) holder;
 
         }else if(holder instanceof  SchoolViewHolder){
+            SchoolViewHolder viewHolder = (SchoolViewHolder) holder;
+            viewHolder.circle_userName.setText(list.get(position).get("writer_nickname").toString());
+            if(Integer.valueOf(list.get(position).get("comment_num").toString())>99){
+                viewHolder.comments_num.setText("99+");
+            }else{
+                viewHolder.comments_num.setText(list.get(position).get("comment_num").toString());
+            }
+            if(Integer.valueOf(list.get(position).get("like_num").toString())>99){
+                viewHolder.likes_num.setText("99+");
+            }else{
+                viewHolder.likes_num.setText(list.get(position).get("like_num").toString());
+            }
+            viewHolder.circleItem_content.setText(list.get(position).get("content").toString());
+            Glide.with(context).load(list.get(position).get("writer_avatar").toString())
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into(viewHolder.circle_userHead);
 
         }else if(holder instanceof  TieViewHolder){
+            TieViewHolder viewHolder = (TieViewHolder) holder;
 
         }
     }
@@ -122,10 +144,16 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
 
 
     class NewsViewHolder extends RecyclerView.ViewHolder {
-
+        TextView news_title;
+        TextView news_hint;
+        ImageView news_img;
+        RelativeLayout news_layout;
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            news_title = itemView.findViewById(R.id.news_title);
+            news_hint = itemView.findViewById(R.id.news_hint);
+            news_img = itemView.findViewById(R.id.news_img);
+            news_layout = itemView.findViewById(R.id.news_layout);
         }
     }
     class NoViewHolder extends RecyclerView.ViewHolder {
@@ -143,10 +171,20 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         }
     }
     class SchoolViewHolder extends RecyclerView.ViewHolder {
-
+        TextView circle_userName;
+        TextView circleItem_content;
+        ImageView circle_userHead;
+        TextView comments_num;
+        TextView likes_num;
+        RelativeLayout circle_layout;
         SchoolViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            circle_userName = itemView.findViewById(R.id.circle_userName);
+            circleItem_content = itemView.findViewById(R.id.circleItem_content);
+            circle_userHead = itemView.findViewById(R.id.circle_userHead);
+            comments_num = itemView.findViewById(R.id.comments_num);
+            likes_num = itemView.findViewById(R.id.likes_num);
+            circle_layout = itemView.findViewById(R.id.circle_layout);
         }
     }
     class TieViewHolder extends RecyclerView.ViewHolder {

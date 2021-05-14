@@ -62,6 +62,8 @@ public class MixActivity extends AppCompatActivity {
     private String token;
     private int len;
     private MixAdapter adapter;
+    private String myname;
+    private String myhead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,8 @@ public class MixActivity extends AppCompatActivity {
         adapter.myNotifyDataSetChange();
         MyData myData = new MyData(MixActivity.this);
         token = myData.load_token();
+        myname = myData.load_name();
+        myhead = myData.load_pic_url();
         once = false;
         wzy();
     }
@@ -126,8 +130,8 @@ public class MixActivity extends AppCompatActivity {
             public void run() {
                 try {
                     OkHttpClient client = new OkHttpClient().newBuilder()
-                            .connectTimeout(300, TimeUnit.MILLISECONDS)
-                            .readTimeout(300, TimeUnit.MILLISECONDS)
+                            .connectTimeout(600, TimeUnit.MILLISECONDS)
+                            .readTimeout(1200, TimeUnit.MILLISECONDS)
                             .build();
                     Request request = new Request.Builder()
                             .url("http://47.102.215.61:8888" + tp_url)
@@ -184,7 +188,7 @@ public class MixActivity extends AppCompatActivity {
             }
         });
     }
-    //1-帖子 2-校友圈 3-新闻 0-没有 4-网络
+    //1-新闻 2-贴子 3-校友 0-没有 4-网络
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getfeedback(String responseData) {
         if (responseData != "") {
@@ -206,25 +210,51 @@ public class MixActivity extends AppCompatActivity {
                             Map map = new HashMap();
                             map.put("type",type);
                            if(type==3){
-                               int id = jsonObject2.getInt("id");
-                               int click_num = jsonObject2.getInt("click_num");
-                               int star_num = jsonObject2.getInt("star_num");
-                               int news_id = jsonObject2.getInt("news_id");
-                               String title = jsonObject2.getString("title");
-                               String banner = "http://47.102.215.61:8888"+jsonObject2.getString("banner");
-                               String release_time = jsonObject2.getString("release_time");
+                                int talk_id;
+                               String writer_avatar;
+                               String writer_nickname;
+                                if(typee==3){
+                                    talk_id = jsonObject2.getInt("id");
+                                    writer_avatar = myhead;
+                                    writer_nickname = myname;
+                                }else{
+                                    talk_id = jsonObject2.getInt("talk_id");
+                                    writer_avatar ="http://47.102.215.61:8888"+jsonObject2.getString("writer_avatar");
+                                    writer_nickname = jsonObject2.getString("writer_nickname");
+                                }
+                                String content = jsonObject2.getString("content");
+                                int like_num = jsonObject2.getInt("like_num");
+                                int comment_num =jsonObject2.getInt("comment_num");;
+                                String  release_time = jsonObject2.getString("release_time");
+                               map.put("talk_id",talk_id);
+                               map.put("like_num",like_num);
+                               map.put("comment_num",comment_num);
+                               map.put("content",content);
+                               map.put("release_time",release_time);
+                               map.put("writer_avatar",writer_avatar);
+                               map.put("writer_nickname",writer_nickname);
                            }else if(type==1){
-                               int news_id = jsonObject2.getInt("news_id");
-                               String title = jsonObject2.getString("title");
-                               String banner = "http://47.102.215.61:8888"+jsonObject2.getString("banner");
-                               String star_time =jsonObject2.getString("star_time");
-                               String writer_avatar = "http://47.102.215.61:8888"+jsonObject2.getString("writer_avatar");
-                               String writer_nickname = jsonObject2.getString("writer_nickname");
-
+                               int news_id;
+                               String title;
+                               String banner;
+                               String writer_avatar;
+                               String writer_nickname;
+                               if(typee==3){
+                                   news_id = jsonObject2.getInt("id");
+                                   title = jsonObject2.getString("title");
+                                   banner = "http://47.102.215.61:8888/"+jsonObject2.getString("banner");
+                                   writer_avatar = myhead;
+                                   writer_nickname = myname;
+                               }else{
+                                   news_id = jsonObject2.getInt("news_id");
+                                   title = jsonObject2.getString("title");
+                                   banner = "http://47.102.215.61:8888/"+jsonObject2.getString("banner");
+                                   writer_avatar ="http://47.102.215.61:8888/"+jsonObject2.getString("writer_avatar");
+                                   writer_nickname = jsonObject2.getString("writer_nickname");
+                               }
                                map.put("news_id",news_id);
                                map.put("title",title);
                                map.put("banner",banner);
-                               map.put("star_time",star_time);
                                map.put("writer_avatar",writer_avatar);
                                map.put("writer_nickname",writer_nickname);
                            }
