@@ -68,12 +68,13 @@
               android:hint="请输入标题"
               android:background="@null"
               android:gravity="center_horizontal"
+              android:inputType="text"
               android:padding="12dp"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/news_publish_edittext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="10dp"
@@ -89,7 +90,7 @@
 
 
 
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
     </RelativeLayout>

@@ -199,9 +199,16 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                        if (isheader){
                            banner_id=jsonObject.getInt("id");
                            banner=jsonObject.getString("url");
-                           Glide.with(publishActivity.this)
-                                   .load(banner)
-                                   .into(imageView);
+
+                           runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   Glide.with(publishActivity.this)
+                                           .load(banner)
+                                           .into(imageView);
+
+                               }
+                           });
 
                        }else {
 
@@ -612,10 +619,10 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(publishActivity.this,"还没有标题呀",Toast.LENGTH_SHORT).show();
 
             } if(banner==null){
-                Toast.makeText(publishActivity.this,"还没有封面图片",Toast.LENGTH_SHORT).show();
+                Toast.makeText(publishActivity.this,"还没有封面图片呀",Toast.LENGTH_SHORT).show();
             } else {
                 intent.putExtra("banner", banner);
-                intent.putExtra("title", tv_title.getText());
+                intent.putExtra("title", title);
                 startActivity(intent);
             }
 
