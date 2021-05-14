@@ -44,6 +44,7 @@
         </activity>
         <activity android:name=".Activity.CircleDetilsActivity" />
         <activity android:name=".Activity.ReportCircleActivity" />
+        <activity android:name=".Activity.AgreementActivity" />
         <activity android:name=".richtext.publishActivity" />
         <activity android:name=".Activity.ReportSquareActivity"></activity>
         <activity android:name=".Activity.SquareDetailsActivity" >

@@ -115,6 +115,7 @@ public class UserCenterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             }
         });
         collection.setOnClickListener(new View.OnClickListener() {
