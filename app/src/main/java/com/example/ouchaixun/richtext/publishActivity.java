@@ -33,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 
 import com.bumptech.glide.Glide;
+import com.example.ouchaixun.Activity.NewsDetilsActivity;
 import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.CameraActivity;
@@ -45,6 +46,10 @@ import com.wildma.pictureselector.PictureSelector;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,7 +72,8 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
 
     private String token;
     private String title,content;
-    private Uri banner;
+    private String banner;
+    private int banner_id;
     private String  filePath=null, fileName=null;
     /********************View**********************/
     private EditText tv_title;
@@ -158,56 +164,82 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             if (data != null) {
                 final PictureBean pictureBean = data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
 
-                fileName=pictureBean.getPath();
-                filePath=pictureBean.getPath();
 
 
-//                Thread thread=new Thread(new Runnable() {
-//                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//                    @Override
-//                    public void run() {
-//                        try {
-//
-//
-//                OkHttpClient client = new OkHttpClient().newBuilder()
-//                        .build();
-//                MediaType mediaType = MediaType.parse("text/plain");
-//                RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-//                        .addFormDataPart("picture",pictureBean.getPath(),
-//                                RequestBody.create(MediaType.parse("application/octet-stream"),
-//                                        new File(pictureBean.getPath())))
-//                        .build();
-//                Request request = new Request.Builder()
-//                        .url("http://47.102.215.61:8888/news/upload_pic")
-//                        .method("POST", body)
-//                        .addHeader("Authorization", token)
-//
-//                        .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
-//                        .build();
-//                Response response = null;
-//                try {
-//                    response= client.newCall(request).execute();
-//
-//                    JSONObject jsonObject=new JSONObject(response.body().string());
-//
-//
-//                    Log.i("asd",jsonObject.toString());
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
+                Thread thread=new Thread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void run() {
+                        try {
 
-//
-//                    }
-//                });
-//                thread.start();
+
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                MediaType mediaType = MediaType.parse("text/plain");
+                RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("picture",pictureBean.getPath(),
+                                RequestBody.create(MediaType.parse("application/octet-stream"),
+                                        new File(pictureBean.getPath())))
+                        .build();
+                Request request = new Request.Builder()
+                        .url("http://47.102.215.61:8888/news/upload_pic")
+                        .method("POST", body)
+                        .addHeader("Authorization", token)
+
+                        .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
+                        .build();
+                Response response = null;
+
+                    response= client.newCall(request).execute();
+
+                    JSONObject jsonObject=new JSONObject(response.body().string());
+                    if (jsonObject.getString("msg").equals("一切正常")){
+
+                       if (isheader){
+                           banner_id=jsonObject.getInt("id");
+                           banner=jsonObject.getString("url");
+                           Glide.with(publishActivity.this)
+                                   .load(banner)
+                                   .into(imageView);
+
+                       }else {
+
+                           final String url=jsonObject.getString("url");
+                           runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   mEditor.insertImage(url,
+                                           "dachshund");
+                               }
+                           });
+
+                       }
+
+                    }else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        });
+                    }
+
+
+                    Log.i("asd",jsonObject.toString());
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+                thread.start();
 
                 //使用 Glide 加载图片
-                Glide.with(this)
-                        .load(pictureBean.isCut() ? pictureBean.getPath() : pictureBean.getUri())
-                        .into(imageView);
+//                Glide.with(this)
+//                        .load(pictureBean.isCut() ? pictureBean.getPath() : pictureBean.getUri())
+//                        .into(imageView);
             }
         }
     }
@@ -234,14 +266,14 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.publish_news).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("asd","</Div ><head><style>img{ width:100%   !important;}</style></head>"+mEditor.getHtml());
+                Log.i("asd",mEditor.getHtml());
 
                 title=tv_title.getText().toString();
-                content="</Div ><head><style>img{ width:100%   !important;}</style></head>"+mEditor.getHtml();
+                content=mEditor.getHtml();
 
 
                 try {
-                    OKhttpUtils.post_form(token, title, content, filePath, new OKhttpUtils.OkhttpCallBack() {
+                    OKhttpUtils.post_form(token, title, content, banner_id, new OKhttpUtils.OkhttpCallBack() {
                         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                         @Override
                         public void onSuccess(Response response) {
@@ -592,11 +624,11 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             //返回在服务端的URL地址，将地址传如即可（我这里传了一张写死的图片URL，如果你插入的图片不现实，请检查你是否添加
             PictureSelector
                     .create(publishActivity.this, PictureSelector.SELECT_REQUEST_CODE)
-                    .selectPicture(true, 300, 200, 3, 2);
+                    .selectPicture(true, 118, 82, 3, 2);
             isheader=false;
 
-//            mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
-//                    "dachshund");
+           // mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
+           //         "dachshund");
         }
     }
 
@@ -658,5 +690,26 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         return animator;
     }
 
+
+
+
+    //java
+    public static class HtmlFormat {
+
+        public static String getNewContent(String htmltext){
+
+            Document doc= Jsoup.parse(htmltext);
+
+            Elements elements=doc.getElementsByTag("img");
+
+            for (Element element : elements) {
+
+                element.attr("width","100%").attr("height","auto");
+
+            }
+
+            return doc.toString();
+        }
+    }
 
 }

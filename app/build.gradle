@@ -51,6 +51,7 @@ dependencies {
     implementation 'com.github.wildma:PictureSelector:2.1.0'
     implementation 'com.zzhoujay.richtext:richtext:3.0.7'
 
+    implementation 'org.jsoup:jsoup:1.12.1'
 
 
 }

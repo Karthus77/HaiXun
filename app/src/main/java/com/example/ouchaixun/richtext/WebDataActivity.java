@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.icu.text.CaseMap;
 import android.os.Bundle;
 
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -53,6 +54,12 @@ public class WebDataActivity extends AppCompatActivity {
         initWebView(dataStr);
 
 
+        findViewById(R.id.show_diarys_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
     }
@@ -78,7 +85,7 @@ public class WebDataActivity extends AppCompatActivity {
 
 
 /******  22222222  ***********************************************************************/
-        data = "</Div ><head><style>img{ width:100%   !important;}</style></head>" + data;//给图片设置一个样式，宽满屏
+       // data = "</Div ><head><style>img{ width:100%   !important;}</style></head>" + data;//给图片设置一个样式，宽满屏
 /******  2222222222  ***********************************************************************/
 
 

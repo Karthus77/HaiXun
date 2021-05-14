@@ -23,6 +23,7 @@
                 android:id="@+id/show_diarys_img"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
+                android:scaleType="fitXY"
                 android:background="#ffffff"/>
 
 
