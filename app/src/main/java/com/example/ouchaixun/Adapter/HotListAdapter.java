@@ -1,6 +1,7 @@
 package com.example.ouchaixun.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.ouchaixun.Activity.SquareDetailsActivity;
 import com.example.ouchaixun.R;
 
 import java.util.List;
@@ -33,11 +36,11 @@ public class HotListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final HotListAdapter.ViewHolder viewholder = (HotListAdapter.ViewHolder) holder;
-            if (position==0)
+            if (position>2)
             {
-                viewholder.rank.setImageResource(R.drawable.circle_rank1);
+                viewholder.rank.setVisibility(View.INVISIBLE);
             }
             else if(position==1)
             {
@@ -47,10 +50,25 @@ public class HotListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             {
                 viewholder.rank.setImageResource(R.drawable.circle_rank3);
             }
-            else
+            else if(position==0)
             {
-                viewholder.rank.setVisibility(View.INVISIBLE);
+                viewholder.rank.setImageResource(R.drawable.circle_rank1);
             }
+            viewholder.title.setText(list.get(position).get("title").toString());
+            viewholder.click.setText("访问量:"+list.get(position).get("click").toString());
+            if(list.get(position).get("img")==null)
+            {
+            }
+            else
+            {Glide.with(context).load(list.get(position).get("img").toString()).into(viewholder.cover);}
+            viewholder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent =new Intent(context, SquareDetailsActivity.class);
+                    intent.putExtra("id",list.get(position).get("id").toString());
+                    context.startActivity(intent);
+                }
+            });
 
     }
 

@@ -2,21 +2,12 @@
 package com.example.ouchaixun.Activity;
 
         import androidx.appcompat.app.AppCompatActivity;
-        import androidx.recyclerview.widget.RecyclerView;
-
         import android.content.Intent;
         import android.os.Bundle;
         import android.view.View;
         import android.widget.ImageView;
-        import android.widget.TextView;
         import android.widget.Toast;
-
         import com.example.ouchaixun.R;
-        import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Map;
 
 public class AboutUsActivity extends AppCompatActivity {
     public ImageView back;

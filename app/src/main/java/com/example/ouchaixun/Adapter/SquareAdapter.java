@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.ouchaixun.Activity.CircleDetilsActivity;
 import com.example.ouchaixun.Activity.SquareDetailsActivity;
 import com.example.ouchaixun.R;
-
 import java.util.List;
 import java.util.Map;
 
@@ -61,9 +60,10 @@ public class SquareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         viewholder.title.setText(list.get(position).get("title").toString());
         viewholder.time.setText(list.get(position).get("time").toString());
-        if(list.get(position).get("anonmyous").equals("2"))
+        viewholder.name.setText(list.get(position).get("name").toString());
+        if(list.get(position).get("anonymous").equals("2"))
         {
-            Glide.with(context).load(list.get(position).get("img")).circleCrop().into(viewholder.head);
+            Glide.with(context).load(list.get(position).get("head")).circleCrop().into(viewholder.head);
         }
         viewholder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
