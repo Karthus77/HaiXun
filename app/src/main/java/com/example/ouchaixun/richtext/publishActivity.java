@@ -40,6 +40,7 @@ import com.example.ouchaixun.Utils.CameraActivity;
 import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
+import com.wildma.pictureselector.FileUtils;
 import com.wildma.pictureselector.PictureBean;
 import com.wildma.pictureselector.PictureSelector;
 
@@ -69,7 +70,7 @@ import okhttp3.Response;
 public class publishActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-
+    public static boolean LISTENING = false;
     private String token;
     private String title,content;
     private String banner;
@@ -223,6 +224,7 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                             }
                         });
                     }
+                            FileUtils.deleteAllCacheImage(publishActivity.this);
 
 
                     Log.i("asd",jsonObject.toString());
@@ -286,7 +288,8 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                                     public void run() {
                                         Toast.makeText(publishActivity.this,msg,Toast.LENGTH_SHORT).show();
                                         if (msg.equals("发布成功")){
-                                            finish();
+                                            publishActivity.LISTENING = true;
+                                            publishActivity.this.finish();
                                         }
                                     }
                                 });

@@ -181,6 +181,7 @@ public class NewsDetilsActivity extends AppCompatActivity {
 
 
 
+
     //java
     public static class HtmlFormat {
 

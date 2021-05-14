@@ -74,7 +74,7 @@ public class SquareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             @Override
             public void onClick(View v) {
                 Intent intent =new Intent(context, SquareDetailsActivity.class);
-                intent.putExtra("id",list.get(position).get("id").toString());
+                intent.putExtra("id",list.get(position).get("id")+"");
                 context.startActivity(intent);
             }
         });
