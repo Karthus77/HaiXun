@@ -1,161 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/background_box">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/circle_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/circle_item"
         android:layout_width="match_parent"
-        android:background="@drawable/background_box22"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/circleItem_topBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="38dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:background="#FFE57F"
+                android:text="校友圈"
+                android:textColor="@color/write"
+                android:textSize="12sp" />
+
             <ImageView
                 android:id="@+id/circle_userHead"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/circle_userdefault"
-                android:layout_marginTop="8.67dp"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="35dp"
+                android:src="@drawable/circle_userdefault">
 
             </ImageView>
+
             <ImageView
                 android:id="@+id/circle_rank"
                 android:layout_width="17.33dp"
                 android:layout_height="17.33dp"
-                android:layout_marginLeft="21.33dp"
+                android:layout_marginLeft="30dp"
 
                 android:layout_marginTop="40dp">
 
             </ImageView>
+
             <TextView
                 android:id="@+id/circle_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22.67dp"
-                android:layout_toRightOf="@id/circle_userHead"
                 android:layout_marginLeft="6.67dp"
+                android:layout_marginTop="35dp"
+                android:layout_toRightOf="@id/circle_userHead"
                 android:text="用户名"
-                android:textSize="12sp"
                 android:textColor="#444444"
+                android:textSize="12sp"
                 android:textStyle="bold">
 
             </TextView>
+
             <TextView
+                android:id="@+id/circle_postTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/circle_postTime"
                 android:layout_below="@id/circle_userName"
-                android:layout_marginLeft="57.33dp"
+                android:layout_marginLeft="65dp"
                 android:layout_marginTop="0.67dp"
                 android:text="2021-4-13 12:10"
-                android:textSize="6.67sp"
-                android:textColor="#666666"></TextView>
+                android:textColor="#666666"
+                android:textSize="8sp"></TextView>
+
             <TextView
+                android:id="@+id/circleItem_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/circleItem_content"
                 android:layout_below="@id/circle_rank"
-                android:layout_marginTop="1.33dp"
-                android:layout_marginLeft="56.67dp"
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="25.67dp"
+                android:text="帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子内容帖子的内"
                 android:textColor="#444444"
-                android:textSize="10.67sp"
-                android:text="帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子的内容帖子内容帖子的内">
+                android:textSize="10.67sp">
 
             </TextView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/item_NinePictures"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="131dp"
+                android:layout_below="@+id/circleItem_content"
                 android:layout_marginLeft="57dp"
-                android:layout_marginRight="43dp">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginTop="23dp"
+                android:layout_marginRight="43dp"></androidx.recyclerview.widget.RecyclerView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="57dp"
-                android:text="详情>"
                 android:layout_below="@id/item_NinePictures"
+                android:layout_marginLeft="57dp"
                 android:layout_marginTop="9.67dp"
-                android:textSize="10sp"
-                android:textColor="#888888"></TextView>
+                android:text="详情>"
+                android:textColor="#888888"
+                android:textSize="10sp"></TextView>
 
 
             <ImageView
                 android:id="@+id/circleItem_comment"
                 android:layout_width="22.67dp"
                 android:layout_height="21.33dp"
-                android:src="@drawable/circle_comment"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="73.33dp"
                 android:layout_below="@id/item_NinePictures"
-                android:layout_marginTop="19.97dp">
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="19.97dp"
+                android:layout_marginRight="73.33dp"
+                android:src="@drawable/circle_comment">
 
             </ImageView>
+
             <TextView
                 android:id="@+id/comments_num"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/yuan"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="67.33dp"
                 android:layout_below="@id/item_NinePictures"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="12dp"
+                android:layout_marginRight="67.33dp"
+                android:background="@drawable/yuan"
+                android:gravity="center"
                 android:text="99+"
-                android:textSize="6sp"
                 android:textColor="#FFFFFFFF"
-                android:gravity="center">
+                android:textSize="6sp">
 
             </TextView>
+
             <ImageView
                 android:id="@+id/circleItem_like"
                 android:layout_width="19.33dp"
                 android:layout_height="21dp"
-                android:src="@drawable/circle_like"
-                android:layout_alignParentRight="true"
                 android:layout_below="@id/item_NinePictures"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="18.33dp"
-                android:layout_marginRight="33.33dp"></ImageView>
+                android:layout_marginRight="33.33dp"
+                android:src="@drawable/circle_like"></ImageView>
+
             <TextView
                 android:id="@+id/likes_num"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/yuan"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="21.33dp"
                 android:layout_below="@id/item_NinePictures"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="12dp"
+                android:layout_marginRight="21.33dp"
+                android:background="@drawable/yuan"
+                android:gravity="center"
                 android:text="99+"
-                android:textSize="6sp"
                 android:textColor="#FFFFFFFF"
-                android:gravity="center">
+                android:textSize="6sp">
 
             </TextView>
+
             <TextView
-                android:layout_below="@id/circleItem_like"
                 android:layout_width="match_parent"
-                android:layout_height="9.33dp"></TextView>
+                android:layout_height="2dp"
+                android:layout_below="@id/circleItem_like"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#E8E8E8"></TextView>
 
 
         </RelativeLayout>
-
-
-
-
-
     </RelativeLayout>
 
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="10dp"
-    android:layout_below="@id/circle_item">
-
-</RelativeLayout>
 
 </RelativeLayout>

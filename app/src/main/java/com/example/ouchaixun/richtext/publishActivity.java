@@ -3,38 +3,71 @@ package com.example.ouchaixun.richtext;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.content.CursorLoader;
 
 import com.bumptech.glide.Glide;
+import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.CameraActivity;
 import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
+import com.google.gson.Gson;
+import com.wildma.pictureselector.PictureBean;
+import com.wildma.pictureselector.PictureSelector;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class publishActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+
     private String token;
-    private String title,content,banner;
+    private String title,content;
+    private Uri banner;
     private String  filePath=null, fileName=null;
     /********************View**********************/
     private EditText tv_title;
@@ -113,6 +146,77 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
     //折叠视图的宽高
     private int mFoldedViewMeasureHeight;
 
+    private boolean isheader=true;
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*结果回调*/
+        if (requestCode == PictureSelector.SELECT_REQUEST_CODE) {
+            if (data != null) {
+                final PictureBean pictureBean = data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
+
+                fileName=pictureBean.getPath();
+                filePath=pictureBean.getPath();
+
+
+//                Thread thread=new Thread(new Runnable() {
+//                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//                    @Override
+//                    public void run() {
+//                        try {
+//
+//
+//                OkHttpClient client = new OkHttpClient().newBuilder()
+//                        .build();
+//                MediaType mediaType = MediaType.parse("text/plain");
+//                RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+//                        .addFormDataPart("picture",pictureBean.getPath(),
+//                                RequestBody.create(MediaType.parse("application/octet-stream"),
+//                                        new File(pictureBean.getPath())))
+//                        .build();
+//                Request request = new Request.Builder()
+//                        .url("http://47.102.215.61:8888/news/upload_pic")
+//                        .method("POST", body)
+//                        .addHeader("Authorization", token)
+//
+//                        .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
+//                        .build();
+//                Response response = null;
+//                try {
+//                    response= client.newCall(request).execute();
+//
+//                    JSONObject jsonObject=new JSONObject(response.body().string());
+//
+//
+//                    Log.i("asd",jsonObject.toString());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+
+//
+//                    }
+//                });
+//                thread.start();
+
+                //使用 Glide 加载图片
+                Glide.with(this)
+                        .load(pictureBean.isCut() ? pictureBean.getPath() : pictureBean.getUri())
+                        .into(imageView);
+            }
+        }
+    }
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +226,10 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         token = myData.load_token();
         initView();
         initClickListener();
+
+
+
+
 
         findViewById(R.id.publish_news).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,12 +241,13 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
 
 
                 try {
-                    OKhttpUtils.post_form(token, title, content, filePath, fileName, new OKhttpUtils.OkhttpCallBack() {
+                    OKhttpUtils.post_form(token, title, content, filePath, new OKhttpUtils.OkhttpCallBack() {
+                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                         @Override
                         public void onSuccess(Response response) {
 
                             try {
-                                JSONObject jsonObject=new JSONObject(response.body().string());
+                                JSONObject jsonObject=new JSONObject(Objects.requireNonNull(response.body()).string());
                                 final String msg=jsonObject.getString("msg");
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -179,8 +288,10 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.publish_add_img).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(publishActivity.this, CameraActivity.class).putExtra(CameraActivity.ExtraType, CameraActivity.PHOTO));
-
+                PictureSelector
+                        .create(publishActivity.this, PictureSelector.SELECT_REQUEST_CODE)
+                        .selectPicture(true, 200, 100, 2, 1);
+              isheader=true;
             }
         });
 
@@ -279,6 +390,7 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         mStrikethrough = findViewById(R.id.action_strikethrough);
        // mSuperscript = findViewById(R.id.action_superscript);
        // mSubscript = findViewById(R.id.action_subscript);
+
         getViewMeasureHeight();
     }
 
@@ -478,9 +590,13 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
             //这里的功能需要根据需求实现，通过insertImage传入一个URL或者本地图片路径都可以，这里用户可以自己调用本地相
             //或者拍照获取图片，传图本地图片路径，也可以将本地图片路径上传到服务器
             //返回在服务端的URL地址，将地址传如即可（我这里传了一张写死的图片URL，如果你插入的图片不现实，请检查你是否添加
-            startActivity(new Intent(publishActivity.this, CameraActivity.class).putExtra(CameraActivity.ExtraType, CameraActivity.PHOTO));
-            mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
-                    "dachshund");
+            PictureSelector
+                    .create(publishActivity.this, PictureSelector.SELECT_REQUEST_CODE)
+                    .selectPicture(true, 300, 200, 3, 2);
+            isheader=false;
+
+//            mEditor.insertImage("http://www.1honeywan.com/dachshund/image/7.21/7.21_3_thumb.JPG",
+//                    "dachshund");
         }
     }
 
@@ -542,17 +658,5 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
         return animator;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //获得相册、相机返回的结果，并显示
-        if (CameraActivity.LISTENING) {
-            Log.i("TAG", "返回的Uri结果：" + CameraActivity.IMG_URI);
-            Log.i("TAG", "返回的File结果：" + CameraActivity.IMG_File.getPath());
-            CameraActivity.LISTENING = false;
 
-
-        }
-
-    }
 }
