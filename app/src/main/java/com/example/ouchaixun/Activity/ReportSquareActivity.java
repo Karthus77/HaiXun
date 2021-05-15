@@ -464,7 +464,7 @@ public class ReportSquareActivity extends AppCompatActivity {
                     }
                     else
                     {
-                    String square="{\"tag\":"+String.valueOf(getTag())+",\"title\":"+"\""+title.getText().toString()+"\""+",\"content\":"+content.getText().toString()+",\"anonymous\":"+ getAnonymous(anonymous) +",\"id_list\":"+IdList.toString()+"}";
+                    String square="{\"tag\":"+String.valueOf(getTag())+",\"title\":"+"\""+title.getText().toString()+"\""+",\"content\":"+"\""+content.getText().toString()+"\""+",\"anonymous\":"+ getAnonymous(anonymous) +",\"id_list\":"+IdList.toString()+"}";
                     Log.i("sqback",square);
 
                     try {
