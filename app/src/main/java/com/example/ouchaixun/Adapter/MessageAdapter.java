@@ -1,7 +1,10 @@
 package com.example.ouchaixun.Adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.sip.SipSession;
 import android.os.Build;
@@ -198,52 +201,71 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void removeList(final int position){
 
         MyData myData = new MyData(context);
-        String token = myData.load_token();
+        final String token = myData.load_token();
         final String json= " { \"id\":"+list.get(position).getIds()+" ,\"type\":6}";
 
-        try {
-            OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/delete", json, new OKhttpUtils.OkhttpCallBack() {
-                @Override
-                public void onSuccess(Response response)  {
-                    try {
-                        JSONObject jsonObject=new JSONObject(response.body().string());
-                        Log.i("asd",jsonObject.toString());
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(position);//删除数据源,移除集合中当前下标的数据
-                                notifyItemRemoved(position);//刷新被删除的地方
-                                notifyItemRangeChanged(position, getItemCount()); //刷新被删除数据，以及其后面的数据
-                                if (list.size()<=9){
-                                    listener.onItemClick(position);
+
+
+
+
+        AlertDialog textTips = new AlertDialog.Builder(context)
+                .setTitle("提示：")
+                .setMessage("是否要删除本条通知")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/delete", json, new OKhttpUtils.OkhttpCallBack() {
+                                @Override
+                                public void onSuccess(Response response)  {
+                                    try {
+                                        JSONObject jsonObject=new JSONObject(response.body().string());
+                                        Log.i("asd",jsonObject.toString());
+                                        ((Activity)context).runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                list.remove(position);//删除数据源,移除集合中当前下标的数据
+                                                notifyItemRemoved(position);//刷新被删除的地方
+                                                notifyItemRangeChanged(position, getItemCount()); //刷新被删除数据，以及其后面的数据
+                                                if (list.size()<=9){
+                                                    listener.onItemClick(position);
+                                                }
+
+                                            }
+                                        });
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+
                                 }
 
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                                @Override
+                                public void onFail(String error) {
+
+                                    ((Activity)context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(context,"网络连接失败，请检查网络连接",Toast.LENGTH_SHORT).show();
 
 
-                }
+                                        }
+                                    });
 
-                @Override
-                public void onFail(String error) {
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context,"网络连接失败，请检查网络连接",Toast.LENGTH_SHORT).show();
-
-
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    });
 
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    }
+                })
+                .create();
+
+
+        textTips.show();
+
 
 
 
