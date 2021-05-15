@@ -230,6 +230,7 @@ getActivity().findViewById(R.id.news_msg).setOnClickListener(new View.OnClickLis
                         @Override
                         public void run() {
                             adapter=new NewsAdapter(getContext(),list,recyclerView);
+                            recyclerView.setItemViewCacheSize(10000);
                             recyclerView.setAdapter(adapter);
                         }
                     });

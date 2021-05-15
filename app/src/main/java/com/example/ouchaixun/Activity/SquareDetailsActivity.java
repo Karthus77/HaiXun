@@ -137,18 +137,18 @@ public class SquareDetailsActivity extends AppCompatActivity {
 
 
 
-        Glide.with(SquareDetailsActivity.this)
-                .load("http://47.102.215.61:8888/"+photo)
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                .error(R.drawable.img_error)
-                .into(myPhoto);
 
-        Log.i("asd",photo);
 
         final List<SquareComment> list=new ArrayList<>();
         GetData(list);
 
+        Glide.with(SquareDetailsActivity.this)
+                .load(photo)
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .error(R.drawable.img_error)
+                .into(myPhoto);
 
+        Log.i("asdrrr",photo);
 
 
 
