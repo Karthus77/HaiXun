@@ -71,7 +71,8 @@
                 android:id="@+id/item_NinePictures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="131dp"
+                android:layout_below="@id/circleItem_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="57dp"
                 android:layout_marginRight="43dp">
             </androidx.recyclerview.widget.RecyclerView>

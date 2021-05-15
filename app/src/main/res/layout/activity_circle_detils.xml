@@ -119,7 +119,7 @@
                 android:layout_height="21.33dp"
                 android:src="@drawable/circle_comment"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="73.33dp"
+                android:layout_marginRight="23.33dp"
                 android:layout_below="@id/details_NinePictures"
                 android:layout_marginTop="19.97dp">
 
@@ -133,38 +133,14 @@
                 android:layout_marginTop="2dp"
                 android:textColor="#FF666666"
                 android:textSize="8sp"
-                android:layout_marginRight="78dp"
-                android:layout_marginEnd="78dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true">
 
             </TextView>
 
-            <ImageView
-                android:id="@+id/details_like"
-                android:layout_width="19.33dp"
-                android:layout_height="21dp"
-                android:src="@drawable/circle_like"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/details_NinePictures"
-                android:layout_marginTop="18.33dp"
-                android:layout_marginRight="33.33dp"/>
-            <TextView
-                android:id="@+id/details_like_nums"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/details_like"
 
-                android:text="99"
-                android:layout_marginTop="4dp"
-                android:textColor="#FF666666"
-                android:textSize="8sp"
-                android:layout_marginRight="35dp"
-                android:layout_marginEnd="35dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true">
-
-            </TextView>
             <TextView
                 android:id="@+id/kkk"
                 android:layout_below="@id/details_com_nums"
