@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -50,7 +52,7 @@ import okhttp3.Response;
 public class MixActivity extends AppCompatActivity {
     private TextView head;
     private ImageView back;
-    private RecyclerView recyclerView;
+    private RecyclerView  recyclerView;
     private RefreshLayout refreshLayout;
     private static int i = 0;
     private List<Map<String, Object>> list = new ArrayList<>();
@@ -64,6 +66,8 @@ public class MixActivity extends AppCompatActivity {
     private MixAdapter adapter;
     private String myname;
     private String myhead;
+    private int can = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,8 +134,8 @@ public class MixActivity extends AppCompatActivity {
             public void run() {
                 try {
                     OkHttpClient client = new OkHttpClient().newBuilder()
-                            .connectTimeout(600, TimeUnit.MILLISECONDS)
-                            .readTimeout(1200, TimeUnit.MILLISECONDS)
+                            .connectTimeout(3000, TimeUnit.MILLISECONDS)
+                            .readTimeout(3000, TimeUnit.MILLISECONDS)
                             .build();
                     Request request = new Request.Builder()
                             .url("http://47.102.215.61:8888" + tp_url)
@@ -143,6 +147,7 @@ public class MixActivity extends AppCompatActivity {
                     responseData = response.body().string();
                     getfeedback(responseData);
                 } catch (IOException e) {
+                    can=0;
                     list.clear();
                     adapter = new MixAdapter(MixActivity.this, list);
                     adapter.myNotifyDataSetChange();
@@ -164,6 +169,7 @@ public class MixActivity extends AppCompatActivity {
             }
         }).start();
     }
+
     public void wzy() {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -188,91 +194,116 @@ public class MixActivity extends AppCompatActivity {
             }
         });
     }
+
     //1-新闻 2-贴子 3-校友 0-没有 4-网络
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getfeedback(String responseData) {
         if (responseData != "") {
-
             try {
+
+
                 JSONObject jsonObject = new JSONObject(responseData);
                 if (jsonObject.getInt("code") == 200) {
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
                     Log.d("12332l", "" + jsonArray.length());
                     len = jsonArray.length();
-                    if(len!=0){
-
+                    if (len != 0) {
+                        can=1;
                         for (int j = 0; i < jsonArray.length() && j < 8; i++, j++) {
                             Log.d("1233i", "1:" + i);
                             Log.d("1233i", "leng:" + jsonArray.length());
                             JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-                            Log.d("12332", "新闻消息"+jsonObject2.toString());
+                            Log.d("12332", "新闻消息" + jsonObject2.toString());
                             int type = jsonObject2.getInt("type");
                             Map map = new HashMap();
-                            map.put("type",type);
-                           if(type==3){
+                            map.put("type", type);
+                            if (type == 3) {
                                 int talk_id;
-                               String writer_avatar;
-                               String writer_nickname;
-                                if(typee==3){
+                                String writer_avatar;
+                                String writer_nickname;
+                                if (typee == 3) {
                                     talk_id = jsonObject2.getInt("id");
                                     writer_avatar = myhead;
                                     writer_nickname = myname;
-                                }else{
+                                } else {
                                     talk_id = jsonObject2.getInt("talk_id");
-                                    writer_avatar ="http://47.102.215.61:8888"+jsonObject2.getString("writer_avatar");
+                                    writer_avatar = "http://47.102.215.61:8888" + jsonObject2.getString("writer_avatar");
                                     writer_nickname = jsonObject2.getString("writer_nickname");
                                 }
                                 String content = jsonObject2.getString("content");
                                 int like_num = jsonObject2.getInt("like_num");
-                                int comment_num =jsonObject2.getInt("comment_num");;
-                                String  release_time = jsonObject2.getString("release_time");
-                               map.put("talk_id",talk_id);
-                               map.put("like_num",like_num);
-                               map.put("comment_num",comment_num);
-                               map.put("content",content);
-                               map.put("release_time",release_time);
-                               map.put("writer_avatar",writer_avatar);
-                               map.put("writer_nickname",writer_nickname);
-                           }else if(type==1){
-                               int news_id;
-                               String title;
-                               String banner;
-                               String writer_avatar;
-                               String writer_nickname;
-                               if(typee==3){
-                                   news_id = jsonObject2.getInt("id");
-                                   title = jsonObject2.getString("title");
-                                   banner = "http://47.102.215.61:8888/"+jsonObject2.getString("banner");
-                                   writer_avatar = myhead;
-                                   writer_nickname = myname;
-                               }else{
-                                   news_id = jsonObject2.getInt("news_id");
-                                   title = jsonObject2.getString("title");
-                                   banner = "http://47.102.215.61:8888/"+jsonObject2.getString("banner");
-                                   writer_avatar ="http://47.102.215.61:8888/"+jsonObject2.getString("writer_avatar");
-                                   writer_nickname = jsonObject2.getString("writer_nickname");
-                               }
-                               map.put("news_id",news_id);
-                               map.put("title",title);
-                               map.put("banner",banner);
-                               map.put("writer_avatar",writer_avatar);
-                               map.put("writer_nickname",writer_nickname);
-                           }
+                                int comment_num = jsonObject2.getInt("comment_num");
+                                ;
+                                String release_time = jsonObject2.getString("release_time");
+                                map.put("talk_id", talk_id);
+                                map.put("like_num", like_num);
+                                map.put("comment_num", comment_num);
+                                map.put("content", content);
+                                map.put("release_time", release_time);
+                                map.put("writer_avatar", writer_avatar);
+                                map.put("writer_nickname", writer_nickname);
+                            } else if (type == 1) {
+                                int news_id;
+                                String title;
+                                String banner;
+                                String writer_avatar;
+                                String writer_nickname;
+                                if (typee == 3) {
+                                    news_id = jsonObject2.getInt("id");
+                                    title = jsonObject2.getString("title");
+                                    banner = "http://47.102.215.61:8888/" + jsonObject2.getString("banner");
+                                    writer_avatar = myhead;
+                                    writer_nickname = myname;
+                                } else {
+                                    news_id = jsonObject2.getInt("news_id");
+                                    title = jsonObject2.getString("title");
+                                    banner = "http://47.102.215.61:8888/" + jsonObject2.getString("banner");
+                                    writer_avatar = "http://47.102.215.61:8888/" + jsonObject2.getString("writer_avatar");
+                                    writer_nickname = jsonObject2.getString("writer_nickname");
+                                }
+                                map.put("news_id", news_id);
+                                map.put("title", title);
+                                map.put("banner", banner);
+                                map.put("writer_avatar", writer_avatar);
+                                map.put("writer_nickname", writer_nickname);
+                            } else if (type == 2) {
+                                int post_id;
+                                String release_time = jsonObject2.getString("release_time");
+                                String title= jsonObject2.getString("title");
+                                String tag= jsonObject2.getString("tag");
+                                String first_pic= "http://47.102.215.61:8888/"+jsonObject2.getString("first_pic");
+                                String writer_nickname= jsonObject2.getString("writer_nickname");
+                                String writer_avatar= "http://47.102.215.61:8888"+jsonObject2.getString("writer_avatar");
+                                if (typee == 3) {
+                                    post_id = jsonObject2.getInt("id");
+                                } else {
+                                    post_id = jsonObject2.getInt("post_id");
+                                }
+                                map.put("post_id", post_id);
+                                map.put("title", title);
+                                map.put("tag", tag);
+                                map.put("first_pic", first_pic);
+                                map.put("release_time", release_time);
+                                map.put("writer_avatar", writer_avatar);
+                                map.put("writer_nickname", writer_nickname);
+                            }
+                            map.put("typee", typee);
                             list.add(map);
                         }
                         if (i == jsonArray.length()) {
                             MixActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(once){
+                                    if (once) {
                                         Toast.makeText(MixActivity.this, "到底了~", Toast.LENGTH_SHORT).show();
-                                    }else {
+                                    } else {
                                         once = true;
                                     }
                                 }
                             });
                         }
-                    }else{
+                    } else {
+                        can=0;
                         list.clear();
                         adapter = new MixAdapter(MixActivity.this, list);
                         adapter.myNotifyDataSetChange();
@@ -312,4 +343,6 @@ public class MixActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

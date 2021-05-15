@@ -244,7 +244,9 @@ public class UserCenterFragment extends Fragment {
                                     myData.save_name(name);
                                     myData.save_sex(gender);
                                     myData.save_pic_url(avatar);
-                                    Log.d("1233gg", "nassme");
+                                    myData.save_account(jsonObject2.getString("account"));
+                                    myData.save_type(jsonObject2.getString("type"));
+                                    Log.d("1233gg", "type");
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/circle_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="130dp">
 
     <RelativeLayout
         android:id="@+id/circle_item"
@@ -30,7 +31,7 @@
                 android:id="@+id/circle_userHead"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="35dp"
                 android:src="@drawable/circle_userdefault">
 
@@ -60,6 +61,16 @@
 
             </TextView>
 
+            <ImageView
+                android:id="@+id/imageView24"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_toRightOf="@+id/textView2"
+                app:srcCompat="@drawable/delete"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"/>
+
             <TextView
                 android:id="@+id/circle_postTime"
                 android:layout_width="wrap_content"
@@ -85,88 +96,31 @@
 
             </TextView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/item_NinePictures"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/circleItem_content"
-                android:layout_marginLeft="57dp"
-                android:layout_marginTop="23dp"
-                android:layout_marginRight="43dp"></androidx.recyclerview.widget.RecyclerView>
-
             <TextView
+                android:id="@+id/xq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item_NinePictures"
-                android:layout_marginLeft="57dp"
+                android:layout_below="@id/circleItem_content"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="9.67dp"
                 android:text="详情>"
                 android:textColor="#888888"
                 android:textSize="10sp"></TextView>
 
 
-            <ImageView
-                android:id="@+id/circleItem_comment"
-                android:layout_width="22.67dp"
-                android:layout_height="21.33dp"
-                android:layout_below="@id/item_NinePictures"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="19.97dp"
-                android:layout_marginRight="73.33dp"
-                android:src="@drawable/circle_comment">
-
-            </ImageView>
-
-            <TextView
-                android:id="@+id/comments_num"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/item_NinePictures"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="67.33dp"
-                android:background="@drawable/yuan"
-                android:gravity="center"
-                android:text="99+"
-                android:textColor="#FFFFFFFF"
-                android:textSize="6sp">
-
-            </TextView>
-
-            <ImageView
-                android:id="@+id/circleItem_like"
-                android:layout_width="19.33dp"
-                android:layout_height="21dp"
-                android:layout_below="@id/item_NinePictures"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="18.33dp"
-                android:layout_marginRight="33.33dp"
-                android:src="@drawable/circle_like"></ImageView>
-
-            <TextView
-                android:id="@+id/likes_num"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/item_NinePictures"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="21.33dp"
-                android:background="@drawable/yuan"
-                android:gravity="center"
-                android:text="99+"
-                android:textColor="#FFFFFFFF"
-                android:textSize="6sp">
-
-            </TextView>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_below="@id/circleItem_like"
+                android:layout_alignParentBottom="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#E8E8E8"></TextView>
 
+            <com.yanzhenjie.recyclerview.SwipeRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
 
         </RelativeLayout>
     </RelativeLayout>

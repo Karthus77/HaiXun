@@ -371,12 +371,22 @@ public class ChangeInfoActivity extends AppCompatActivity {
                                 Log.d("1233g", "onResponse:123 " + responseData);
                                 JSONObject jsonObject1 = new JSONObject(responseData);
                                 int code = jsonObject1.getInt("code");
+                                final String msg=jsonObject1.getString("msg");
+                                final String img_url = jsonObject1.getString("url");
+                                Objects.requireNonNull(ChangeInfoActivity.this).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(ChangeInfoActivity.this).load(img_url)
+                                                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                                .into(change_pic);
+                                    }
+                                });
                                 if (code != 1000) {
                                     Objects.requireNonNull(ChangeInfoActivity.this).runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             Log.d("1233pp", "sbsbsb");
-                                            Toast.makeText(ChangeInfoActivity.this, "图片过大,上传失败6", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ChangeInfoActivity.this,msg, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
