@@ -22,6 +22,7 @@ import com.example.ouchaixun.Activity.CircleDetilsActivity;
 import com.example.ouchaixun.Activity.ReportCircleActivity;
 import com.example.ouchaixun.Fragment.TimeAreaFragment;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
 
@@ -52,7 +53,8 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int ITEM_NEWS =1;
     private static final int ITEM_ERROR =2;
     private static final int ITEM_NO =3;
-    private static final  String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
+    private String token;
+
     public void changeLike(ImageView view)
     {
         if (view.getDrawable().getCurrent().getConstantState()==view.getResources().getDrawable(R.drawable.circle_like).getConstantState())
@@ -75,11 +77,14 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public CircleAdapter(Context context, List<Map<String,Object>> list){
         this.context = context;
         this.list = list;
+        MyData myData = new MyData(context);
+        token = myData.load_token();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         if(viewType==normal)
         {
             inflater= LayoutInflater.from(context).inflate(R.layout.item_alumnus,parent,false);
@@ -153,11 +158,13 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 postLike.id=Integer.parseInt(id);
                 postLike.type=1;
                 if (viewholder.islike.getDrawable().getCurrent().getConstantState()==viewholder.islike.getResources().getDrawable(R.drawable.circle_like).getConstantState())
-                    postLike.action=1;
-                else
-                    postLike.action=2;
+                { postLike.action=1;
                 changeLike(viewholder.islike);
-                setNumber(viewholder.likes,String.valueOf(Integer.parseInt(like)+1));
+                setNumber(viewholder.likes,String.valueOf(Integer.parseInt(like)+1));}
+                else
+                { postLike.action=2;
+                changeLike(viewholder.islike);
+                setNumber(viewholder.likes,String.valueOf(Integer.parseInt(like)));}
 
                 try {
                     OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/like",gson.toJson(postLike) , new OKhttpUtils.OkhttpCallBack() {

@@ -34,6 +34,7 @@ import com.example.ouchaixun.Adapter.OnAddPicturesListener;
 import com.example.ouchaixun.Data.Circleback;
 import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
 
@@ -73,6 +74,7 @@ public class ReportSquareActivity extends AppCompatActivity {
     private static final int RESULT_REQUEST_CODE = 2;
     private static final int TAKE_PHOTO = 3;
     final List<Map<String,Object>> list = new ArrayList<>();
+    private String token;
     private List<String> IdList=new ArrayList<>();
     private Dialog bottomDialog;
 
@@ -313,7 +315,7 @@ public class ReportSquareActivity extends AppCompatActivity {
             return 1;
         }
         else
-            return 0;
+            return 2;
     }
     public  int getTag()
     {
@@ -334,6 +336,8 @@ public class ReportSquareActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_square);
+        MyData myData = new MyData(ReportSquareActivity.this);
+        token = myData.load_token();
         recyclerView=findViewById(R.id.edit_square_image);
         nineReportAdapter=new NineReportAdapter(ReportSquareActivity.this,list);
         GridLayoutManager manager=new GridLayoutManager(this,3){
@@ -452,9 +456,9 @@ public class ReportSquareActivity extends AppCompatActivity {
                 else
                 {
 
-                    String square="{\"tag\":"+String.valueOf(getTag())+",\"title\":"+"\""+title.getText().toString()+"\""+",\"content\":"+content.getText().toString()+",\"anonymous\":"+String.valueOf(getAnonymous(anonymous))+",\"id_list\":"+IdList.toString()+"}";
+                    String square="{\"tag\":"+String.valueOf(getTag())+",\"title\":"+"\""+title.getText().toString()+"\""+",\"content\":"+content.getText().toString()+",\"anonymous\":"+ getAnonymous(anonymous) +",\"id_list\":"+IdList.toString()+"}";
                     Log.i("sqback",square);
-                    String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
+
                     try {
                         OKhttpUtils.post_json(token, "http://47.102.215.61:8888/passage/release_passage",square, new OKhttpUtils.OkhttpCallBack() {
                             @Override

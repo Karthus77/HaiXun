@@ -2,6 +2,7 @@ package com.example.ouchaixun.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +20,7 @@ import com.example.ouchaixun.Activity.SquareDetailsActivity;
 import com.example.ouchaixun.R;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SquareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -68,6 +71,7 @@ public class SquareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final SquareAdapter.ViewHolder viewholder = (SquareAdapter.ViewHolder) holder;
@@ -92,7 +96,7 @@ public class SquareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             viewholder.title.setText(list.get(position).get("title").toString());
             viewholder.time.setText(list.get(position).get("time").toString());
             viewholder.name.setText(list.get(position).get("name").toString());
-            if (list.get(position).get("anonymous").equals("2")) {
+            if (Objects.requireNonNull(list.get(position).get("anonymous")).toString().equals("2")) {
                 Glide.with(context).load(list.get(position).get("head")).circleCrop().into(viewholder.head);
             }
             viewholder.relativeLayout.setOnClickListener(new View.OnClickListener() {
