@@ -31,11 +31,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.ouchaixun.Adapter.NineReportAdapter;
 import com.example.ouchaixun.Adapter.OnAddPicturesListener;
 import com.example.ouchaixun.Data.Circleback;
 import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
 
@@ -59,11 +61,12 @@ import okhttp3.Response;
 
 public class ReportCircleActivity extends AppCompatActivity {
     private ImageView back;
-    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjE1MjM4MDIsImlhdCI6MTYyMDkxOTAwMiwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.zzO6gk1Y6iaRawxb--avh4xaGeUhuI16BnxgtRydxks";
+    private String token;
     private EditText edit_content;
     private Button post;
     private RecyclerView recyclerView;
     private NineReportAdapter nineReportAdapter;
+    private ImageView head;
     private String paper_title=null;
     private String paper_content=null;
     private int paper_tag=0;
@@ -304,8 +307,10 @@ public class ReportCircleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_circle);
-
-
+        MyData myData = new MyData(ReportCircleActivity.this);
+        token = myData.load_token();
+        head=findViewById(R.id.report_default);
+        Glide.with(ReportCircleActivity.this).load(myData.load_pic_url()).circleCrop().into(head);
         back=findViewById(R.id.report_back);
         recyclerView=findViewById(R.id.edit_image);
         nineReportAdapter=new NineReportAdapter(ReportCircleActivity.this,list);

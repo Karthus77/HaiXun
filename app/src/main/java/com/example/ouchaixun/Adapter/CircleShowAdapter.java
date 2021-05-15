@@ -60,45 +60,7 @@ public class CircleShowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     dialog.dismiss();
                 }
             });
-            big.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    bottomDialog = new Dialog(context, R.style.Theme_Design_BottomSheetDialog);
-                    View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_circlephotopick, null);
-                    TextView tv_camera = contentView.findViewById(R.id.tv_camera);
-                    TextView tv_chose = contentView.findViewById(R.id.tv_chose);
-                    TextView tv_cancle = contentView.findViewById(R.id.tv_cancle);
-                    bottomDialog.setContentView(contentView);
-                    ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
-                    contentView.setLayoutParams(layoutParams);
-                    bottomDialog.getWindow().setGravity(Gravity.BOTTOM);//弹窗位置
-                    bottomDialog.getWindow().setWindowAnimations(R.style.Animation_Design_BottomSheetDialog);//弹窗样式
-                    bottomDialog.show();
-                    tv_camera.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
 
-
-                            bottomDialog.dismiss();
-
-                        }
-                    });
-                    tv_chose.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            bottomDialog.dismiss();
-                        }
-                    });
-                    tv_cancle.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            bottomDialog.dismiss();
-                        }
-                    });
-                    return true;
-                    }
-            });
     }
 
     @Override

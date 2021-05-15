@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,10 +35,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
-
+class Post_like{
+    int id;
+    int type;
+    int action;
+}
 public class CircleDetilsActivity extends AppCompatActivity {
     private ImageView back;
+    private int like_num;
+    private String id;
+    private ImageView myHead;
     RecyclerView recyclerView;
     RecyclerView recyclerView1;
     ImageView head;
@@ -46,13 +58,52 @@ public class CircleDetilsActivity extends AppCompatActivity {
     TextView likes;
     TextView comments;
     TextView time;
+    private TextView clicks;
     private String token;
     private ImageView islike;
     private ImageView iscomment;
-    List<Map<String,Object>> piclist =new ArrayList<>();
+    List<Map<String, Object>> piclist = new ArrayList<>();
     CircleShowAdapter circleShowAdapter;
-    List<Map<String,Object>> comlist =new ArrayList<>();
+    List<Map<String, Object>> comlist = new ArrayList<>();
     CircleCommentAdapter circleCommentAdapter;
+    private void fresh_comment()
+    {
+
+        OKhttpUtils.get_token(token, "http://47.102.215.61:8888/school/" + id + "/detail", new OKhttpUtils.OkhttpCallBack() {
+            @Override
+            public void onSuccess(Response response) throws IOException {
+                Gson gson=new Gson();
+                comlist.clear();
+                String responseData = response.body().string();
+                final CircleDetail circleDetail = gson.fromJson(responseData, CircleDetail.class);
+                Log.i("kkk",String.valueOf(comlist.size())+ circleDetail.getData().getComments().size());
+                while (comlist.size()<circleDetail.getData().getComments().size())
+                {
+                    Map<String, Object> map2 = new HashMap<>();
+                    map2.put("id", circleDetail.getData().getComments().get(comlist.size()).getId());
+                    map2.put("content", circleDetail.getData().getComments().get(comlist.size()).getContent());
+                    map2.put("time", circleDetail.getData().getComments().get(comlist.size()).getTime());
+                    map2.put("name", circleDetail.getData().getComments().get(comlist.size()).getSender_nickname());
+                    map2.put("head", circleDetail.getData().getComments().get(comlist.size()).getSender_avatar());
+                    map2.put("likes", circleDetail.getData().getComments().get(comlist.size()).getLike_num());
+                    map2.put("islike", circleDetail.getData().getComments().get(comlist.size()).getIs_like());
+                    comlist.add(map2);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        circleCommentAdapter.notifyDataSetChanged();
+                        recyclerView1.setAdapter(circleCommentAdapter);
+                    }
+                });
+            }
+
+            @Override
+            public void onFail(String error) {
+
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,82 +111,108 @@ public class CircleDetilsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_circle_detils);
         MyData myData = new MyData(CircleDetilsActivity.this);
         token = myData.load_token();
-        likes=findViewById(R.id.details_like_nums);
-        islike=findViewById(R.id.details_like);
-        comments=findViewById(R.id.details_com_nums);
-        head=findViewById(R.id.details_userHead);
-        name=findViewById(R.id.details_userName);
-        content=findViewById(R.id.details_content);
-        recyclerView=findViewById(R.id.details_NinePictures);
-        recyclerView1=findViewById(R.id.details_commentItems);
-        time=findViewById(R.id.details_postTime);
-        back=findViewById(R.id.details_back);
+        myHead=findViewById(R.id.user_comment_head);
+        Glide.with(CircleDetilsActivity.this).load(myData.load_pic_url()).circleCrop().into(myHead);
+        clicks = findViewById(R.id.details_clicknums);
+        likes = findViewById(R.id.details_like_nums);
+        islike = findViewById(R.id.details_like);
+        comments = findViewById(R.id.details_com_nums);
+        head = findViewById(R.id.details_userHead);
+        name = findViewById(R.id.details_userName);
+        content = findViewById(R.id.details_content);
+        recyclerView = findViewById(R.id.details_NinePictures);
+        recyclerView1 = findViewById(R.id.details_commentItems);
+        time = findViewById(R.id.details_postTime);
+        back = findViewById(R.id.details_back);
+        GridLayoutManager manager = new GridLayoutManager(CircleDetilsActivity.this, 3) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        recyclerView.setLayoutManager(manager);
+        circleCommentAdapter = new CircleCommentAdapter(CircleDetilsActivity.this, comlist);
+
+        circleShowAdapter = new CircleShowAdapter(CircleDetilsActivity.this, piclist);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CircleDetilsActivity.this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        recyclerView1.setLayoutManager(linearLayoutManager);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        Intent int2 =getIntent();
-        final String id =int2.getStringExtra("id");
-        OKhttpUtils.get_token(token,"http://47.102.215.61:8888/school/"+id+"/detail", new OKhttpUtils.OkhttpCallBack() {
+        Intent int2 = getIntent();
+        id = int2.getStringExtra("id");
+
+        OKhttpUtils.get_token(token, "http://47.102.215.61:8888/school/" + id + "/detail", new OKhttpUtils.OkhttpCallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
-                Gson gson=new Gson();
+                Gson gson = new Gson();
                 String responseData = response.body().string();
-                final CircleDetail circleDetail=gson.fromJson(responseData,CircleDetail.class);
+                Log.i("kkk",responseData);
+                final CircleDetail circleDetail = gson.fromJson(responseData, CircleDetail.class);
+                if(circleDetail.getCode()==200)
+                {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        like_num = circleDetail.getData().getLike_num();
                         name.setText(circleDetail.getData().getWriter_nickname());
                         content.setText(circleDetail.getData().getContent());
                         time.setText(circleDetail.getData().getRelease_time());
-                        comments.setText(String.valueOf(circleDetail.getData().getClick_num()));
+                        comments.setText(String.valueOf(circleDetail.getData().getComments().size()));
                         likes.setText(String.valueOf(circleDetail.getData().getLike_num()));
-                        if(circleDetail.getData().getIs_like()==1)
+                        clicks.setText("浏览量:" + String.valueOf(circleDetail.getData().getClick_num()));
+                        if (circleDetail.getData().getIs_like() == 1)
                             islike.setImageResource(R.drawable.islike);
                         Glide.with(CircleDetilsActivity.this).load(circleDetail.getData().getWriter_avatar()).circleCrop().into(head);
-
-
-                        for(int i=0;i<circleDetail.getData().getPic_list().size();i++)
-                        {
-                            Map<String,Object> map=new HashMap<>();
-                            map.put("url",circleDetail.getData().getPic_list().get(i).getPicture());
+                        for (int i = 0; i < circleDetail.getData().getPic_list().size(); i++) {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("url", circleDetail.getData().getPic_list().get(i).getPicture());
                             piclist.add(map);
                         }
-                        for(int i=0;i<circleDetail.getData().getComments().size();i++)
-                        {
-                            Map<String,Object> map2=new HashMap<>();
-                            map2.put("id",circleDetail.getData().getComments().get(i).getId());
-                            map2.put("content",circleDetail.getData().getComments().get(i).getContent());
-                            map2.put("time",circleDetail.getData().getComments().get(i).getTime());
-                            map2.put("name",circleDetail.getData().getComments().get(i).getSender_nickname());
-                            map2.put("head",circleDetail.getData().getComments().get(i).getSender_avatar());
-                            map2.put("likes",circleDetail.getData().getComments().get(i).getLike_num());
-                            map2.put("islike",circleDetail.getData().getComments().get(i).getIs_like());
+                        for (int i = 0; i < circleDetail.getData().getComments().size(); i++) {
+                            Map<String, Object> map2 = new HashMap<>();
+                            map2.put("id", circleDetail.getData().getComments().get(i).getId());
+                            map2.put("content", circleDetail.getData().getComments().get(i).getContent());
+                            map2.put("time", circleDetail.getData().getComments().get(i).getTime());
+                            map2.put("name", circleDetail.getData().getComments().get(i).getSender_nickname());
+                            map2.put("head", circleDetail.getData().getComments().get(i).getSender_avatar());
+                            map2.put("likes", circleDetail.getData().getComments().get(i).getLike_num());
+                            map2.put("islike", circleDetail.getData().getComments().get(i).getIs_like());
                             comlist.add(map2);
                         }
-                        circleCommentAdapter=new CircleCommentAdapter(CircleDetilsActivity.this,comlist);
 
-                        circleShowAdapter=new CircleShowAdapter(CircleDetilsActivity.this,piclist);
-                        recyclerView1.setLayoutManager(new LinearLayoutManager(CircleDetilsActivity.this));
                         recyclerView1.setAdapter(circleCommentAdapter);
-                        GridLayoutManager manager=new GridLayoutManager(CircleDetilsActivity.this,3){
-                            @Override
-                            public boolean canScrollVertically() {
-                                return false;
-                            }
-                        };
-                        recyclerView.setLayoutManager(manager);
                         recyclerView.setAdapter(circleShowAdapter);
                     }
-                });
+                });}
+                else
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CircleDetilsActivity.this,"操作过于频繁",Toast.LENGTH_SHORT);
+                        }
+                    });
+            }
 
             }
 
             @Override
             public void onFail(String error) {
-
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CircleDetilsActivity.this,"网络连接断开，请检查网络",Toast.LENGTH_SHORT);
+                        }
+                    });
             }
         });
 
@@ -150,32 +227,41 @@ public class CircleDetilsActivity extends AppCompatActivity {
                     @Override
                     public void onTextSend(String msg) {
                         //点击发送按钮后，回调此方法，msg为输入的值
-                        final String json= " { \"content\":"+msg+" ,\"type\":1 ,\"id\":"+id+" }";
+                        final String json = " { \"content\":" + msg + " ,\"type\":1 ,\"id\":" + id + " }";
 
                         try {
                             OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/comment", json, new OKhttpUtils.OkhttpCallBack() {
                                 @Override
-                                public void onSuccess(Response response)  {
+                                public void onSuccess(Response response) {
 
                                     try {
-                                        final JSONObject jsonObject=new JSONObject(response.body().string());
+                                        final JSONObject jsonObject = new JSONObject(response.body().string());
 
-                                        final String msg=jsonObject.getString("msg");
+                                        final String msg = jsonObject.getString("msg");
 
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                if (msg.equals("发布成功")){
-                                                    Toast.makeText(CircleDetilsActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                                if (msg.equals("发布成功")) {
+                                                    Toast.makeText(CircleDetilsActivity.this, msg, Toast.LENGTH_SHORT).show();
                                                     inputTextMsgDialog.clearText();
                                                     inputTextMsgDialog.dismiss();
-                                                  //刷新
+                                                    Handler handler = new Handler();
+                                                    handler.postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            fresh_comment();
+                                                        }
+                                                    }, 1000);
+
                                                 }
 
                                             }
                                         });
 
-                                        Log.i("asdf",jsonObject.toString());
+
+                                        Log.i("asdf", jsonObject.toString());
+
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -195,17 +281,17 @@ public class CircleDetilsActivity extends AppCompatActivity {
 
                     }
                 });
+
                 //设置评论字数
                 inputTextMsgDialog.setMaxNumber(50);
-                inputTextMsgDialog .show();
+                inputTextMsgDialog.show();
+
+
             }
         });
 
 
-
     }
 
-
-
-
 }
+
