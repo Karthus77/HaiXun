@@ -174,7 +174,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 ((sCommentHolder)holder).reply_content.setText(list.get(i).getReply_content());
                 Glide.with(context)
-                        .load(list.get(i).getReply_avatar())
+                        .load("http://47.102.215.61:8888/" +list.get(i).getReply_avatar())
                         .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                         .error(R.drawable.img_error)
                         .into( ((sCommentHolder)holder).reply_img);

@@ -73,7 +73,7 @@ public class NewsFragment extends Fragment {
         smartRefreshLayout=getActivity().findViewById(R.id.new_smartRefreshLayout);
         MyData myData = new MyData(getContext());
         token = myData.load_token();
-        identity=myData.load_name();
+        identity=myData.load_type();
         if (identity.equals("认证机构")){
             button_write.setVisibility(View.VISIBLE);
         }

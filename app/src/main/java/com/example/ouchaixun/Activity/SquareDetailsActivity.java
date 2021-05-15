@@ -138,7 +138,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
 
 
         Glide.with(SquareDetailsActivity.this)
-                .load(photo)
+                .load("http://47.102.215.61:8888/"+photo)
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .error(R.drawable.img_error)
                 .into(myPhoto);
