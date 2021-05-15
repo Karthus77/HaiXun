@@ -46,7 +46,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
     private String token,photo;
     private int page=1,old_page=1,refresh_num=0;
 
-    private int passage_id=1;
+    private int passage_id;
     private RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
     private CommentAdapter adapter;
@@ -142,6 +142,8 @@ public class SquareDetailsActivity extends AppCompatActivity {
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .error(R.drawable.img_error)
                 .into(myPhoto);
+
+        Log.i("asd",photo);
 
         final List<SquareComment> list=new ArrayList<>();
         GetData(list);

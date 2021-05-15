@@ -74,6 +74,7 @@ public class NewsFragment extends Fragment {
         MyData myData = new MyData(getContext());
         token = myData.load_token();
         identity=myData.load_type();
+        Log.i("asd",identity);
         if (identity.equals("认证机构")){
             button_write.setVisibility(View.VISIBLE);
         }

@@ -260,7 +260,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public boolean onLongClick(View v) {
 
-                    listener.onItemClick(i);
+                    listener.onItemClick(list.get(i).getId());
 
                     return true;
                 }
