@@ -53,5 +53,5 @@ dependencies {
 
     implementation 'org.jsoup:jsoup:1.12.1'
 
-
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.1'
 }

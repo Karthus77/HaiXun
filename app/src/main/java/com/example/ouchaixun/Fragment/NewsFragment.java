@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.ouchaixun.Activity.MessageActivity;
 import com.example.ouchaixun.Activity.SquareDetailsActivity;
 import com.example.ouchaixun.Adapter.NewsAdapter;
 import com.example.ouchaixun.Data.News;
@@ -130,7 +131,7 @@ button_write.setOnClickListener(new View.OnClickListener() {
 getActivity().findViewById(R.id.news_msg).setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        startActivity(new Intent(getActivity(), SquareDetailsActivity.class));
+        startActivity(new Intent(getActivity(), MessageActivity.class));
     }
 });
     }
