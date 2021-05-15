@@ -114,8 +114,6 @@ public class CircleDetilsActivity extends AppCompatActivity {
         myHead=findViewById(R.id.user_comment_head);
         Glide.with(CircleDetilsActivity.this).load(myData.load_pic_url()).circleCrop().into(myHead);
         clicks = findViewById(R.id.details_clicknums);
-        likes = findViewById(R.id.details_like_nums);
-        islike = findViewById(R.id.details_like);
         comments = findViewById(R.id.details_com_nums);
         head = findViewById(R.id.details_userHead);
         name = findViewById(R.id.details_userName);
@@ -167,7 +165,6 @@ public class CircleDetilsActivity extends AppCompatActivity {
                         content.setText(circleDetail.getData().getContent());
                         time.setText(circleDetail.getData().getRelease_time());
                         comments.setText(String.valueOf(circleDetail.getData().getComments().size()));
-                        likes.setText(String.valueOf(circleDetail.getData().getLike_num()));
                         clicks.setText("浏览量:" + String.valueOf(circleDetail.getData().getClick_num()));
                         if (circleDetail.getData().getIs_like() == 1)
                             islike.setImageResource(R.drawable.islike);
