@@ -39,6 +39,7 @@ import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
+import com.example.ouchaixun.Utils.Regex;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -397,6 +398,13 @@ public class ReportCircleActivity extends AppCompatActivity {
                     String ids=IdList.toString();
                     String content=edit_content.getText().toString();
                     String s=ids.substring(1,ids.length()-1);
+                    Regex regex=new Regex();
+                    if(regex.checkContinuous(content))
+                    {
+                        Toast.makeText(ReportCircleActivity.this,"回车输入过多，请重新输入",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
                     final String img_ids="["+s+"]";
                     final String a="{\"content\":"+"\""+content+"\""+",\"id_list\":"+IdList+"}";
                     Log.v("rec",a);
@@ -433,7 +441,7 @@ public class ReportCircleActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                }
+                }}
             }
         });
     }

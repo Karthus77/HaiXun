@@ -36,7 +36,6 @@
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true"
         android:windowSoftInputMode="adjustResize"
         tools:targetApi="q">
         <activity android:name=".Activity.MessageActivity"
