@@ -54,8 +54,8 @@
             android:layout_width="match_parent"
             android:layout_marginTop="53.33dp"
             android:layout_height="150dp"
-            android:minLines="8"
-            android:maxLines="15"
+            android:minLines="5"
+            android:maxLines="10"
             android:paddingLeft="5dp">
 
         </EditText>

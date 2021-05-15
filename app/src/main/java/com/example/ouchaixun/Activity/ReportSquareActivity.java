@@ -36,6 +36,7 @@ import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
+import com.example.ouchaixun.Utils.Regex;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -456,6 +457,13 @@ public class ReportSquareActivity extends AppCompatActivity {
                 else
                 {
 
+                    Regex regex=new Regex();
+                    if(regex.checkContinuous(content.getText().toString()))
+                    {
+                        Toast.makeText(ReportSquareActivity.this,"回车输入过多，请重新输入",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
                     String square="{\"tag\":"+String.valueOf(getTag())+",\"title\":"+"\""+title.getText().toString()+"\""+",\"content\":"+content.getText().toString()+",\"anonymous\":"+ getAnonymous(anonymous) +",\"id_list\":"+IdList.toString()+"}";
                     Log.i("sqback",square);
 
@@ -471,7 +479,7 @@ public class ReportSquareActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         Toast.makeText(ReportSquareActivity.this,circleback.getMsg(),Toast.LENGTH_SHORT).show();
-                                        
+
                                     }
                                 });
                                 if (circleback.getCode()==200)
@@ -488,7 +496,7 @@ public class ReportSquareActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
+                }}
             }
         });
     }
