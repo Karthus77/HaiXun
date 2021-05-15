@@ -117,18 +117,24 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             Log.d("12332", "00");
         } else if(holder instanceof NewsViewHolder){
             NewsViewHolder viewHolder = (NewsViewHolder) holder;
-            if(list.get(position).get("typee").toString().equals("3")){
+            if(!list.get(position).get("typee").toString().equals("1")){
                 viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (System.currentTimeMillis() - lastClickTime >= FAST_CLICK_DELAY_TIME) {
                             type=true;
                             try {
-
+                                int tp,idd;
+                                if(list.get(position).get("typee").toString().equals("2")){
+                                    idd=Integer.valueOf(list.get(position).get("history_id").toString());
+                                    tp=7;
+                                }else{
+                                    idd= Integer.valueOf(list.get(position).get("news_id").toString());
+                                    tp= 1;
+                                }
                                 MyData myData = new MyData(context);
-                                int idd=Integer.valueOf(list.get(position).get("news_id").toString());
                                 MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":1\r\n}";
+                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":"+tp+"\r\n}";
                                 Request request = new Request.Builder()
                                         .url("http://47.102.215.61:8888/whole/delete")
                                         .post(RequestBody.create(mediaType, requestBody))
@@ -209,7 +215,7 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
 
         }else if(holder instanceof  SchoolViewHolder){
             SchoolViewHolder viewHolder = (SchoolViewHolder) holder;
-            if(list.get(position).get("typee").toString().equals("3")){
+            if(!list.get(position).get("typee").toString().equals("1")){
                 viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -217,10 +223,17 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
                             type=true;
                             try {
 
+                                int tp,idd;
+                                if(list.get(position).get("typee").toString().equals("2")){
+                                    idd=Integer.parseInt(list.get(position).get("history_id").toString());
+                                    tp=7;
+                                }else{
+                                    idd= Integer.parseInt(list.get(position).get("talk_id").toString());
+                                    tp= 3;
+                                }
                                 MyData myData = new MyData(context);
-                                int idd=Integer.valueOf(list.get(position).get("talk_id").toString());
                                 MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":3\r\n}";
+                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":"+tp+"\r\n}";
                                 Request request = new Request.Builder()
                                         .url("http://47.102.215.61:8888/whole/delete")
                                         .post(RequestBody.create(mediaType, requestBody))
@@ -304,7 +317,7 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             });
         }else if(holder instanceof  TieViewHolder){
             TieViewHolder viewHolder = (TieViewHolder) holder;
-            if(list.get(position).get("typee").toString().equals("3")){
+            if(!list.get(position).get("typee").toString().equals("1")){
                 viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -312,10 +325,17 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
                             type=true;
                             try {
 
+                                int tp,idd;
+                                if(list.get(position).get("typee").toString().equals("2")){
+                                    idd=Integer.parseInt(list.get(position).get("history_id").toString());
+                                    tp=7;
+                                }else{
+                                    idd= Integer.parseInt(list.get(position).get("post_id").toString());
+                                    tp= 2;
+                                }
                                 MyData myData = new MyData(context);
-                                int idd=Integer.valueOf(list.get(position).get("post_id").toString());
                                 MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":2\r\n}";
+                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":"+tp+"\r\n}";
                                 Request request = new Request.Builder()
                                         .url("http://47.102.215.61:8888/whole/delete")
                                         .post(RequestBody.create(mediaType, requestBody))

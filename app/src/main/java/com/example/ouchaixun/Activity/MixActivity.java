@@ -200,8 +200,6 @@ public class MixActivity extends AppCompatActivity {
     public void getfeedback(String responseData) {
         if (responseData != "") {
             try {
-
-
                 JSONObject jsonObject = new JSONObject(responseData);
                 if (jsonObject.getInt("code") == 200) {
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -217,6 +215,9 @@ public class MixActivity extends AppCompatActivity {
                             int type = jsonObject2.getInt("type");
                             Map map = new HashMap();
                             map.put("type", type);
+                            if(typee==2){
+                                map.put("history_id", jsonObject2.getInt("id"));
+                            }
                             if (type == 3) {
                                 int talk_id;
                                 String writer_avatar;
