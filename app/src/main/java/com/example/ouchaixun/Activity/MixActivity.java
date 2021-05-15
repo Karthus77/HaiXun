@@ -208,14 +208,13 @@ public class MixActivity extends AppCompatActivity {
                     if (len != 0) {
                         can=1;
                         for (int j = 0; i < jsonArray.length() && j < 8; i++, j++) {
-                            Log.d("1233i", "1:" + i);
                             Log.d("1233i", "leng:" + jsonArray.length());
                             JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-
                             if(jsonObject2.toString().indexOf("type")==-1){
                                 continue;
                             }
                             Log.d("12332", "新闻消息" + jsonObject2.toString());
+                            Log.d("12332", "新闻消息" + jsonObject2.getInt("type")+"123");
                             int type = jsonObject2.getInt("type");
                             Map map = new HashMap();
                             map.put("type", type);
@@ -273,12 +272,18 @@ public class MixActivity extends AppCompatActivity {
                                 map.put("writer_nickname", writer_nickname);
                             } else if (type == 2) {
                                 int post_id;
+                                if(jsonObject2.toString().indexOf("tag")==-1){
+                                    continue;
+                                }
                                 String release_time = jsonObject2.getString("release_time");
                                 String title= jsonObject2.getString("title");
                                 String tag= jsonObject2.getString("tag");
                                 String first_pic= "http://47.102.215.61:8888/"+jsonObject2.getString("first_pic");
-                                String writer_nickname= jsonObject2.getString("writer_nickname");
-                                String writer_avatar= "http://47.102.215.61:8888"+jsonObject2.getString("writer_avatar");
+                                String writer_nickname;
+                                String writer_avatar;
+                                    writer_nickname= jsonObject2.getString("writer_nickname");
+                                    writer_avatar= "http://47.102.215.61:8888"+jsonObject2.getString("writer_avatar");
+
                                 if (typee == 3) {
                                     post_id = jsonObject2.getInt("id");
                                 } else {

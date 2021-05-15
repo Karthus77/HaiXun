@@ -35,5 +35,6 @@ public class AboutUsActivity extends AppCompatActivity {
                 Toast.makeText(AboutUsActivity.this,"暂无更新！",Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }
