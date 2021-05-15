@@ -3,18 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/wall_background"
-    tools:context=".Fragment.SquareWallFragment">
+    android:id="@+id/all_background"
+    tools:context=".Fragment.SquraeAllFragment">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/wall_refresh"
+        android:id="@+id/all_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/wall_recycler"
+            android:id="@+id/all_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    
 </RelativeLayout>

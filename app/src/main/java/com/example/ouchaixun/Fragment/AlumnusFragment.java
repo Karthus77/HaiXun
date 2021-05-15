@@ -53,6 +53,7 @@ public class AlumnusFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_alumnus, container, false);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

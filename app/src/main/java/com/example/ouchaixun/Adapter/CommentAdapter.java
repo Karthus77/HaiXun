@@ -106,15 +106,46 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((sHeaderHolder)holder).time.setText((list.get(i).getTime()).substring(0,10));
             ((sHeaderHolder)holder).title.setText(list.get(i).getTitles());
             ((sHeaderHolder)holder).content.setText(list.get(i).getContents());
+            String tag=list.get(i).getTag();
+            if(tag.equals("表白墙"))
+            {
+                ((sHeaderHolder)holder).relativeLayout.setBackgroundResource(R.drawable.background_wall);
+                ((sHeaderHolder)holder).photo.setImageResource(R.drawable.anonymous_wall);
+            }
+            else if(tag.equals("树洞"))
+            {
+                ((sHeaderHolder)holder).relativeLayout.setBackgroundResource(R.drawable.background_tree);
+                ((sHeaderHolder)holder).photo.setImageResource(R.drawable.anonymous_tree);
+            }
+            else if(tag.equals("吐槽"))
+            {
+                ((sHeaderHolder)holder).relativeLayout.setBackgroundResource(R.drawable.background_bullshit);
+                ((sHeaderHolder)holder).photo.setImageResource(R.drawable.anonymous_bullshit);
+            }
+            else if(tag.equals("失物招领"))
+            {
+                ((sHeaderHolder)holder).relativeLayout.setBackgroundResource(R.drawable.background_car);
+                ((sHeaderHolder)holder).photo.setImageResource(R.drawable.anonymous_car);
+            }
+            else
+            {
+                ((sHeaderHolder)holder).relativeLayout.setBackgroundResource(R.drawable.background_table);
+                ((sHeaderHolder)holder).photo.setImageResource(R.drawable.anonymous_table);
+            }
 
             if (list.get(i).getPic_list()!=null){
                 gridAdpter = new GridViewAdapter(context,list.get(i).getPic_list());
                 ( (sHeaderHolder)holder).gridView.setAdapter(gridAdpter);}
-            Glide.with(context)
-                    .load("http://47.102.215.61:8888/" +list.get(i).getWriter_avatar())
-                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                    .error(R.drawable.img_error)
-                    .into( ((sHeaderHolder)holder).photo);
+
+            if (list.get(i).getWriter_nickname().equals("该内容由匿名用户发布")){
+
+            }else {
+                Glide.with(context)
+                        .load("http://47.102.215.61:8888/" +list.get(i).getWriter_avatar())
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                        .into( ((sHeaderHolder)holder).photo);
+            }
+
         }
         if (holder instanceof sCommentHolder) {
 
@@ -266,6 +297,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView title,content,time,writer;
         private ImageView photo;
         private MyGridView gridView;
+        RelativeLayout relativeLayout;
         public sHeaderHolder(@NonNull View itemView) {
             super(itemView);
             title=itemView.findViewById(R.id.square_title);
@@ -274,7 +306,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             writer=itemView.findViewById(R.id.square_writer);
             photo=itemView.findViewById(R.id.square_photo);
             gridView=itemView.findViewById(R.id.gridview);
-
+            relativeLayout=itemView.findViewById(R.id.header_relativelayout);
         }
     }
     public static class sCommentHolder extends RecyclerView.ViewHolder {

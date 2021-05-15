@@ -162,7 +162,7 @@ public class OKhttpUtils {
 
 
     // post form数据  token数据
-    public static void post_form(final String token, final String title, final String content, final String filePath, final OkhttpCallBack okhttpCallBack) throws JSONException {
+    public static void post_form(final String token, final String title, final String content, final int  id, final OkhttpCallBack okhttpCallBack) throws JSONException {
 
         try {
             Thread thread=new Thread(new Runnable() {
@@ -174,13 +174,11 @@ public class OKhttpUtils {
                         MediaType mediaType = MediaType.parse("text/form-data");
                         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
 
-                                .addFormDataPart("picture",filePath,
-                                        RequestBody.create(MediaType.parse("application/octet-stream"),
-                                                new File(filePath)))
+                                .addFormDataPart("banner_id", String.valueOf(id))
                                 .addFormDataPart("title", title)
                                 .addFormDataPart("content", content)
                                 .build();
-                        Log.i("asddddd", body.toString()+filePath);
+
                         Request request = new Request.Builder()
                                 .url("http://47.102.215.61:8888/news/release_news")
                                 .post(body)

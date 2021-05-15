@@ -7,11 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.ouchaixun.Adapter.SquareAdapter;
@@ -35,7 +37,8 @@ import okhttp3.Response;
 public class SquareCarFragment extends Fragment {
     private SmartRefreshLayout smartRefreshLayout;
     private RecyclerView recyclerView;
-    private String token;
+    private RelativeLayout relativeLayout;
+    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjE1MjM4MDIsImlhdCI6MTYyMDkxOTAwMiwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.zzO6gk1Y6iaRawxb--avh4xaGeUhuI16BnxgtRydxks";
     private static final String tag="4";
     private int page=1,o_page=1,refresh_num=0;
     private SquareAdapter squareAdapter;
@@ -66,6 +69,7 @@ public class SquareCarFragment extends Fragment {
                                         map.put("head",squareList.getData().get(i).getWriter_avatar());
                                         map.put("tag",squareList.getData().get(i).getTag());
                                         map.put("title",squareList.getData().get(i).getTitle());
+                                        map.put("time",squareList.getData().get(i).getRelease_time());
                                         if (squareList.getData().get(i).getWriter_nickname().equals("该内容由匿名用户发布"))
                                         {
                                             map.put("anonymous",1);
@@ -82,12 +86,17 @@ public class SquareCarFragment extends Fragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-
+                                            relativeLayout.setBackgroundResource(R.drawable.background_box22);
+                                            if (list.size()==0)
+                                                relativeLayout.setBackgroundResource(R.drawable.hbb_no);
                                             if (refresh) {
                                                 squareAdapter = new SquareAdapter(getContext(), list);
                                                 recyclerView.setAdapter(squareAdapter);
+                                                if(refresh_num!=0)
+                                                Toast.makeText(getContext(),"刷新成功",Toast.LENGTH_SHORT).show();
                                             } else {
                                                 squareAdapter.notifyDataSetChanged();
+                                                Toast.makeText(getContext(),"加载成功",Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });}
@@ -109,14 +118,8 @@ public class SquareCarFragment extends Fragment {
                             Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (!refresh) {
-                                        page--;
-                                    }
-                                    if (refresh_num >= 1) {
-                                        Toast.makeText(getContext(), "网络走丢了", Toast.LENGTH_SHORT).show();
-                                    } else {
-
-                                    }
+                                    Toast.makeText(getContext(),"网络连接好像断开了哦",Toast.LENGTH_SHORT).show();
+                                    relativeLayout.setBackgroundResource(R.drawable.hbb_nonet);
                                 }
                             });
                         }
@@ -151,8 +154,10 @@ public class SquareCarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        smartRefreshLayout=view.findViewById(R.id.car_recycler);
+        smartRefreshLayout=view.findViewById(R.id.car_refresh);
         recyclerView=view.findViewById(R.id.car_recycler);
+        relativeLayout=view.findViewById(R.id.car_background);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         final List<Map<String,Object>> list=new ArrayList<>();
         GetSquare(list,true);
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {

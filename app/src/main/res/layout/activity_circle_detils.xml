@@ -184,21 +184,16 @@
     </ImageView>
     <EditText
         android:id="@+id/edit_comment"
-        android:hint="回复......"
+        android:letterSpacing="0.1"
+        android:hint="写点什么吧..."
         android:textSize="10.67sp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:editable="false"
+        android:focusableInTouchMode="false"
         android:layout_marginLeft="47dp"
         android:layout_marginRight="52.33dp">
     </EditText>
-    <ImageView
-        android:id="@+id/send_comment"
-        android:layout_width="25dp"
-        android:layout_height="25.33dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="11.67dp"
-        android:src="@drawable/send">
-    </ImageView>
+
 </RelativeLayout>
 </RelativeLayout>

@@ -15,17 +15,19 @@ import com.bumptech.glide.Glide;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
-import com.example.ouchaixun.richtext.publishActivity;
-import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.util.Objects;
+import org.jsoup.nodes.Document;
 
 import okhttp3.Response;
+
+
+
 
 public class NewsDetilsActivity extends AppCompatActivity {
 
@@ -74,7 +76,7 @@ public class NewsDetilsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_news_detils);
-        final WebView textView=findViewById(R.id.news_detils_textview);
+        final WebView webview=findViewById(R.id.news_detils_textview);
         final TextView tv_title=findViewById(R.id.news_detils_title);
         final TextView tv_time=findViewById(R.id.news_detils_time);
         TextView tv_type=findViewById(R.id.news_detils_type);
@@ -117,7 +119,10 @@ public class NewsDetilsActivity extends AppCompatActivity {
                                     .into(img);
 
 
-                            textView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
+                            webview.setScrollContainer(false);
+                            webview.setVerticalScrollBarEnabled(false);
+                            webview.setHorizontalScrollBarEnabled(false);
+                            webview.loadDataWithBaseURL(null, HtmlFormat.getNewContent(content), "text/html", "utf-8", null);
 //                            RichText.from(content).bind(this)
 //                                    .showBorder(false)
 //                                    .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
@@ -172,5 +177,31 @@ public class NewsDetilsActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+    //java
+    public static class HtmlFormat {
+
+        public static String getNewContent(String htmltext){
+
+            Document doc= Jsoup.parse(htmltext);
+
+            Elements elements=doc.getElementsByTag("img");
+
+            for (Element element : elements) {
+
+                element.attr("width","100%").attr("height","auto");
+
+            }
+
+            return doc.toString();
+        }
+    }
+
+
+
 
 }

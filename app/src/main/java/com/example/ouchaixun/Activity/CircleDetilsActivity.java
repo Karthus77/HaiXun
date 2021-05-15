@@ -1,23 +1,31 @@
 package com.example.ouchaixun.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.ouchaixun.Adapter.CircleCommentAdapter;
 import com.example.ouchaixun.Adapter.CircleShowAdapter;
 import com.example.ouchaixun.Data.CircleDetail;
+import com.example.ouchaixun.Data.SquareComment;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.InputTextMsgDialog;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,8 +73,8 @@ public class CircleDetilsActivity extends AppCompatActivity {
             }
         });
         Intent int2 =getIntent();
-        String id =int2.getStringExtra("id");
-        String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
+        final String id =int2.getStringExtra("id");
+        final String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
         OKhttpUtils.get_token(token,"http://47.102.215.61:8888/school/"+id+"/detail", new OKhttpUtils.OkhttpCallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -125,5 +133,74 @@ public class CircleDetilsActivity extends AppCompatActivity {
 
             }
         });
+
+
+        //评论
+        findViewById(R.id.edit_comment).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                final InputTextMsgDialog inputTextMsgDialog = new InputTextMsgDialog(CircleDetilsActivity.this, R.style.dialog_center);
+                inputTextMsgDialog.setmOnTextSendListener(new InputTextMsgDialog.OnTextSendListener() {
+                    @Override
+                    public void onTextSend(String msg) {
+                        //点击发送按钮后，回调此方法，msg为输入的值
+                        final String json= " { \"content\":"+msg+" ,\"type\":1 ,\"id\":"+id+" }";
+
+                        try {
+                            OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/comment", json, new OKhttpUtils.OkhttpCallBack() {
+                                @Override
+                                public void onSuccess(Response response)  {
+
+                                    try {
+                                        final JSONObject jsonObject=new JSONObject(response.body().string());
+
+                                        final String msg=jsonObject.getString("msg");
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (msg.equals("发布成功")){
+                                                    Toast.makeText(CircleDetilsActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                                    inputTextMsgDialog.clearText();
+                                                    inputTextMsgDialog.dismiss();
+                                                  //刷新
+                                                }
+
+                                            }
+                                        });
+
+                                        Log.i("asdf",jsonObject.toString());
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFail(String error) {
+
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+                //设置评论字数
+                inputTextMsgDialog.setMaxNumber(50);
+                inputTextMsgDialog .show();
+            }
+        });
+
+
+
     }
+
+
+
+
 }
