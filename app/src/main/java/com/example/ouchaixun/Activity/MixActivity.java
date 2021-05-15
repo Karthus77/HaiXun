@@ -211,6 +211,10 @@ public class MixActivity extends AppCompatActivity {
                             Log.d("1233i", "1:" + i);
                             Log.d("1233i", "leng:" + jsonArray.length());
                             JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+
+                            if(jsonObject2.toString().indexOf("type")==-1){
+                                continue;
+                            }
                             Log.d("12332", "新闻消息" + jsonObject2.toString());
                             int type = jsonObject2.getInt("type");
                             Map map = new HashMap();

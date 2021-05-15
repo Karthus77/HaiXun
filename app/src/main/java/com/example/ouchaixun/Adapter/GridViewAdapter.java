@@ -67,7 +67,7 @@ public class GridViewAdapter extends BaseAdapter {
         //placeholder()是图片的占位符，网络还没下载下来的时候占着位置
         //centerCrop()缓存
         Glide.with(context)
-                .load("http://47.102.215.61:8888/" +list.get(position))
+                .load(list.get(position))
                 .placeholder(R.drawable.img_error)
                 .apply(bitmapTransform(new RoundedCornersTransformation(15, 0, RoundedCornersTransformation.CornerType.ALL)))
                 .centerCrop()

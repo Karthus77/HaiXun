@@ -73,7 +73,8 @@ public class NewsFragment extends Fragment {
         smartRefreshLayout=getActivity().findViewById(R.id.new_smartRefreshLayout);
         MyData myData = new MyData(getContext());
         token = myData.load_token();
-        identity=myData.load_name();
+        identity=myData.load_type();
+        Log.i("asd",identity);
         if (identity.equals("认证机构")){
             button_write.setVisibility(View.VISIBLE);
         }
@@ -229,6 +230,7 @@ getActivity().findViewById(R.id.news_msg).setOnClickListener(new View.OnClickLis
                         @Override
                         public void run() {
                             adapter=new NewsAdapter(getContext(),list,recyclerView);
+                            recyclerView.setItemViewCacheSize(10000);
                             recyclerView.setAdapter(adapter);
                         }
                     });

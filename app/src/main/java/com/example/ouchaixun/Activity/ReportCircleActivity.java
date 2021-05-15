@@ -397,8 +397,9 @@ public class ReportCircleActivity extends AppCompatActivity {
                     String ids=IdList.toString();
                     String content=edit_content.getText().toString();
                     String s=ids.substring(1,ids.length()-1);
-                    final String img_ids=s;
-                    final String a="{\"content\":"+"\""+content+"\""+",\"id_list\":"+"\""+img_ids+"\""+"}";
+                    final String img_ids="["+s+"]";
+                    final String a="{\"content\":"+"\""+content+"\""+",\"id_list\":"+IdList+"}";
+                    Log.v("rec",a);
                     try {
                         OKhttpUtils.post_json(token,"http://47.102.215.61:8888/school/release_talk",a, new OKhttpUtils.OkhttpCallBack() {
                             @Override

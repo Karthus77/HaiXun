@@ -11,6 +11,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.ouchaixun.Fragment.AlumnusFragment;
@@ -18,7 +19,15 @@ import com.example.ouchaixun.Fragment.NewsFragment;
 import com.example.ouchaixun.Fragment.SquareFragment;
 import com.example.ouchaixun.Fragment.UserCenterFragment;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
+import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigationView;
@@ -30,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private int lastfragment;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"};
-
+    private String name;
+    private String info;
+    private String gender;
+    private String avatar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +70,47 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         initFragment();
+
+
+        final MyData myData=new MyData(MainActivity.this);
+        OKhttpUtils.get_token(myData.load_token(), "http://47.102.215.61:8888/self/info", new OKhttpUtils.OkhttpCallBack() {
+            @Override
+            public void onSuccess(Response response)  {
+
+
+
+                try {
+                    JSONObject jsonObject=new JSONObject(response.body().string());
+                    JSONObject jsonObject2=jsonObject.getJSONObject("data");
+                    name = jsonObject2.getString("nickname");
+                    if (name.length() > 6) {
+                        name = name.substring(0, 6);
+                    }
+                    info = jsonObject2.getString("description");
+                    gender = jsonObject2.getString("gender");
+                    avatar = "http://47.102.215.61:8888"+jsonObject2.getString("avatar");
+                    myData.save_info(info);
+                    myData.save_name(name);
+                    myData.save_sex(gender);
+                    myData.save_pic_url(avatar);
+                    myData.save_account(jsonObject2.getString("account"));
+                    myData.save_type(jsonObject2.getString("type"));
+                    Log.d("1233gg", "type");
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(String error) {
+
+            }
+        });
+
+
     }
 
 

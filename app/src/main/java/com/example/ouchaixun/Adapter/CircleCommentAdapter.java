@@ -92,6 +92,7 @@ public class CircleCommentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     setNumber(viewholder.likes,String.valueOf(Integer.parseInt(num_like)+1));}
                 else
                 {postLike.action=2;
+                changeLike(viewholder.islike);
                 setNumber(viewholder.likes,String.valueOf(Integer.parseInt(num_like)));}
 
                 try {
