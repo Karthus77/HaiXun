@@ -88,8 +88,10 @@ public class WelcomeActivity extends AppCompatActivity {
                                     String msg=jsonObject1.getString("msg");
                                     if(msg.equals("一切正常")){
                                         startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+                                   finish();
                                     }else{
                                         startActivity(new Intent(WelcomeActivity.this,WelcomeLoginActivity.class));
+                                    finish();
                                     }
                                 } catch (JSONException e) {
                                     WelcomeActivity.this.runOnUiThread(new Runnable() {

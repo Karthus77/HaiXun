@@ -35,35 +35,57 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustResize"
         tools:targetApi="n">
-        <activity android:name=".Activity.MainActivity">
+        <activity android:name=".Activity.MainActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".Activity.CircleDetilsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.ReportCircleActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.AgreementActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".richtext.publishActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.ReportSquareActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Activity.SquareDetailsActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".richtext.WebDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.MixActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.AboutUsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.NewsDetilsActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".Activity.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.LoginActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".Activity.ChangePasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.ChangeInfoActivity"
+            android:screenOrientation="portrait">
+
+
+        </activity>
+        <activity android:name=".Activity.WelcomeLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.WelcomeActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".Activity.CircleDetilsActivity" />
-        <activity android:name=".Activity.ReportCircleActivity" />
-        <activity android:name=".Activity.AgreementActivity" />
-        <activity android:name=".richtext.publishActivity" />
-        <activity android:name=".Activity.ReportSquareActivity"></activity>
-        <activity android:name=".Activity.SquareDetailsActivity" >
-
-        </activity>
-        <activity android:name=".richtext.WebDataActivity" />
-        <activity android:name=".Activity.MixActivity" />
-        <activity android:name=".Activity.AboutUsActivity" />
-        <activity android:name=".Activity.NewsDetilsActivity" >
-
-        </activity>
-        <activity android:name=".Activity.RegisterActivity" />
-        <activity android:name=".Activity.LoginActivity" >
-
-        </activity>
-        <activity android:name=".Activity.ChangePasswordActivity" />
-        <activity android:name=".Activity.ChangeInfoActivity" >
-<!--        <activity android:name=".Activity.MainActivity">-->
-
         </activity>
     </application>
 

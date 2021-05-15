@@ -3,49 +3,31 @@ package com.example.ouchaixun.richtext;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.content.CursorLoader;
 
 import com.bumptech.glide.Glide;
-import com.example.ouchaixun.Activity.NewsDetilsActivity;
-import com.example.ouchaixun.Data.picback;
 import com.example.ouchaixun.R;
-import com.example.ouchaixun.Utils.CameraActivity;
 import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
-import com.google.gson.Gson;
 import com.wildma.pictureselector.FileUtils;
 import com.wildma.pictureselector.PictureBean;
 import com.wildma.pictureselector.PictureSelector;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -53,13 +35,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
