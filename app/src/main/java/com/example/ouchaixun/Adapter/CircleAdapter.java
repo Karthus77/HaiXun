@@ -114,7 +114,7 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final String id=list.get(position).get("id").toString();
         String head=list.get(position).get("head").toString();
         List<Map<String,Object>> piclist =new ArrayList<>();
-        for(int i=0;i<list.get(position).size()-8;i++)
+        for(int i=0;i<list.get(position).size()-9;i++)
         {
             Map<String,Object> map=new HashMap<>();
             map.put("url",list.get(position).get("url"+i).toString());

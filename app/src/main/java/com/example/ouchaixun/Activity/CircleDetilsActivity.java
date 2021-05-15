@@ -22,6 +22,7 @@ import com.example.ouchaixun.Data.CircleDetail;
 import com.example.ouchaixun.Data.SquareComment;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.InputTextMsgDialog;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
 
@@ -45,6 +46,7 @@ public class CircleDetilsActivity extends AppCompatActivity {
     TextView likes;
     TextView comments;
     TextView time;
+    private String token;
     private ImageView islike;
     private ImageView iscomment;
     List<Map<String,Object>> piclist =new ArrayList<>();
@@ -56,6 +58,8 @@ public class CircleDetilsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_circle_detils);
+        MyData myData = new MyData(CircleDetilsActivity.this);
+        token = myData.load_token();
         likes=findViewById(R.id.details_like_nums);
         islike=findViewById(R.id.details_like);
         comments=findViewById(R.id.details_com_nums);
@@ -74,7 +78,6 @@ public class CircleDetilsActivity extends AppCompatActivity {
         });
         Intent int2 =getIntent();
         final String id =int2.getStringExtra("id");
-        final String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
         OKhttpUtils.get_token(token,"http://47.102.215.61:8888/school/"+id+"/detail", new OKhttpUtils.OkhttpCallBack() {
             @Override
             public void onSuccess(Response response) throws IOException {
@@ -89,6 +92,8 @@ public class CircleDetilsActivity extends AppCompatActivity {
                         time.setText(circleDetail.getData().getRelease_time());
                         comments.setText(String.valueOf(circleDetail.getData().getClick_num()));
                         likes.setText(String.valueOf(circleDetail.getData().getLike_num()));
+                        if(circleDetail.getData().getIs_like()==1)
+                            islike.setImageResource(R.drawable.islike);
                         Glide.with(CircleDetilsActivity.this).load(circleDetail.getData().getWriter_avatar()).circleCrop().into(head);
 
 

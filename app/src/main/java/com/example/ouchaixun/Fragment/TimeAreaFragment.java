@@ -18,8 +18,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.ouchaixun.Adapter.CircleAdapter;
+import com.example.ouchaixun.Adapter.HotListAdapter;
 import com.example.ouchaixun.Data.CircleList;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -49,6 +51,9 @@ public class TimeAreaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyData myData = new MyData(getActivity());
+        token = myData.load_token();
+
 
     }
 
@@ -67,7 +72,6 @@ public class TimeAreaFragment extends Fragment {
         recyclerView=view.findViewById(R.id.time_recycler);
         relativeLayout=view.findViewById(R.id.time_background);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjEyNjQ5MTcsImlhdCI6MTYyMDY2MDExNywiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.JyfnK3uRjTCBnCL9-UdyKrTEkUlvLSR_p9SasjWooEo";
         final List<Map<String,Object>> list=new ArrayList<>();
         GetCircle(list,true);
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -110,13 +114,24 @@ public class TimeAreaFragment extends Fragment {
 
                         }else {
 
+
                             for(int i=0;i<circleList.getData().size();i++)
                             {
+                                if(circleList.getData().size()==0)
+                                {
+                                    Map<String,Object> map=new HashMap<>();
+                                    map.put("type",2);
+                                    list.add(map);
+                                }
+                                else {
+
+
                                 Map<String,Object> map=new HashMap<>();
+                                map.put("type",0);
                                 map.put("id",circleList.getData().get(i).getId());
                                 map.put("head",circleList.getData().get(i).getWriter_avatar());
                                 map.put("name",circleList.getData().get(i).getWriter_nickname());
-                                map.put("time",circleList.getData().get(i).getRelease_time());
+                                map.put("time",circleList.getData().get(i).getRelease_time().substring(0,10));
                                 map.put("content",circleList.getData().get(i).getContent());
                                 map.put("comment",circleList.getData().get(i).getComment_num());
                                 map.put("like",circleList.getData().get(i).getLike_num());
@@ -125,15 +140,12 @@ public class TimeAreaFragment extends Fragment {
                                 {
                                     map.put("url"+k,circleList.getData().get(i).getPic_list().get(k).getPicture());
                                 }
-                                list.add(map);
+                                list.add(map);}
                             }
 
                                    getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            relativeLayout.setBackgroundResource(R.drawable.background_box22);
-                                            if (list.size()==0)
-                                                relativeLayout.setBackgroundResource(R.drawable.hbb_no);
                                             if (refresh) {
                                                 circleAdapter = new CircleAdapter(getContext(), list);
                                                 recyclerView.setAdapter(circleAdapter);
@@ -162,8 +174,13 @@ public class TimeAreaFragment extends Fragment {
                     Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("type",1);
+                            list.add(map);
                             Toast.makeText(getContext(),"网络连接好像断开了哦",Toast.LENGTH_SHORT).show();
-                            relativeLayout.setBackgroundResource(R.drawable.hbb_nonet);
+                            circleAdapter = new CircleAdapter(getContext(), list);
+                            recyclerView.setAdapter(circleAdapter);
+
                         }
                     });
                 }
