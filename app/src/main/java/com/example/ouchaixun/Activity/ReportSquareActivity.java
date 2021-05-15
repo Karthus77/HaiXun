@@ -471,6 +471,7 @@ public class ReportSquareActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         Toast.makeText(ReportSquareActivity.this,circleback.getMsg(),Toast.LENGTH_SHORT).show();
+                                        
                                     }
                                 });
                                 if (circleback.getCode()==200)
