@@ -20,7 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.ouchaixun.Activity.CircleDetilsActivity;
 import com.example.ouchaixun.Activity.NewsDetilsActivity;
+import com.example.ouchaixun.Activity.SquareDetailsActivity;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.MyData;
 
@@ -121,24 +123,45 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         }else if(holder instanceof  SchoolViewHolder){
             SchoolViewHolder viewHolder = (SchoolViewHolder) holder;
             viewHolder.circle_userName.setText(list.get(position).get("writer_nickname").toString());
-            if(Integer.valueOf(list.get(position).get("comment_num").toString())>99){
-                viewHolder.comments_num.setText("99+");
-            }else{
-                viewHolder.comments_num.setText(list.get(position).get("comment_num").toString());
-            }
-            if(Integer.valueOf(list.get(position).get("like_num").toString())>99){
-                viewHolder.likes_num.setText("99+");
-            }else{
-                viewHolder.likes_num.setText(list.get(position).get("like_num").toString());
-            }
+            String time=list.get(position).get("release_time").toString();
+            String N_time = time.substring(0,10);
+            N_time = N_time+" ";
+            N_time+=time.substring(10+1,10+6);
+            viewHolder.circle_postTime.setText(N_time);
             viewHolder.circleItem_content.setText(list.get(position).get("content").toString());
             Glide.with(context).load(list.get(position).get("writer_avatar").toString())
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                     .into(viewHolder.circle_userHead);
-
+            Log.d("12333dd",list.get(position).get("talk_id").toString());
+            viewHolder.circle_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent =new Intent(context, CircleDetilsActivity.class);
+                    intent.putExtra("id",list.get(position).get("talk_id").toString());
+                    context.startActivity(intent);
+                }
+            });
         }else if(holder instanceof  TieViewHolder){
             TieViewHolder viewHolder = (TieViewHolder) holder;
-
+            viewHolder.leixing.setText(list.get(position).get("tag").toString());
+            viewHolder.hole_name.setText(list.get(position).get("writer_nickname").toString());
+            viewHolder.hole_title.setText(list.get(position).get("title").toString());
+            String time=list.get(position).get("release_time").toString();
+            String N_time = time.substring(0,10);
+            N_time = N_time+" ";
+            N_time+=time.substring(11,10+6);
+            viewHolder.hole_time.setText(N_time);
+            Glide.with(context).load(list.get(position).get("writer_avatar").toString())
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into(viewHolder.hole_head);
+            viewHolder.tiezi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent =new Intent(context, SquareDetailsActivity.class);
+                    intent.putExtra("id",list.get(position).get("post_id").toString());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -183,24 +206,34 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         TextView circle_userName;
         TextView circleItem_content;
         ImageView circle_userHead;
-        TextView comments_num;
-        TextView likes_num;
         RelativeLayout circle_layout;
+        TextView circle_postTime;
         SchoolViewHolder(@NonNull View itemView) {
             super(itemView);
+            circle_postTime= itemView.findViewById(R.id.circle_postTime);
             circle_userName = itemView.findViewById(R.id.circle_userName);
             circleItem_content = itemView.findViewById(R.id.circleItem_content);
             circle_userHead = itemView.findViewById(R.id.circle_userHead);
-            comments_num = itemView.findViewById(R.id.comments_num);
-            likes_num = itemView.findViewById(R.id.likes_num);
             circle_layout = itemView.findViewById(R.id.circle_layout);
         }
     }
     class TieViewHolder extends RecyclerView.ViewHolder {
-
+        RelativeLayout tiezi;
+        TextView leixing;
+        TextView hole_title;
+        TextView hole_name;
+        TextView hole_time;
+        ImageView hole_head;
         TieViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            tiezi = itemView.findViewById(R.id.tiezi);
+            leixing = itemView.findViewById(R.id.leixing);
+            hole_title = itemView.findViewById(R.id.hole_title);
+            hole_name = itemView.findViewById(R.id.hole_name);
+            hole_time = itemView.findViewById(R.id.hole_time);
+            hole_head = itemView.findViewById(R.id.hole_head);
         }
     }
+
+
 }

@@ -3,9 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/news_layout"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="120dp">
 
-
+    <com.yanzhenjie.recyclerview.SwipeRecyclerView
+        android:id="@+id/recyclerView"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <TextView
         android:id="@+id/news_intop"
         android:layout_width="30dp"
