@@ -19,7 +19,7 @@
             android:layout_marginTop="10dp">
 
             <RadioButton
-                android:id="@+id/radio0"
+                android:id="@+id/radio1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -27,11 +27,17 @@
                 android:text="  男" />
 
             <RadioButton
-                android:id="@+id/radio1"
+            android:id="@+id/radio0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="  女" />
+            <RadioButton
+                android:id="@+id/radiof1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="  女" />
+                android:text="  保密" />
 
 
         </RadioGroup>

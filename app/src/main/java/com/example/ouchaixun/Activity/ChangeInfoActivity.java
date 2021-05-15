@@ -113,8 +113,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         } else if(myData.load_sex().equals("女")){
             my_sex = 0;
         }else{
-            my_sex = 2;
-            Log.d("12333","cwtl");
+            my_sex = -1;
         }
         token = myData.load_token();
 
@@ -171,15 +170,19 @@ public class ChangeInfoActivity extends AppCompatActivity {
                 LayoutInflater factory = LayoutInflater.from(ChangeInfoActivity.this);
                 final View view = factory.inflate(R.layout.layout_sex, null);
                 rgSex = (RadioGroup) view.findViewById(R.id.rgSex);
-                RadioButton rb_1 = (RadioButton) rgSex.findViewById(R.id.radio0);
-                RadioButton rb_0 = (RadioButton) rgSex.findViewById(R.id.radio1);
+                RadioButton rb_f1 = (RadioButton) rgSex.findViewById(R.id.radiof1);
+                RadioButton rb_1 = (RadioButton) rgSex.findViewById(R.id.radio1);
+                RadioButton rb_0 = (RadioButton) rgSex.findViewById(R.id.radio0);
                 if(my_sex==1){
                     rb_1.setChecked(true);
                     rb_0.setChecked(false);
+                    rb_f1.setChecked(false);
                 }else if(my_sex==0){
                     rb_0.setChecked(true);
                     rb_1.setChecked(false);
+                    rb_f1.setChecked(false);
                 }else{
+                    rb_f1.setChecked(true);
                     rb_1.setChecked(false);
                     rb_0.setChecked(false);
                 }
@@ -192,11 +195,15 @@ public class ChangeInfoActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (rgSex.getCheckedRadioButtonId() == R.id.radio0) {
                                             sex2 = true;
-                                            my_sex = 1;
+                                            my_sex = 0;
                                             change_my_info();
                                         } else if (rgSex.getCheckedRadioButtonId() == R.id.radio1) {
                                             sex2 = false;
-                                            my_sex = 0;
+                                            my_sex = 1;
+                                            change_my_info();
+                                        } else if (rgSex.getCheckedRadioButtonId() == R.id.radiof1) {
+                                            sex2 = false;
+                                            my_sex = -1;
                                             change_my_info();
                                         } else {
                                             return;
@@ -295,8 +302,10 @@ public class ChangeInfoActivity extends AppCompatActivity {
     void go_ui() {
         if (my_sex == 1) {
             tv_sex.setText("男");
-        } else {
+        } else if(my_sex == 0){
             tv_sex.setText("女");
+        }else{
+            tv_sex.setText("保密");
         }
         change_name.setText("✎" + my_name);
         tv_info.setText(my_info);
@@ -371,12 +380,22 @@ public class ChangeInfoActivity extends AppCompatActivity {
                                 Log.d("1233g", "onResponse:123 " + responseData);
                                 JSONObject jsonObject1 = new JSONObject(responseData);
                                 int code = jsonObject1.getInt("code");
+                                final String msg=jsonObject1.getString("msg");
+                                final String img_url = jsonObject1.getString("url");
+                                Objects.requireNonNull(ChangeInfoActivity.this).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Glide.with(ChangeInfoActivity.this).load(img_url)
+                                                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                                .into(change_pic);
+                                    }
+                                });
                                 if (code != 1000) {
                                     Objects.requireNonNull(ChangeInfoActivity.this).runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             Log.d("1233pp", "sbsbsb");
-                                            Toast.makeText(ChangeInfoActivity.this, "图片过大,上传失败6", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ChangeInfoActivity.this,msg, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }

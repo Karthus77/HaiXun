@@ -80,8 +80,18 @@ public class MyData {
         mEditor.putString("URL",url);
         mEditor.commit();
     }
+    public void save_type(String url){
+        mEditor.putString("TYPE",url);
+        mEditor.commit();
+    }
+    public void save_account(String url){
+        mEditor.putString("ACCOUNT",url);
+        mEditor.commit();
+    }
 
-    public String load_pic_url(){return  mPreferences.getString("URL","NO");}
+    public String load_type(){return  mPreferences.getString("TYPE","无");}
+    public String load_account(){return  mPreferences.getString("ACCOUNT","无");}
+    public String load_pic_url(){return  mPreferences.getString("URL","认证机构");}
     public String load_token() {
         return mPreferences.getString("TOKEN", "NO");
     }

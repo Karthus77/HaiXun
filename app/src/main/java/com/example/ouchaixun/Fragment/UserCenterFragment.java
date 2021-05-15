@@ -25,6 +25,7 @@ import com.example.ouchaixun.Activity.ChangePasswordActivity;
 import com.example.ouchaixun.Activity.LoginActivity;
 import com.example.ouchaixun.Activity.MixActivity;
 import com.example.ouchaixun.Activity.RegisterActivity;
+import com.example.ouchaixun.Activity.WelcomeActivity;
 import  com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.MyData;
 
@@ -114,7 +115,10 @@ public class UserCenterFragment extends Fragment {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                MyData myData = new MyData(getActivity());
+                myData.save_type("无");
+                myData.save_token("");
+                startActivity(new Intent(getActivity(), WelcomeActivity.class));
                 getActivity().finish();
             }
         });
@@ -244,7 +248,9 @@ public class UserCenterFragment extends Fragment {
                                     myData.save_name(name);
                                     myData.save_sex(gender);
                                     myData.save_pic_url(avatar);
-                                    Log.d("1233gg", "nassme");
+                                    myData.save_account(jsonObject2.getString("account"));
+                                    myData.save_type(jsonObject2.getString("type"));
+                                    Log.d("1233gg", "type");
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
