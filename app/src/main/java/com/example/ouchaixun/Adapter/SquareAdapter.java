@@ -23,6 +23,9 @@ public class SquareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
     private List<Map<String,Object>> list;
     private View inflater;
+    private static final int normal= 0;
+    private static final int nonet = 1;
+    private static final int nothing=2;
     public SquareAdapter(Context context, List<Map<String,Object>> list){
         this.context = context;
         this.list = list;
@@ -30,55 +33,82 @@ public class SquareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(viewType==normal)
+        {
         inflater= LayoutInflater.from(context).inflate(R.layout.item_wall,parent,false);
         RecyclerView.ViewHolder ViewHolder = new SquareAdapter.ViewHolder(inflater);
-        return ViewHolder;
+        return ViewHolder;}
+        else if(viewType==nonet)
+        {
+            inflater= LayoutInflater.from(context).inflate(R.layout.item_nointernet,parent,false);
+            RecyclerView.ViewHolder ViewHolder = new SquareAdapter.ViewHolder(inflater);
+            return ViewHolder;
+        }
+        else
+        {
+            inflater= LayoutInflater.from(context).inflate(R.layout.item_nodata,parent,false);
+            RecyclerView.ViewHolder ViewHolder = new SquareAdapter.ViewHolder(inflater);
+            return ViewHolder;
+        }
+    }
+    @Override
+    public int getItemViewType(int position) {
+        int type=Integer.parseInt(list.get(position).get("type").toString());
+        if (type==normal)
+        {
+            return normal;
+        }
+        else if (type==nonet)
+        {
+            return  nonet;
+        }
+        else
+        {
+            return nothing;
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final SquareAdapter.ViewHolder viewholder = (SquareAdapter.ViewHolder) holder;
-        if(list.get(position).get("tag").equals("表白墙"))
-        {
-            viewholder.relativeLayout.setBackgroundResource(R.drawable.background_wall);
-            viewholder.head.setImageResource(R.drawable.anonymous_wall);
-        }
-        else if(list.get(position).get("tag").equals("树洞"))
-        {
-            viewholder.relativeLayout.setBackgroundResource(R.drawable.background_tree);
-            viewholder.head.setImageResource(R.drawable.anonymous_tree);
-        }
-        else if(list.get(position).get("tag").equals("吐槽"))
-        {
-            viewholder.relativeLayout.setBackgroundResource(R.drawable.background_bullshit);
-            viewholder.head.setImageResource(R.drawable.anonymous_bullshit);
-        }
-        else if(list.get(position).get("tag").equals("失物招领"))
-        {
-            viewholder.relativeLayout.setBackgroundResource(R.drawable.background_car);
-            viewholder.head.setImageResource(R.drawable.anonymous_car);
+        int viewType = getItemViewType(position);
+        if (viewType == normal) {
+            if (list.get(position).get("tag").equals("表白墙")) {
+                viewholder.relativeLayout.setBackgroundResource(R.drawable.background_wall);
+                viewholder.head.setImageResource(R.drawable.anonymous_wall);
+            } else if (list.get(position).get("tag").equals("树洞")) {
+                viewholder.relativeLayout.setBackgroundResource(R.drawable.background_tree);
+                viewholder.head.setImageResource(R.drawable.anonymous_tree);
+            } else if (list.get(position).get("tag").equals("吐槽")) {
+                viewholder.relativeLayout.setBackgroundResource(R.drawable.background_bullshit);
+                viewholder.head.setImageResource(R.drawable.anonymous_bullshit);
+            } else if (list.get(position).get("tag").equals("失物招领")) {
+                viewholder.relativeLayout.setBackgroundResource(R.drawable.background_car);
+                viewholder.head.setImageResource(R.drawable.anonymous_car);
+            } else {
+                viewholder.relativeLayout.setBackgroundResource(R.drawable.background_table);
+                viewholder.head.setImageResource(R.drawable.anonymous_table);
+            }
+            viewholder.title.setText(list.get(position).get("title").toString());
+            viewholder.time.setText(list.get(position).get("time").toString());
+            viewholder.name.setText(list.get(position).get("name").toString());
+            if (list.get(position).get("anonymous").equals("2")) {
+                Glide.with(context).load(list.get(position).get("head")).circleCrop().into(viewholder.head);
+            }
+            viewholder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, SquareDetailsActivity.class);
+                    intent.putExtra("id", list.get(position).get("id").toString());
+                    context.startActivity(intent);
+                }
+            });
         }
         else
         {
-            viewholder.relativeLayout.setBackgroundResource(R.drawable.background_table);
-            viewholder.head.setImageResource(R.drawable.anonymous_table);
         }
-        viewholder.title.setText(list.get(position).get("title").toString());
-        viewholder.time.setText(list.get(position).get("time").toString());
-        viewholder.name.setText(list.get(position).get("name").toString());
-        if(list.get(position).get("anonymous").equals("2"))
-        {
-            Glide.with(context).load(list.get(position).get("head")).circleCrop().into(viewholder.head);
-        }
-        viewholder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(context, SquareDetailsActivity.class);
-                intent.putExtra("id",list.get(position).get("id").toString());
-                context.startActivity(intent);
-            }
-        });
     }
+
 
     @Override
     public int getItemCount() {
