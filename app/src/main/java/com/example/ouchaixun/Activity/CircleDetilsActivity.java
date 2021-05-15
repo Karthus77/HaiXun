@@ -166,8 +166,8 @@ public class CircleDetilsActivity extends AppCompatActivity {
                         time.setText(circleDetail.getData().getRelease_time());
                         comments.setText(String.valueOf(circleDetail.getData().getComments().size()));
                         clicks.setText("浏览量:" + String.valueOf(circleDetail.getData().getClick_num()));
-                        if (circleDetail.getData().getIs_like() == 1)
-                            islike.setImageResource(R.drawable.islike);
+//                        if (circleDetail.getData().getIs_like() == 1)
+//                            islike.setImageResource(R.drawable.islike);
                         Glide.with(CircleDetilsActivity.this).load(circleDetail.getData().getWriter_avatar()).circleCrop().into(head);
                         for (int i = 0; i < circleDetail.getData().getPic_list().size(); i++) {
                             Map<String, Object> map = new HashMap<>();
