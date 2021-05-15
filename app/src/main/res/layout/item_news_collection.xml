@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="210dp"
     android:layout_height="76dp"
     android:layout_marginStart="10dp"
@@ -54,11 +55,13 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="16dp"
+
         android:layout_marginStart="14dp"
-        android:layout_toStartOf="@+id/news_img"
-        android:layout_toLeftOf="@+id/news_img"
-        android:layout_marginLeft="14dp" />
+
+
+        android:layout_marginLeft="14dp"
+        tools:ignore="UnknownIdInLayout"
+      />
 
 
     <TextView
