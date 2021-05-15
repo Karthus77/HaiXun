@@ -51,7 +51,7 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
     private String token;
     private String title,content;
     private String banner;
-    private int banner_id;
+    private int banner_id=0;
     private String  filePath=null, fileName=null;
     /********************View**********************/
     private EditText tv_title;
@@ -170,8 +170,9 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
 
                     response= client.newCall(request).execute();
 
-                    JSONObject jsonObject=new JSONObject(response.body().string());
-                    if (jsonObject.getString("msg").equals("一切正常")){
+                    final JSONObject jsonObject=new JSONObject(response.body().string());
+                    final String msg=jsonObject.getString("msg");
+                    if (msg.equals("一切正常")){
 
                        if (isheader){
                            banner_id=jsonObject.getInt("id");
@@ -204,11 +205,13 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Toast.makeText(publishActivity.this, msg,Toast.LENGTH_SHORT).show();
+
 
                             }
                         });
                     }
-                            FileUtils.deleteAllCacheImage(publishActivity.this);
+                         //   FileUtils.deleteAllCacheImage(publishActivity.this);
 
 
                     Log.i("asd",jsonObject.toString());
@@ -257,49 +260,59 @@ public class publishActivity extends AppCompatActivity implements View.OnClickLi
                 title=tv_title.getText().toString();
                 content=mEditor.getHtml();
 
+                if (content.equals("")){
+                    Toast.makeText(publishActivity.this, "还没有新闻呢",Toast.LENGTH_SHORT).show();
 
-                try {
-                    OKhttpUtils.post_form(token, title, content, banner_id, new OKhttpUtils.OkhttpCallBack() {
-                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                        @Override
-                        public void onSuccess(Response response) {
+                }else if (title.equals("")){
+                    Toast.makeText(publishActivity.this, "还没有新闻标题呢",Toast.LENGTH_SHORT).show();
 
-                            try {
-                                JSONObject jsonObject=new JSONObject(Objects.requireNonNull(response.body()).string());
-                                final String msg=jsonObject.getString("msg");
+                }else if (banner_id==0){
+                    Toast.makeText(publishActivity.this, "还没有新闻封面呢",Toast.LENGTH_SHORT).show();
+
+                }else {
+
+                    try {
+                        OKhttpUtils.post_form(token, title, content, banner_id, new OKhttpUtils.OkhttpCallBack() {
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void onSuccess(Response response) {
+
+                                try {
+                                    JSONObject jsonObject = new JSONObject(Objects.requireNonNull(response.body()).string());
+                                    final String msg = jsonObject.getString("msg");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(publishActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                            if (msg.equals("发布成功")) {
+                                                publishActivity.LISTENING = true;
+                                                publishActivity.this.finish();
+                                            }
+                                        }
+                                    });
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            @Override
+                            public void onFail(String error) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(publishActivity.this,msg,Toast.LENGTH_SHORT).show();
-                                        if (msg.equals("发布成功")){
-                                            publishActivity.LISTENING = true;
-                                            publishActivity.this.finish();
-                                        }
+
+                                        Toast.makeText(publishActivity.this, "网络连接失败，请检查网络连接", Toast.LENGTH_SHORT).show();
+
                                     }
                                 });
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
                             }
-
-                        }
-
-                        @Override
-                        public void onFail(String error) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    Toast.makeText(publishActivity.this,"网络连接失败，请检查网络连接",Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-
 
             }
         });
