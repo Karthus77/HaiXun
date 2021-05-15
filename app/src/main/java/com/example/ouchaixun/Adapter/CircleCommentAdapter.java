@@ -1,6 +1,7 @@
 package com.example.ouchaixun.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Preconditions;
@@ -53,6 +55,8 @@ public class CircleCommentAdapter extends RecyclerView.Adapter<RecyclerView.View
     public CircleCommentAdapter(Context context, List<Map<String,Object>> list){
         this.context = context;
         this.list = list;
+        MyData myData = new MyData(context);
+        token = myData.load_token();
     }
     @NonNull
     @Override
@@ -73,7 +77,7 @@ public class CircleCommentAdapter extends RecyclerView.Adapter<RecyclerView.View
         final String id =list.get(position).get("id").toString();
         final String num_like=list.get(position).get("likes").toString();
         setNumber(viewholder.likes,num_like);
-        viewholder.time.setText(list.get(position).get("time").toString());
+        viewholder.time.setText(list.get(position).get("time").toString().substring(0,16));
         Glide.with(context).load(list.get(position).get("head")).circleCrop().into(viewholder.head);
         viewholder.islike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,16 +87,19 @@ public class CircleCommentAdapter extends RecyclerView.Adapter<RecyclerView.View
                 postLike.id=Integer.parseInt(id);
                 postLike.type=2;
                 if (viewholder.islike.getDrawable().getCurrent().getConstantState()==viewholder.islike.getResources().getDrawable(R.drawable.circle_like).getConstantState())
-                    postLike.action=1;
+                { postLike.action=1;
+                    changeLike(viewholder.islike);
+                    setNumber(viewholder.likes,String.valueOf(Integer.parseInt(num_like)+1));}
                 else
-                    postLike.action=2;
-                changeLike(viewholder.islike);
-                setNumber(viewholder.likes,String.valueOf(Integer.parseInt(num_like)+1));
+                {postLike.action=2;
+                setNumber(viewholder.likes,String.valueOf(Integer.parseInt(num_like)));}
+
                 try {
                     OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/like",gson.toJson(postLike) , new OKhttpUtils.OkhttpCallBack() {
                         @Override
                         public void onSuccess(Response response) throws IOException {
                             String responseData = response.body().string();
+                            Log.i("hhh",responseData);
                         }
                         @Override
                         public void onFail(String error) {
@@ -127,8 +134,6 @@ public class CircleCommentAdapter extends RecyclerView.Adapter<RecyclerView.View
             name=view.findViewById(R.id.comment_name);
             likes=view.findViewById(R.id.comment_likenums);
             islike=view.findViewById(R.id.click_like);
-
-
         }
     }
 }

@@ -29,25 +29,25 @@ public class SquareFragment extends Fragment {
     private SquareTableFragment squareTableFragment=new SquareTableFragment();
     private SquareBullshitFragment squareBullshitFragment=new SquareBullshitFragment();
     private SquareHoleFragment squareHoleFragment=new SquareHoleFragment();
-    private SquraeAllFragment squraeAllFragment=new SquraeAllFragment();
+    private SquraeAllFragment squareAllFragment=new SquraeAllFragment();
 
     public void hideFragment(FragmentTransaction transaction){
-        if(squareWallFragment != null){
+        if(squareWallFragment.isAdded()){
             transaction.hide(squareWallFragment);
         }
-        if(squareCarFragment != null){
+        if(squareCarFragment.isAdded()){
             transaction.hide(squareCarFragment);
         }
-        if(squareTableFragment != null){
+        if(squareTableFragment.isAdded()){
             transaction.hide(squareTableFragment);
         }
-        if(squareBullshitFragment != null){
+        if(squareBullshitFragment.isAdded()){
             transaction.hide(squareBullshitFragment);
         }
-        if(squraeAllFragment != null){
-            transaction.hide(squareBullshitFragment);
+        if(squareAllFragment.isAdded()){
+            transaction.hide(squareAllFragment);
         }
-        if(squareHoleFragment != null){
+        if(squareHoleFragment.isAdded()){
             transaction.hide(squareHoleFragment);
         }
     }
@@ -100,7 +100,7 @@ public class SquareFragment extends Fragment {
         bullshit=view.findViewById(R.id.square_bullshit);
         treehole=view.findViewById(R.id.square_treehole);
         all=view.findViewById(R.id.square_all);
-        chooseFragment(squraeAllFragment,all);
+        chooseFragment(squareAllFragment,all);
         wall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +134,7 @@ public class SquareFragment extends Fragment {
         all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chooseFragment(squraeAllFragment,all);
+                chooseFragment(squareAllFragment,all);
             }
         });
         post.setOnClickListener(new View.OnClickListener() {

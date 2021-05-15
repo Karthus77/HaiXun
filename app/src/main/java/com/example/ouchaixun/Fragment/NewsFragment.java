@@ -48,7 +48,7 @@ public class NewsFragment extends Fragment {
     private NewsAdapter adapter;
     private Boolean header=false;
     private int page=1,page_num=1,refresh_num=0;
-    private String token;
+    private String token,identity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,13 @@ public class NewsFragment extends Fragment {
         smartRefreshLayout=getActivity().findViewById(R.id.new_smartRefreshLayout);
         MyData myData = new MyData(getContext());
         token = myData.load_token();
+        identity=myData.load_name();
+        if (identity.equals("认证机构")){
+            button_write.setVisibility(View.VISIBLE);
+        }
+
+
+
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {

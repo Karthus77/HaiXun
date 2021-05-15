@@ -31,9 +31,15 @@
         </TextView>
 
     </RelativeLayout>
-    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_below="@id/circle_details_topBar"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+
         android:id="@+id/details_item"
         android:layout_width="match_parent"
         android:background="@drawable/background_box22"
@@ -41,6 +47,16 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/details_clicknums"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="浏览量:"
+                android:layout_below="@id/details_NinePictures"
+                android:layout_marginTop="32dp"
+                android:textSize="10sp"
+                android:layout_marginLeft="10dp"></TextView>
+
             <ImageView
                 android:id="@+id/details_userHead"
                 android:layout_width="40dp"
@@ -168,6 +184,8 @@
         android:layout_below="@id/details_item"
         android:id="@+id/details_commentItems">
     </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+    </ScrollView>
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="66.33dp"
