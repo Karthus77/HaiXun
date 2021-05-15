@@ -10,6 +10,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:id="@+id/square_topBar"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:background="@drawable/topbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <View
+                android:id="@+id/news_btn0"
+                android:layout_width="48dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="22dp"
+                android:layout_marginLeft="22dp"
+                android:background="@drawable/haixun" />
+
+
+        </RelativeLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/con1"
             android:layout_width="match_parent"
@@ -17,28 +40,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="个人中心"
-                android:textColor="#CC262626"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/View"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/View"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="42dp"
-                android:background="#CC3D3D3D"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -86,10 +87,10 @@
                 android:layout_height="75dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="70dp"
                 android:src="@drawable/circle_userdefault"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView4"
