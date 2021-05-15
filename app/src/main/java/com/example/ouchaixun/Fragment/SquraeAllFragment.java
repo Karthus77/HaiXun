@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.ouchaixun.Activity.NewsDetilsActivity;
 import com.example.ouchaixun.Adapter.SquareAdapter;
 import com.example.ouchaixun.Data.SquareList;
 import com.example.ouchaixun.R;
+import com.example.ouchaixun.Utils.MyData;
 import com.example.ouchaixun.Utils.OKhttpUtils;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -38,7 +40,7 @@ public class SquraeAllFragment extends Fragment {
     private SmartRefreshLayout smartRefreshLayout;
     private RecyclerView recyclerView;
     private RelativeLayout relativeLayout;
-    private String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjE1MjM4MDIsImlhdCI6MTYyMDkxOTAwMiwiaXNzIjoicnVhIiwiZGF0YSI6eyJ1c2VyaWQiOjN9fQ.zzO6gk1Y6iaRawxb--avh4xaGeUhuI16BnxgtRydxks";
+    private String token;
     private int page=1,o_page=1,refresh_num=0;
     private SquareAdapter squareAdapter;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -63,31 +65,35 @@ public class SquraeAllFragment extends Fragment {
 
                                     for(int i=0;i<squareList.getData().size();i++)
                                     {
-                                        Map<String,Object> map=new HashMap<>();
-                                        map.put("id",squareList.getData().get(i).getId());
-                                        map.put("head",squareList.getData().get(i).getWriter_avatar());
-                                        map.put("tag",squareList.getData().get(i).getTag());
-                                        map.put("title",squareList.getData().get(i).getTitle());
-                                        map.put("time",squareList.getData().get(i).getRelease_time());
-                                        if (squareList.getData().get(i).getWriter_nickname().equals("该内容由匿名用户发布"))
+                                        if(squareList.getData().size()==0)
                                         {
-                                            map.put("anonymous",1);
-                                            map.put("name","匿名");
+                                                Map<String,Object> map=new HashMap<>();
+                                                map.put("type",2);
+                                                list.add(map);
                                         }
-                                        else
-                                        {
-                                            map.put("anonymous",2);
-                                            map.put("name",squareList.getData().get(i).getWriter_nickname());
+                                        else {
+                                            Map<String, Object> map = new HashMap<>();
+                                            map.put("type", 0);
+                                            map.put("id", squareList.getData().get(i).getId());
+                                            map.put("head", squareList.getData().get(i).getWriter_avatar());
+                                            map.put("tag", squareList.getData().get(i).getTag());
+                                            map.put("title", squareList.getData().get(i).getTitle());
+                                            map.put("time", squareList.getData().get(i).getRelease_time().substring(0,10));
+                                            if (squareList.getData().get(i).getWriter_nickname().equals("该内容由匿名用户发布")) {
+                                                map.put("anonymous", 1);
+                                                map.put("name", "匿名");
+                                            } else {
+                                                map.put("anonymous", 2);
+                                                map.put("name", squareList.getData().get(i).getWriter_nickname());
+                                            }
+                                            list.add(map);
                                         }
-                                        list.add(map);
+
                                     }
 
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            relativeLayout.setBackgroundResource(R.drawable.background_box22);
-                                            if (list.size()==0)
-                                                relativeLayout.setBackgroundResource(R.drawable.hbb_no);
                                             if (refresh) {
                                                 squareAdapter = new SquareAdapter(getContext(), list);
                                                 recyclerView.setAdapter(squareAdapter);
@@ -117,8 +123,13 @@ public class SquraeAllFragment extends Fragment {
                             Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("type",1);
+                                    list.add(map);
                                     Toast.makeText(getContext(),"网络连接好像断开了哦",Toast.LENGTH_SHORT).show();
-                                    relativeLayout.setBackgroundResource(R.drawable.hbb_nonet);
+                                    squareAdapter = new SquareAdapter(getContext(), list);
+                                    recyclerView.setAdapter(squareAdapter);
+
                                 }
                             });
                         }
@@ -140,6 +151,8 @@ public class SquraeAllFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyData myData = new MyData(getActivity());
+        token = myData.load_token();
 
     }
 
@@ -154,6 +167,7 @@ public class SquraeAllFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         smartRefreshLayout=view.findViewById(R.id.all_refresh);
         relativeLayout=view.findViewById(R.id.all_background);
         recyclerView=view.findViewById(R.id.all_recycler);

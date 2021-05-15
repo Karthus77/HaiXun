@@ -45,7 +45,7 @@ public class CircleShowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         final Dialog dialog=new Dialog(context,R.style.Theme_AppCompat_DayNight_Dialog_Alert);
         View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_showpic, null);
          ImageView big=contentView.findViewById(R.id.big_pic);
-         
+
         Glide.with(context).load(list.get(position).get("url")).into(big);
        dialog.setContentView(contentView);
             viewholder.img.setOnClickListener(new View.OnClickListener() {

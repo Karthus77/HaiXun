@@ -23,16 +23,49 @@ public class HotListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
     private List<Map<String,Object>> list;
     private View inflater;
+    private static final int normal= 0;
+    private static final int nonet = 1;
+    private static final int nothing=2;
     public HotListAdapter(Context context, List<Map<String,Object>> list){
         this.context = context;
         this.list = list;
     }
+    @Override
+    public int getItemViewType(int position) {
+        int type=Integer.parseInt(list.get(position).get("type").toString());
+        if (type==normal)
+        {
+            return normal;
+        }
+        else if (type==nonet)
+        {
+            return  nonet;
+        }
+        else
+        {
+            return nothing;
+        }
+    }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType==normal)
+        {
         inflater= LayoutInflater.from(context).inflate(R.layout.item_hotlist,parent,false);
         RecyclerView.ViewHolder ViewHolder = new HotListAdapter.ViewHolder(inflater);
-        return ViewHolder;
+        return ViewHolder;}
+        else if(viewType==nonet)
+        {
+            inflater= LayoutInflater.from(context).inflate(R.layout.item_nointernet,parent,false);
+            RecyclerView.ViewHolder ViewHolder = new HotListAdapter.ViewHolder(inflater);
+            return ViewHolder;
+        }
+        else
+        {
+            inflater= LayoutInflater.from(context).inflate(R.layout.item_nodata,parent,false);
+            RecyclerView.ViewHolder ViewHolder = new HotListAdapter.ViewHolder(inflater);
+            return ViewHolder;
+        }
     }
 
     @Override

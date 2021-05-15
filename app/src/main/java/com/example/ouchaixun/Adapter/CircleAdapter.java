@@ -45,6 +45,9 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<Map<String,Object>> list;
     private View inflater;
     private CircleShowAdapter circleShowAdapter;
+    private static final int normal= 0;
+    private static final int nonet = 1;
+    private static final int nothing=2;
     private static final int ITEM_PAGER =0 ;
     private static final int ITEM_NEWS =1;
     private static final int ITEM_ERROR =2;
@@ -73,17 +76,35 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
         this.list = list;
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        inflater= LayoutInflater.from(context).inflate(R.layout.item_alumnus,parent,false);
-        RecyclerView.ViewHolder ViewHolder = new CircleAdapter.ViewHolder(inflater);
-        return ViewHolder;
+        if(viewType==normal)
+        {
+            inflater= LayoutInflater.from(context).inflate(R.layout.item_alumnus,parent,false);
+            RecyclerView.ViewHolder ViewHolder = new CircleAdapter.ViewHolder(inflater);
+            return ViewHolder;}
+        else if(viewType==nonet)
+        {
+            inflater= LayoutInflater.from(context).inflate(R.layout.item_nointernet,parent,false);
+            RecyclerView.ViewHolder ViewHolder = new CircleAdapter.ViewHolder(inflater);
+            return ViewHolder;
+        }
+        else
+        {
+            inflater= LayoutInflater.from(context).inflate(R.layout.item_nodata,parent,false);
+            RecyclerView.ViewHolder ViewHolder = new CircleAdapter.ViewHolder(inflater);
+            return ViewHolder;
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder viewholder = (ViewHolder) holder;
+        int viewType = getItemViewType(position);
+        if (viewType==normal)
+        {
         String name=list.get(position).get("name").toString();
         final String content=list.get(position).get("content").toString();
         String time =list.get(position).get("time").toString();
@@ -93,7 +114,7 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final String id=list.get(position).get("id").toString();
         String head=list.get(position).get("head").toString();
         List<Map<String,Object>> piclist =new ArrayList<>();
-        for(int i=0;i<list.get(position).size()-8;i++)
+        for(int i=0;i<list.get(position).size()-9;i++)
         {
             Map<String,Object> map=new HashMap<>();
             map.put("url",list.get(position).get("url"+i).toString());
@@ -154,11 +175,26 @@ public class CircleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
         });
+    }else {
+        }
     }
+
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        int type=Integer.parseInt(list.get(position).get("type").toString());
+        if (type==normal)
+        {
+            return normal;
+        }
+        else if (type==nonet)
+        {
+            return  nonet;
+        }
+        else
+        {
+            return nothing;
+        }
     }
 
     @Override
