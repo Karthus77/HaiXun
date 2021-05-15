@@ -3,6 +3,7 @@ package com.example.ouchaixun.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.sip.SipSession;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import com.example.ouchaixun.Utils.OKhttpUtils;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -193,10 +195,55 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-    public void removeList(int position){
-        list.remove(position);//删除数据源,移除集合中当前下标的数据
-        notifyItemRemoved(position);//刷新被删除的地方
-        notifyItemRangeChanged(position, getItemCount()); //刷新被删除数据，以及其后面的数据
+    public void removeList(final int position){
+
+        MyData myData = new MyData(context);
+        String token = myData.load_token();
+        final String json= " { \"id\":"+list.get(position).getIds()+" ,\"type\":6}";
+
+        try {
+            OKhttpUtils.post_json(token, "http://47.102.215.61:8888/whole/delete", json, new OKhttpUtils.OkhttpCallBack() {
+                @Override
+                public void onSuccess(Response response)  {
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body().string());
+                        Log.i("asd",jsonObject.toString());
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                list.remove(position);//删除数据源,移除集合中当前下标的数据
+                                notifyItemRemoved(position);//刷新被删除的地方
+                                notifyItemRangeChanged(position, getItemCount()); //刷新被删除数据，以及其后面的数据
+                                if (list.size()<=9){
+                                    listener.onItemClick(position);
+                                }
+
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void onFail(String error) {
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context,"网络连接失败，请检查网络连接",Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    });
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -204,6 +251,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
 
+
+    }
+    //声明接口
+    private ItemClickListener listener;
+    //set方法
+    public void setListener(ItemClickListener listener) {
+        this.listener = listener;
+    }
+    //定义接口
+    public interface ItemClickListener{
+        //实现点击的方法，传递条目下标
+        void onItemClick(int position);
     }
 
 }

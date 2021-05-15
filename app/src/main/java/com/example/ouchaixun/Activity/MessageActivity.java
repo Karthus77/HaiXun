@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -86,6 +87,15 @@ public class MessageActivity extends AppCompatActivity {
         List<Message> list=new ArrayList<>();
         GetData(list);
 
+
+
+        findViewById(R.id.message_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void GetData(final List<Message> list) {
@@ -102,7 +112,7 @@ public class MessageActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                        if (refresh_num == 0) {
+                        if (isrefresh) {
                             old_page = jsonObject.getInt("num_pages");
                         }
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -163,6 +173,15 @@ public class MessageActivity extends AppCompatActivity {
                                     adapter = new MessageAdapter(MessageActivity.this, list);
                                     //recyclerView.setItemViewCacheSize(10000);
                                     recyclerView.setAdapter(adapter);
+                                    adapter.setListener(new MessageAdapter.ItemClickListener() {
+                                        @Override
+                                        public void onItemClick(int position) {
+                                            List<Message> list=new ArrayList<>();
+                                            isrefresh=false;
+                                            GetData(list);
+                                            smartRefreshLayout.finishLoadMore();
+                                        }
+                                    });
                                 }else {
                                     adapter.addData(list);
                                 }
