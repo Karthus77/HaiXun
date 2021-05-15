@@ -46,7 +46,7 @@ public class SquareDetailsActivity extends AppCompatActivity {
     private String token,photo;
     private int page=1,old_page=1,refresh_num=0;
 
-    private int passage_id=3;
+    private int passage_id=1;
     private RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
     private CommentAdapter adapter;
@@ -105,6 +105,11 @@ public class SquareDetailsActivity extends AppCompatActivity {
         MyData myData = new MyData(SquareDetailsActivity.this);
         token = myData.load_token();
         photo=myData.load_pic_url();
+
+
+
+        String sID=getIntent().getStringExtra("id");
+        passage_id=Integer.parseInt(sID);
 
 
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {

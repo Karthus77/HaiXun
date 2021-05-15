@@ -323,4 +323,23 @@ getActivity().findViewById(R.id.news_msg).setOnClickListener(new View.OnClickLis
             });
         }
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (publishActivity.LISTENING){
+            refresh_num++;
+            page=1;
+            smartRefreshLayout.setEnableLoadMore(true);
+            List<News> list=new ArrayList<>();
+            GetFirst(list);
+            publishActivity.LISTENING=false;
+        }
+
+
+
+
+
+    }
 }
