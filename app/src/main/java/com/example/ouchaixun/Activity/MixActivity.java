@@ -278,21 +278,20 @@ public class MixActivity extends AppCompatActivity {
                                 String release_time = jsonObject2.getString("release_time");
                                 String title= jsonObject2.getString("title");
                                 String tag= jsonObject2.getString("tag");
-                                String first_pic= "http://47.102.215.61:8888/"+jsonObject2.getString("first_pic");
                                 String writer_nickname;
                                 String writer_avatar;
-                                    writer_nickname= jsonObject2.getString("writer_nickname");
-                                    writer_avatar= "http://47.102.215.61:8888"+jsonObject2.getString("writer_avatar");
-
                                 if (typee == 3) {
                                     post_id = jsonObject2.getInt("id");
+                                    writer_nickname= myname;
+                                    writer_avatar= myhead;
                                 } else {
+                                    writer_nickname= jsonObject2.getString("writer_nickname");
+                                    writer_avatar= "http://47.102.215.61:8888"+jsonObject2.getString("writer_avatar");
                                     post_id = jsonObject2.getInt("post_id");
                                 }
                                 map.put("post_id", post_id);
                                 map.put("title", title);
                                 map.put("tag", tag);
-                                map.put("first_pic", first_pic);
                                 map.put("release_time", release_time);
                                 map.put("writer_avatar", writer_avatar);
                                 map.put("writer_nickname", writer_nickname);

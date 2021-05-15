@@ -399,20 +399,22 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
                 viewHolder.delete.setVisibility(View.INVISIBLE);
             }
             viewHolder.leixing.setText(list.get(position).get("tag").toString());
+            Log.d("1233i", list.get(position).get("writer_nickname").toString());
             if(list.get(position).get("writer_nickname").toString().equals("该内容由匿名用户发布")){
 
             }else{
                 viewHolder.hole_name.setText(list.get(position).get("writer_nickname").toString());
-                viewHolder.hole_title.setText(list.get(position).get("title").toString());
+                Glide.with(context).load(list.get(position).get("writer_avatar").toString())
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                        .into(viewHolder.hole_head);
             }
+            viewHolder.hole_title.setText(list.get(position).get("title").toString());
             String time=list.get(position).get("release_time").toString();
             String N_time = time.substring(0,10);
             N_time = N_time+" ";
             N_time+=time.substring(11,10+6);
             viewHolder.hole_time.setText(N_time);
-            Glide.with(context).load(list.get(position).get("writer_avatar").toString())
-                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                    .into(viewHolder.hole_head);
+
             viewHolder.tiezi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
