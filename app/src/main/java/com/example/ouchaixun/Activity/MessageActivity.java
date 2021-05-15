@@ -41,10 +41,10 @@ public class MessageActivity extends AppCompatActivity {
     private String token,photo;
     private int page=1,old_page=1,refresh_num=0;
 
-    private int passage_id=1;
     private RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
     private MessageAdapter adapter;
+    private Boolean isrefresh=true;
 
 
     @Override
@@ -65,6 +65,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 List<Message> list=new ArrayList<>();
+                isrefresh=false;
                 GetData(list);
                 smartRefreshLayout.finishLoadMore();
             }
@@ -72,6 +73,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
 
+                isrefresh=true;
                 refresh_num++;
                 page=1;old_page=1;
                 smartRefreshLayout.setEnableLoadMore(true);
@@ -89,89 +91,123 @@ public class MessageActivity extends AppCompatActivity {
     private void GetData(final List<Message> list) {
 
 
-        OKhttpUtils.get_token(token, "http://47.102.215.61:8888/self/message?page="+page, new OKhttpUtils.OkhttpCallBack() {
-            @Override
-            public void onSuccess(Response response)  {
+        if (page<=old_page) {
+            OKhttpUtils.get_token(token, "http://47.102.215.61:8888/self/message?page=" + page, new OKhttpUtils.OkhttpCallBack() {
+                @Override
+                public void onSuccess(Response response) {
 
-                try {
 
-                    JSONObject jsonObject=new JSONObject(response.body().string());
-                    JSONArray jsonArray=jsonObject.getJSONArray("data");
+                    try {
 
-                    for (int i=0;i<jsonArray.length();i++){
-                        JSONObject jsonObject1=jsonArray.getJSONObject(i);
-                        Message message=new Message();
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                        int type=jsonObject1.getInt("id");
-                        message.setIds(type);
-                        message.setMsg_type(jsonObject1.getInt("msg_type"));
-                        message.setTimes(jsonObject1.getString("create_time"));
-                        message.setSender_nickname(jsonObject1.getString("sender_nickname"));
-                        if (type==1){
-                            message.setPost_id(jsonObject1.getInt("post_id"));
-                            message.setPost_title("有人评论了您的帖子\""+jsonObject1.getString("post_title")+"\"");
-
-                        }else if (type==2){
-
-                            message.setPost_id(jsonObject1.getInt("post_id"));
-                            message.setPost_title("有人收藏了您的帖子\""+jsonObject1.getString("post_title")+"\"");
-
-                        }else if (type==3){
-                            //、、、、//没写
-                            message.setPost_id(jsonObject1.getInt("post_id"));
-                            message.setPost_title("有人评论了您的帖子\""+jsonObject1.getString("post_title")+"\"");
-
-                        }else if (type==4){
-                            message.setPost_id(jsonObject1.getInt("talk_id"));
-                            message.setPost_title("发布校友圈有人点赞");
-                        }else if (type==5){
-                            //、、、、、
-                            message.setPost_id(jsonObject1.getInt("post_id"));
-                            message.setPost_title("有人评论了您的帖子\""+jsonObject1.getString("post_title")+"\"");
-
-                        }else if (type==6){
-                            message.setPost_id(jsonObject1.getInt("post_id"));
-                            message.setPost_title("有人回复了您的评论\""+jsonObject1.getString("original_comment_content")+"\"");
-
-                        }else if (type==7){
-                           // 、、、、、、
-                            message.setPost_id(jsonObject1.getInt("post_id"));
-                            message.setPost_title("有人点赞了您的评论\""+jsonObject1.getString("comment_content")+"\"");
-
-                        }else {
-                           /// 、、、、、、、、、、
-                            message.setPost_id(jsonObject1.getInt("post_id"));
-                            message.setPost_title("有人评论了您的帖子\""+jsonObject1.getString("post_title")+"\"");
-
+                        if (refresh_num == 0) {
+                            old_page = jsonObject.getInt("num_pages");
                         }
-                        message.setTypes(9);
-                        list.add(message);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            Message message = new Message();
+
+                            int type = jsonObject1.getInt("msg_type");
+                            message.setIds(jsonObject1.getInt("id"));
+                            message.setMsg_type(type);
+                            message.setAvatar(jsonObject1.getString("sender_avatar"));
+                            message.setTimes(jsonObject1.getString("create_time").substring(0, 10));
+                            message.setSender_nickname(jsonObject1.getString("sender_nickname"));
+                            if (type == 1) {
+                                message.setPost_id(jsonObject1.getInt("post_id"));
+                                message.setPost_title("有人评论了您的帖子\"" + jsonObject1.getString("post_title") + "\"");
+
+                            } else if (type == 2) {
+
+                                message.setPost_id(jsonObject1.getInt("post_id"));
+                                message.setPost_title("有人收藏了您的帖子\"" + jsonObject1.getString("post_title") + "\"");
+
+                            } else if (type == 3) {
+                                message.setPost_id(jsonObject1.getInt("talk_id"));
+                                message.setPost_title("有人评论了您的校友圈\"" + jsonObject1.getString("comment_content") + "\"");
+
+                            } else if (type == 4) {
+                                message.setPost_id(jsonObject1.getInt("talk_id"));
+                                message.setPost_title("发布校友圈有人点赞");
+                            } else if (type == 5) {
+
+                                message.setPost_id(jsonObject1.getInt("talk_id"));
+                                message.setPost_title("有人回复了您的校友圈评论\"" + jsonObject1.getString("comment_content") + "\"");
+
+                            } else if (type == 6) {
+                                message.setPost_id(jsonObject1.getInt("post_id"));
+                                message.setPost_title("有人回复了您的评论\"" + jsonObject1.getString("original_comment_content") + "\"");
+
+                            } else if (type == 7) {
+
+                                message.setPost_id(jsonObject1.getInt("talk_id"));
+                                message.setPost_title("有人点赞了您的校友圈评论\"" + jsonObject1.getString("comment_content") + "\"");
+
+                            } else {
+                                /// 、、、、、、、、、、
+                                message.setPost_id(jsonObject1.getInt("post_id"));
+                                message.setPost_title("有人评论了您的帖子\"" + jsonObject1.getString("post_title") + "\"");
+
+                            }
+                            message.setTypes(9);
+                            list.add(message);
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                page++;
+                                if (isrefresh){
+                                    adapter = new MessageAdapter(MessageActivity.this, list);
+                                    //recyclerView.setItemViewCacheSize(10000);
+                                    recyclerView.setAdapter(adapter);
+                                }else {
+                                    adapter.addData(list);
+                                }
+
+
+                            }
+                        });
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
+                }
+
+                @Override
+                public void onFail(String error) {
+
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter = new MessageAdapter(MessageActivity.this, list);
-                            //recyclerView.setItemViewCacheSize(10000);
-                            recyclerView.setAdapter(adapter);
+                            Toast.makeText(MessageActivity.this, "网络连接失败，请检查网络连接", Toast.LENGTH_SHORT).show();
+
+                            if (refresh_num == 0) {
+                                Message message = new Message();
+                                message.setTypes(0);
+                                list.add(message);
+                                adapter .addData(list);
+                            }
                         }
                     });
 
 
-
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void onFail(String error) {
-
-            }
-        });
-
+            });
+        }else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MessageActivity.this,"没有更多了",Toast.LENGTH_SHORT).show();
+                    smartRefreshLayout.setEnableLoadMore(false);
+                }
+            });
+        }
 
     }
 

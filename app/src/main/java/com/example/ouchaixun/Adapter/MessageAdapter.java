@@ -2,6 +2,7 @@ package com.example.ouchaixun.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 
+import com.example.ouchaixun.Activity.CircleDetilsActivity;
 import com.example.ouchaixun.Activity.SquareDetailsActivity;
 import com.example.ouchaixun.Data.Message;
 import com.example.ouchaixun.Data.SquareComment;
@@ -96,10 +98,42 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int i) {
         //空白页
-        if (holder instanceof NoHolder) {
-        }
+
         if (holder instanceof sHeaderHolder) {
 
+            ((sHeaderHolder)holder).time.setText(list.get(i).getTimes());
+            ((sHeaderHolder)holder).writer.setText(list.get(i).getSender_nickname());
+            ((sHeaderHolder)holder).content.setText(list.get(i).getPost_title());
+            Glide.with(context)
+                    .load(list.get(i).getAvatar())
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into( ((sHeaderHolder)holder).photo);
+
+            ((sHeaderHolder)holder).delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeList(i);
+                }
+            });
+
+            ((sHeaderHolder)holder).relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int q=list.get(i).getMsg_type();
+                    Log.i("asd",q+"");
+                    if (q==1||q==2||q==6||q==8){
+
+                        Intent intent = new Intent(context, SquareDetailsActivity.class);
+                        intent.putExtra("id", String.valueOf(list.get(i).getPost_id()));
+                        context.startActivity(intent);
+
+                    }else {
+                        Intent intent = new Intent(context, CircleDetilsActivity.class);
+                        intent.putExtra("id", String.valueOf(list.get(i).getPost_id()));
+                        context.startActivity(intent);
+                    }
+                }
+            });
 
         }
 
@@ -129,12 +163,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public static class sHeaderHolder extends RecyclerView.ViewHolder {
 
-        private TextView title,content,time,writer;
+        private TextView content,time,writer;
         private ImageView photo;
+        private Button delete;
+        private RelativeLayout relativeLayout;
 
         public sHeaderHolder(@NonNull View itemView) {
             super(itemView);
-
+            content=itemView.findViewById(R.id.item_message_content);
+            time=itemView.findViewById(R.id.item_message_time);
+            writer=itemView.findViewById(R.id.item_message_name);
+            photo=itemView.findViewById(R.id.item_message_img);
+            delete=itemView.findViewById(R.id.btnDelete);
+            relativeLayout=itemView.findViewById(R.id.message_layout);
         }
     }
 
@@ -151,6 +192,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+
+    public void removeList(int position){
+        list.remove(position);//删除数据源,移除集合中当前下标的数据
+        notifyItemRemoved(position);//刷新被删除的地方
+        notifyItemRangeChanged(position, getItemCount()); //刷新被删除数据，以及其后面的数据
+
+
+
+
+
+
+
+    }
 
 }
 

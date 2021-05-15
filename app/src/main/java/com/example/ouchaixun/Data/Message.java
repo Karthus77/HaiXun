@@ -22,8 +22,16 @@ public class Message {
     private String content;
     private int id;
     private String original_comment_content;
-    private String time;
+    private String time,avatar;
 
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getTimes() {
         return time;
