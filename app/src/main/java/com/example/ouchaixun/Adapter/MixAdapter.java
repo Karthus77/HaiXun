@@ -21,18 +21,30 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.ouchaixun.Activity.CircleDetilsActivity;
+import com.example.ouchaixun.Activity.LoginActivity;
+import com.example.ouchaixun.Activity.MainActivity;
+import com.example.ouchaixun.Activity.MixActivity;
 import com.example.ouchaixun.Activity.NewsDetilsActivity;
 import com.example.ouchaixun.Activity.SquareDetailsActivity;
 import com.example.ouchaixun.R;
 import com.example.ouchaixun.Utils.MyData;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
@@ -105,6 +117,81 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             Log.d("12332", "00");
         } else if(holder instanceof NewsViewHolder){
             NewsViewHolder viewHolder = (NewsViewHolder) holder;
+            if(list.get(position).get("typee").toString().equals("3")){
+                viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (System.currentTimeMillis() - lastClickTime >= FAST_CLICK_DELAY_TIME) {
+                            type=true;
+                            try {
+
+                                MyData myData = new MyData(context);
+                                int idd=Integer.valueOf(list.get(position).get("news_id").toString());
+                                MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":1\r\n}";
+                                Request request = new Request.Builder()
+                                        .url("http://47.102.215.61:8888/whole/delete")
+                                        .post(RequestBody.create(mediaType, requestBody))
+                                        .addHeader("Authorization",myData.load_token())
+                                        .build();
+                                OkHttpClient okHttpClient = new OkHttpClient();
+                                Log.d("1233d", request.toString() + "   " + requestBody.toString());
+                                okHttpClient.newCall(request).enqueue(new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                        Log.d("1233", "onFailure: " + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        Log.d("1233", response.protocol() + " " + response.code() + " " + response.message());
+                                        Headers headers = response.headers();
+                                        String responseData = response.body().string();
+                                        Log.d("12330",responseData);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(responseData);
+                                            int code = jsonObject.getInt("code");
+                                            final String msg = jsonObject.getString("msg");
+                                            if(code==200){
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show(); }
+                                                });
+                                                removeData(position);
+                                            }else{
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show(); }
+                                                });
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        for (int i = 0; i < headers.size(); i++) {
+                                            Log.d("1233", headers.name(i) + ":" + headers.value(i));
+                                        }
+                                        Log.d("1233", "onResponse: " + response.body());
+                                    }
+                                });
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            lastClickTime = System.currentTimeMillis();
+                        } else {
+                            if (type){type=false;
+                                Toast.makeText(context,"操作频繁，过一会再试吧！",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+            }else{
+                viewHolder.delete.setVisibility(View.INVISIBLE);
+            }
+
             viewHolder.news_title.setText(list.get(position).get("title").toString());
             viewHolder.news_hint.setText(list.get(position).get("writer_nickname").toString());
             Log.d("12333",list.get(position).get("banner").toString()+"aaa");
@@ -122,6 +209,80 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
 
         }else if(holder instanceof  SchoolViewHolder){
             SchoolViewHolder viewHolder = (SchoolViewHolder) holder;
+            if(list.get(position).get("typee").toString().equals("3")){
+                viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (System.currentTimeMillis() - lastClickTime >= FAST_CLICK_DELAY_TIME) {
+                            type=true;
+                            try {
+
+                                MyData myData = new MyData(context);
+                                int idd=Integer.valueOf(list.get(position).get("talk_id").toString());
+                                MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":3\r\n}";
+                                Request request = new Request.Builder()
+                                        .url("http://47.102.215.61:8888/whole/delete")
+                                        .post(RequestBody.create(mediaType, requestBody))
+                                        .addHeader("Authorization",myData.load_token())
+                                        .build();
+                                OkHttpClient okHttpClient = new OkHttpClient();
+                                Log.d("1233d", request.toString() + "   " + requestBody.toString());
+                                okHttpClient.newCall(request).enqueue(new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                        Log.d("1233", "onFailure: " + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        Log.d("1233", response.protocol() + " " + response.code() + " " + response.message());
+                                        Headers headers = response.headers();
+                                        String responseData = response.body().string();
+                                        Log.d("12330",responseData);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(responseData);
+                                            int code = jsonObject.getInt("code");
+                                            final String msg = jsonObject.getString("msg");
+                                            if(code==200){
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show(); }
+                                                });
+                                                removeData(position);
+                                            }else{
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show(); }
+                                                });
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        for (int i = 0; i < headers.size(); i++) {
+                                            Log.d("1233", headers.name(i) + ":" + headers.value(i));
+                                        }
+                                        Log.d("1233", "onResponse: " + response.body());
+                                    }
+                                });
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            lastClickTime = System.currentTimeMillis();
+                        } else {
+                            if (type){type=false;
+                                Toast.makeText(context,"操作频繁，过一会再试吧！",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+            }else{
+                viewHolder.delete.setVisibility(View.INVISIBLE);
+            }
             viewHolder.circle_userName.setText(list.get(position).get("writer_nickname").toString());
             String time=list.get(position).get("release_time").toString();
             String N_time = time.substring(0,10);
@@ -143,6 +304,80 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             });
         }else if(holder instanceof  TieViewHolder){
             TieViewHolder viewHolder = (TieViewHolder) holder;
+            if(list.get(position).get("typee").toString().equals("3")){
+                viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (System.currentTimeMillis() - lastClickTime >= FAST_CLICK_DELAY_TIME) {
+                            type=true;
+                            try {
+
+                                MyData myData = new MyData(context);
+                                int idd=Integer.valueOf(list.get(position).get("post_id").toString());
+                                MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+                                String requestBody ="{\r\n    \"id\":"+idd+",\r\n    \"type\":2\r\n}";
+                                Request request = new Request.Builder()
+                                        .url("http://47.102.215.61:8888/whole/delete")
+                                        .post(RequestBody.create(mediaType, requestBody))
+                                        .addHeader("Authorization",myData.load_token())
+                                        .build();
+                                OkHttpClient okHttpClient = new OkHttpClient();
+                                Log.d("1233d", request.toString() + "   " + requestBody.toString());
+                                okHttpClient.newCall(request).enqueue(new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                        Log.d("1233", "onFailure: " + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        Log.d("1233", response.protocol() + " " + response.code() + " " + response.message());
+                                        Headers headers = response.headers();
+                                        String responseData = response.body().string();
+                                        Log.d("12330",responseData);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(responseData);
+                                            int code = jsonObject.getInt("code");
+                                            final String msg = jsonObject.getString("msg");
+                                            if(code==200){
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show(); }
+                                                });
+                                                removeData(position);
+                                            }else{
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show(); }
+                                                });
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        for (int i = 0; i < headers.size(); i++) {
+                                            Log.d("1233", headers.name(i) + ":" + headers.value(i));
+                                        }
+                                        Log.d("1233", "onResponse: " + response.body());
+                                    }
+                                });
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            lastClickTime = System.currentTimeMillis();
+                        } else {
+                            if (type){type=false;
+                                Toast.makeText(context,"操作频繁，过一会再试吧！",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+            }else{
+                viewHolder.delete.setVisibility(View.INVISIBLE);
+            }
             viewHolder.leixing.setText(list.get(position).get("tag").toString());
             viewHolder.hole_name.setText(list.get(position).get("writer_nickname").toString());
             viewHolder.hole_title.setText(list.get(position).get("title").toString());
@@ -173,19 +408,26 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
     public void myNotifyDataSetChange(){
         notifyDataSetChanged();
     }
-
+    public void removeData(int position) {
+        list.remove(position);
+        //删除动画
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
 
     class NewsViewHolder extends RecyclerView.ViewHolder {
         TextView news_title;
         TextView news_hint;
         ImageView news_img;
         RelativeLayout news_layout;
+        ImageView delete;
         NewsViewHolder(@NonNull View itemView) {
             super(itemView);
             news_title = itemView.findViewById(R.id.news_title);
             news_hint = itemView.findViewById(R.id.news_hint);
             news_img = itemView.findViewById(R.id.news_img);
             news_layout = itemView.findViewById(R.id.news_layout);
+            delete = itemView.findViewById(R.id.imageView24);
         }
     }
     class NoViewHolder extends RecyclerView.ViewHolder {
@@ -208,6 +450,7 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         ImageView circle_userHead;
         RelativeLayout circle_layout;
         TextView circle_postTime;
+        ImageView delete;
         SchoolViewHolder(@NonNull View itemView) {
             super(itemView);
             circle_postTime= itemView.findViewById(R.id.circle_postTime);
@@ -215,8 +458,10 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             circleItem_content = itemView.findViewById(R.id.circleItem_content);
             circle_userHead = itemView.findViewById(R.id.circle_userHead);
             circle_layout = itemView.findViewById(R.id.circle_layout);
+            delete = itemView.findViewById(R.id.imageView24);
         }
     }
+
     class TieViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout tiezi;
         TextView leixing;
@@ -224,6 +469,7 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
         TextView hole_name;
         TextView hole_time;
         ImageView hole_head;
+        ImageView delete;
         TieViewHolder(@NonNull View itemView) {
             super(itemView);
             tiezi = itemView.findViewById(R.id.tiezi);
@@ -232,8 +478,14 @@ public class MixAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  
             hole_name = itemView.findViewById(R.id.hole_name);
             hole_time = itemView.findViewById(R.id.hole_time);
             hole_head = itemView.findViewById(R.id.hole_head);
+            delete = itemView.findViewById(R.id.imageView24);
         }
     }
 
+    public void removeList(int position){
+        list.remove(position);//删除数据源,移除集合中当前下标的数据
+        notifyItemRemoved(position);//刷新被删除的地方
+        notifyItemRangeChanged(position, getItemCount()); //刷新被删除数据，以及其后面的数据
+    }
 
 }

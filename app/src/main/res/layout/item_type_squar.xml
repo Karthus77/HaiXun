@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/tiezi"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
+        android:layout_height="130dp"
 >
 
         <TextView
@@ -18,7 +19,15 @@
             android:text="帖子"
             android:layout_marginTop="10dp"
             android:textSize="13sp"/>
-
+        <ImageView
+            android:id="@+id/imageView24"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_toRightOf="@+id/leixing"
+            app:srcCompat="@drawable/delete"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="9dp"/>
         <TextView
             android:id="@+id/textView16"
             android:layout_width="match_parent"

@@ -52,7 +52,7 @@ import okhttp3.Response;
 public class MixActivity extends AppCompatActivity {
     private TextView head;
     private ImageView back;
-    private RecyclerView recyclerView;
+    private RecyclerView  recyclerView;
     private RefreshLayout refreshLayout;
     private static int i = 0;
     private List<Map<String, Object>> list = new ArrayList<>();
@@ -67,7 +67,7 @@ public class MixActivity extends AppCompatActivity {
     private String myname;
     private String myhead;
     private int can = 0;
-    SwipeRecyclerView mRecyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,6 +200,8 @@ public class MixActivity extends AppCompatActivity {
     public void getfeedback(String responseData) {
         if (responseData != "") {
             try {
+
+
                 JSONObject jsonObject = new JSONObject(responseData);
                 if (jsonObject.getInt("code") == 200) {
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -285,6 +287,7 @@ public class MixActivity extends AppCompatActivity {
                                 map.put("writer_avatar", writer_avatar);
                                 map.put("writer_nickname", writer_nickname);
                             }
+                            map.put("typee", typee);
                             list.add(map);
                         }
                         if (i == jsonArray.length()) {
@@ -340,5 +343,6 @@ public class MixActivity extends AppCompatActivity {
             }
         }
     }
+
 
 }
