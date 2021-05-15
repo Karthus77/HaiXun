@@ -34,10 +34,11 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:windowSoftInputMode="adjustResize"
-        tools:targetApi="n">
+        tools:targetApi="q">
         <activity android:name=".Activity.MessageActivity"
             android:screenOrientation="portrait">
 

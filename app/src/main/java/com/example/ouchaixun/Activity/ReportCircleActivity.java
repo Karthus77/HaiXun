@@ -122,7 +122,7 @@ public class ReportCircleActivity extends AppCompatActivity {
                         try {
                             OkHttpClient client = new OkHttpClient().newBuilder()
                                     .build();
-                            MediaType mediaType = MediaType.parse("multipart/form-data");
+                            MediaType mediaType = MediaType.parse("text/plain");
                             RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                                     .addFormDataPart("picture",selectPhoto,
                                             RequestBody.create(MediaType.parse("application/octet-stream"),
@@ -133,10 +133,10 @@ public class ReportCircleActivity extends AppCompatActivity {
                                     .url("http://47.102.215.61:8888/whole/picture")
                                     .method("POST", body)
                                     .addHeader("Authorization", token)
-                                    .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
                                     .build();
                             Response response = client.newCall(request).execute();
                             String responseData = response.body().string();
+                            Log.i("lll",responseData);
                             Gson gson=new Gson();
                             picback picback =gson.fromJson(responseData, com.example.ouchaixun.Data.picback.class);
                             String url=picback.getPic_url();
